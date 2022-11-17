@@ -1,0 +1,303 @@
+/****************************************************************************************
+ * Fichier     : Action.c
+ * Description : Gestion des actions (COPILOT).
+ * Auteur      : Christopher BUREL
+ * Version     : 2015.05.09
+ * Compilation : MPLAB X IDE (v2.35), compiler XC16 (v1.24) Lite
+ ****************************************************************************************/
+
+/****************************************************************************************
+ * Includes
+ ****************************************************************************************/
+#include "Action.h"
+
+/****************************************************************************************
+ * Variables
+ ****************************************************************************************/
+uint32 timeout_action = 0;
+uint8 nbr_pied_spot = 0;
+
+/****************************************************************************************
+ * Fonction d'attente d'execution d'une action lié à un servo
+ ****************************************************************************************/
+static void Wait_Action(uint8 servoID)
+{
+  Set_Timeout_Action(TIMEOUT_ACTION_VALUE);
+  while(!Check_Servo(servoID) && !TIMEOUT_ACTION);
+  Delay_Ms(20);
+}
+
+/****************************************************************************************
+ * Fonction d'initialisation des actionneurs
+ ****************************************************************************************/
+void Init_All_Action(void)
+{
+  Garde_Spot_Lacher();
+  Wait_Action(GARDE_SPOT);
+  Garde_Spot_Desactiver();
+  
+  Pince_Pied_Ouvrir();
+  Wait_Action(PINCE_PIED);
+  Pince_Pied_Desactiver();
+  
+  Ascenseur_Baisser();
+  Wait_Action(ASCENSEUR);
+  Ascenseur_Desactiver();
+
+  Pince_Gobelet_Ouvrir();
+  Wait_Action(PINCE_GOBELET);
+  Pince_Gobelet_Desactiver();
+
+  Pince_Popcorn_Ouvrir();
+  Wait_Action(PINCE_POPCORN);
+  Pince_Popcorn_Desactiver();
+}
+
+
+/****************************************************************************************
+ * Fonction d'empilage des spots (pieds + ampoule)
+ ****************************************************************************************/
+uint8 Empiler_Spot(void)
+{
+  // attendre "déposer" à partir du 4eme pied
+  if (nbr_pied_spot <= 3)
+  {
+    // S'assurer que la pince est ouverte et en bas
+    if (Get_Servo(PINCE_PIED) != -74) Pince_Pied_Ouvrir();
+    Wait_Action(PINCE_PIED);
+    Pince_Pied_Desactiver();
+    if (Get_Servo(ASCENSEUR) != 89) Ascenseur_Baisser();
+    Garde_Spot_Fermer();
+    Wait_Action(ASCENSEUR);
+    Ascenseur_Desactiver();
+    Wait_Action(GARDE_SPOT);
+
+    if (PRESENCE_PIED || FORCER_EMPILAGE)
+    {
+      // Saisir l'élément
+      Pince_Pied_Fermer();
+      Wait_Action(PINCE_PIED);
+      // Si plus de présence en empilage auto
+      if ((!PRESENCE_PIED) && (!FORCER_EMPILAGE))
+      {
+        Pince_Pied_Ouvrir();
+        Wait_Action(PINCE_PIED);
+        Pince_Pied_Desactiver();
+        return nbr_pied_spot;
+      }
+      else if (PRESENCE_PIED && (!FORCER_EMPILAGE))
+      {
+        // Comptabiliser le nombre de pied /!\ non empilé de force !
+        nbr_pied_spot++;
+      }
+      // le soulever si il est bien présent
+      Ascenseur_Monter_5mm();
+      // Si c'est pas le 4eme pied
+      if (nbr_pied_spot != 4)
+      {
+        // Empiler l'élément
+        Garde_Spot_Lacher();
+        Wait_Action(ASCENSEUR);
+        Wait_Action(GARDE_SPOT);
+        Ascenseur_Monter_Max();
+        Wait_Action(ASCENSEUR);
+        Garde_Spot_Fermer();
+        Wait_Action(GARDE_SPOT);
+
+        //if (nbr_pied_spot > 0)
+        {
+          // Revenir en position initiale
+          Pince_Pied_Ouvrir();
+          Wait_Action(PINCE_PIED);
+          Pince_Pied_Desactiver();
+          Ascenseur_Baisser();
+          Wait_Action(ASCENSEUR);
+          Ascenseur_Desactiver();
+        }
+      }
+    }
+  }
+  return nbr_pied_spot;
+}
+
+/****************************************************************************************
+ * Fonction de dépose des pieds et ampoules (spot)
+ ****************************************************************************************/
+void Deposer_Spot(void)
+{
+  // Si il y a un spot
+  if (nbr_pied_spot > 0)
+  {
+    // Si il n'y a pas de pied dessous alors monter
+    if (!PRESENCE_PIED)
+    {
+      Pince_Pied_Ouvrir();
+      Wait_Action(PINCE_PIED);
+      Pince_Pied_Desactiver();
+      Ascenseur_Monter_Max();
+      Wait_Action(ASCENSEUR);
+    }
+    // Fermer et poser le spot
+    Pince_Pied_Fermer();
+    Wait_Action(PINCE_PIED);
+    Delay_Ms(50); // Assure que la pince soit bien fermée
+    Garde_Spot_Lacher();
+    Wait_Action(GARDE_SPOT);
+    Ascenseur_Baisser();
+    Pince_Pied_Desactiver(); // Evite de soulever le robot si dépose sur quelque chose
+    Wait_Action(ASCENSEUR);
+    Ascenseur_Desactiver();
+    // Libérer le spot
+    Pince_Pied_Ouvrir();
+    Garde_Spot_Ouvrir();
+    Wait_Action(PINCE_PIED);
+    Pince_Pied_Desactiver();
+    Wait_Action(GARDE_SPOT);
+    Garde_Spot_Desactiver();
+    // Reinitialiser compteur de pied
+    nbr_pied_spot = 0;
+    Delay_S(1);
+  }
+}
+
+/****************************************************************************************
+ * Fonction de prise d'un gobelet
+ ****************************************************************************************/
+boolean Prendre_Gobelet(void)
+{
+  if (Get_Servo(PINCE_GOBELET) != 54) Pince_Gobelet_Fermer();
+  Wait_Action(PINCE_GOBELET);
+  //Delay_Ms(50);
+  if (PRESENCE_GOBELET)
+  {
+    Pince_Gobelet_Desactiver();
+    GOBELET_PRESENT = YES;
+    return OK;
+  }
+  else
+  {
+    Pince_Gobelet_Desactiver();
+    GOBELET_PRESENT = NO;
+    return NOK;
+  }
+}
+
+/****************************************************************************************
+ * Fonction de dépose d'un gobelet
+ ****************************************************************************************/
+void Deposer_Gobelet(void)
+{
+  if (Get_Servo(PINCE_GOBELET) != 0) Pince_Gobelet_Ouvrir();
+  Wait_Action(PINCE_GOBELET);
+  Pince_Gobelet_Desactiver();
+}
+
+/****************************************************************************************
+ * Fonction d'ouverte de la pince popcorn
+ ****************************************************************************************/
+void Ouvrir_Pince_Popcorn(void)
+{
+  if (Get_Servo(PINCE_POPCORN) != 67) Pince_Popcorn_Ouvrir();
+  Wait_Action(PINCE_POPCORN);
+  Pince_Popcorn_Desactiver();
+}
+
+/****************************************************************************************
+ * Fonction de fermeture de la pince popcorn
+ ****************************************************************************************/
+void Fermer_Pince_Popcorn(void)
+{
+  if (Get_Servo(PINCE_POPCORN) != -39) Pince_Popcorn_Fermer();
+  Wait_Action(PINCE_POPCORN);
+  Pince_Popcorn_Desactiver();
+}
+
+/****************************************************************************************
+ * Fonction de gestion des actions
+ ****************************************************************************************/
+void Gestion_Action(void)
+{
+  // Action spot
+  if (DEPOSER_SPOT)
+  {
+    Deposer_Spot();
+  }
+  else
+  {
+    Empiler_Spot();
+  }
+  // Action gobelet
+  if (PRENDRE_GOBELET)
+  {
+    Prendre_Gobelet();
+  }
+  else
+  {
+    Deposer_Gobelet();
+  }
+  // Action clap/popcorn
+  if (FERMER_PINCE_CLAP)
+  {
+    Fermer_Pince_Popcorn();
+  }
+  else
+  {
+    Ouvrir_Pince_Popcorn();
+  }
+}
+
+/****************************************************************************************
+ * Fonction de test des actions
+ ****************************************************************************************/
+void Mode_Test_Action(void)
+{
+  LCD_Line(1);
+  LCD_Text("Test Actions",16);
+  LCD_Line(2);
+  LCD_Text("SW1 SW2 SW3",16);
+  while(SW1);
+
+  while(FOREVER)
+  {
+    if(SW1 || (PRESENCE_PIED && nbr_pied_spot>0))
+    {
+      BUZZER = ON;
+      Delay_Ms(200);
+      BUZZER = OFF;
+      Empiler_Spot();
+      if(SW1) Delay_Ms(300);
+    }
+    if(SW2)
+    {
+      BUZZER = ON;
+      Delay_Ms(200);
+      BUZZER = OFF;
+      Deposer_Spot();
+      if(SW2) Delay_Ms(300);
+    }
+    if(SW3)
+    {
+      BUZZER = ON;
+      Delay_Ms(200);
+      BUZZER = OFF;
+      //Empiler_Pied();
+      if(SW3) Delay_Ms(300);
+    }
+  }// while
+}
+
+
+void Afficher_Action(void)
+{
+//  LCD_Line(2);
+
+//  LCD_Text("couleur feu ",12);
+//  LCD_Value(CAPTEUR_COULEUR,4,0);
+
+//  LCD_Text("Feu ",4);
+//  if (Get_Couleur_Feu() == VERTE) LCD_Text("VERTE",6);
+//  else if (Get_Couleur_Feu() == JAUNE) LCD_Text("JAUNE",6);
+//  else LCD_Text("absent",6);
+
+}
+
