@@ -1,0 +1,42 @@
+// Segment
+  segment[0] = Segment(Point(2066, 1434), Point(1500, 2000));
+  segment[1] = Segment(Point(934, 1434), Point(1500, 2000));
+  segment[2] = Segment(Point(1500, 1200), Point(1500, 2000));
+// Circle
+  circle[0] = Circle(1850, 40, 40);
+  circle[1] = Circle(2350, 540, 130);
+  circle[2] = Circle(3000, 2000, 550);
+  circle[3] = Circle(0, 2000, 550);
+  circle[4] = Circle(650, 540, 130);
+  circle[5] = Circle(2066, 1434, 70);
+  circle[6] = Circle(1500, 1200, 70);
+  circle[7] = Circle(934, 1434, 70);
+// Vertex
+  vertex[0].point = Point(0, 0);
+  vertex[1].point = Point(2070, 230);
+  vertex[2].point = Point(1850, 350);
+  vertex[3].point = Point(2000, 600);
+  vertex[4].point = Point(2170, 830);
+  vertex[5].point = Point(2350, 900);
+  vertex[6].point = Point(2640, 760);
+  vertex[7].point = Point(2500, 1100);
+  vertex[8].point = Point(2700, 1030);
+  vertex[9].point = Point(2650, 1300);
+  vertex[10].point = Point(2320, 1650);
+  vertex[11].point = Point(2350, 1450);
+  vertex[12].point = Point(2280, 1260);
+  vertex[13].point = Point(2000, 1100);
+  vertex[14].point = Point(1800, 1280);
+  vertex[15].point = Point(1500, 940);
+  vertex[16].point = Point(1500, 200);
+  vertex[17].point = Point(1500, 600);
+  vertex[18].point = Point(1200, 500);
+  vertex[19].point = Point(830, 830);
+  vertex[20].point = Point(2240, 1220);
+  vertex[21].point = Point(2200, 1670);
+  vertex[22].point = Point(1745, 1420);
+  vertex[23].point = Point(2700, 910);
+  vertex[24].point = Point(2100, 1150);
+  vertex[25].point = Point(1210, 1300);
+  vertex[26].point = Point(2700, 820);
+  vertex[27].point = Point(1000, 1100);
