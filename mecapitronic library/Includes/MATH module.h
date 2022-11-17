@@ -40,6 +40,13 @@
 // Approximation de distance euclidienne /!\ dx et dy doivent être positif
 #define Approx_Distance(dx,dy)  ( (dy<dx) ? (dx+(dy>>2)+(dy>>3)) : (dy+(dx>>2)+(dx>>3)) )
 
+#ifndef max
+#define max(a,b) (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+#endif
 
 #endif	/* MATH_MODULE_H */
 
