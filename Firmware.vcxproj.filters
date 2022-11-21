@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="mecapitronic library">
+      <UniqueIdentifier>{b380b354-f083-43e6-8827-5ba294f0377a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\PathPlanning">
+      <UniqueIdentifier>{79053df9-0a6c-4f5e-8f76-c812ce392a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\PathPlanning">
+      <UniqueIdentifier>{c0e3f993-ee85-434b-bcc8-b5995fb4df45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mecapitronic library\Includes">
+      <UniqueIdentifier>{b1c8a1bd-ddcb-47d3-8b93-76d5177444d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mecapitronic library\Sources">
+      <UniqueIdentifier>{0e661d33-02ef-42ac-b3bf-51bf804e7b22}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mecapitronic library\Includes\DELAY module.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\LCD Custom Character.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\LCD HD44780 module.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\LIBRARY module.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\MATH module.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\MOVE module.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\PID module.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\Structure.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\ADC module.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Obstacle.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Odometry.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\PILOT hardware.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\PILOT main.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Strategy.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Timer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Trajectory.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Action.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Asserv.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Motor.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\List.h">
+      <Filter>Fichiers d%27en-tête\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Node.h">
+      <Filter>Fichiers d%27en-tête\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Path Finding.h">
+      <Filter>Fichiers d%27en-tête\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="pilot.x\Mapping.h">
+      <Filter>Fichiers d%27en-tête\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="mecapitronic library\Includes\dsPIC.h">
+      <Filter>mecapitronic library\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Firmware.h" />
+    <ClInclude Include="pilot.x\Uart.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Serial.h" />
+    <ClInclude Include="pilot.x\Lidar.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pthreads-win32\include\pthread.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mecapitronic library\Sources\DELAY module.c">
+      <Filter>mecapitronic library\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="mecapitronic library\Sources\LCD HD44780 module.c">
+      <Filter>mecapitronic library\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="mecapitronic library\Sources\LIBRARY module.c">
+      <Filter>mecapitronic library\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="mecapitronic library\Sources\MOVE module.c">
+      <Filter>mecapitronic library\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="mecapitronic library\Sources\PID module.c">
+      <Filter>mecapitronic library\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="mecapitronic library\Sources\ADC module.c">
+      <Filter>mecapitronic library\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Action.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Asserv.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\I2C message.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Motor.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Obstacle.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Odometry.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\PILOT hardware.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\PILOT main.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Strategy.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Timer.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Trajectory.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Mapping.c">
+      <Filter>Fichiers sources\PathPlanning</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Node.c">
+      <Filter>Fichiers sources\PathPlanning</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Path Finding.c">
+      <Filter>Fichiers sources\PathPlanning</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\List.c">
+      <Filter>Fichiers sources\PathPlanning</Filter>
+    </ClCompile>
+    <ClCompile Include="Firmware.cpp" />
+    <ClCompile Include="pilot.x\Uart.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Serial.cpp" />
+    <ClCompile Include="pilot.x\Lidar.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Text.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="pthreads-win32\dll\x86\pthreadVC2.dll" />
+  </ItemGroup>
+</Project>

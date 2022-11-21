@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Firmware.h" />
+    <ClInclude Include="mecapitronic library\Includes\ADC module.h" />
+    <ClInclude Include="mecapitronic library\Includes\DELAY module.h" />
+    <ClInclude Include="mecapitronic library\Includes\dsPIC.h" />
+    <ClInclude Include="mecapitronic library\Includes\LCD Custom Character.h" />
+    <ClInclude Include="mecapitronic library\Includes\LCD HD44780 module.h" />
+    <ClInclude Include="mecapitronic library\Includes\LIBRARY module.h" />
+    <ClInclude Include="mecapitronic library\Includes\MATH module.h" />
+    <ClInclude Include="mecapitronic library\Includes\MOVE module.h" />
+    <ClInclude Include="mecapitronic library\Includes\PID module.h" />
+    <ClInclude Include="mecapitronic library\Includes\Structure.h" />
+    <ClInclude Include="pilot.x\Action.h" />
+    <ClInclude Include="pilot.x\Asserv.h" />
+    <ClInclude Include="pilot.x\Lidar.h" />
+    <ClInclude Include="pilot.x\List.h" />
+    <ClInclude Include="pilot.x\Mapping.h" />
+    <ClInclude Include="pilot.x\Motor.h" />
+    <ClInclude Include="pilot.x\Node.h" />
+    <ClInclude Include="pilot.x\Obstacle.h" />
+    <ClInclude Include="pilot.x\Odometry.h" />
+    <ClInclude Include="pilot.x\Path Finding.h" />
+    <ClInclude Include="pilot.x\PILOT hardware.h" />
+    <ClInclude Include="pilot.x\PILOT main.h" />
+    <ClInclude Include="pilot.x\Strategy.h" />
+    <ClInclude Include="pilot.x\Timer.h" />
+    <ClInclude Include="pilot.x\Trajectory.h" />
+    <ClInclude Include="pilot.x\Uart.h" />
+    <ClInclude Include="pthreads-win32\include\pthread.h" />
+    <ClInclude Include="Serial.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Firmware.cpp" />
+    <ClCompile Include="mecapitronic library\Sources\ADC module.c" />
+    <ClCompile Include="mecapitronic library\Sources\DELAY module.c" />
+    <ClCompile Include="mecapitronic library\Sources\LCD HD44780 module.c" />
+    <ClCompile Include="mecapitronic library\Sources\LIBRARY module.c" />
+    <ClCompile Include="mecapitronic library\Sources\MOVE module.c" />
+    <ClCompile Include="mecapitronic library\Sources\PID module.c" />
+    <ClCompile Include="pilot.x\Action.c" />
+    <ClCompile Include="pilot.x\Asserv.c" />
+    <ClCompile Include="pilot.x\I2C message.c" />
+    <ClCompile Include="pilot.x\Lidar.c" />
+    <ClCompile Include="pilot.x\List.c" />
+    <ClCompile Include="pilot.x\Mapping.c" />
+    <ClCompile Include="pilot.x\Motor.c" />
+    <ClCompile Include="pilot.x\Node.c" />
+    <ClCompile Include="pilot.x\Obstacle.c" />
+    <ClCompile Include="pilot.x\Odometry.c" />
+    <ClCompile Include="pilot.x\Path Finding.c" />
+    <ClCompile Include="pilot.x\PILOT hardware.c" />
+    <ClCompile Include="pilot.x\PILOT main.c" />
+    <ClCompile Include="pilot.x\Strategy.c" />
+    <ClCompile Include="pilot.x\Timer.c" />
+    <ClCompile Include="pilot.x\Trajectory.c" />
+    <ClCompile Include="pilot.x\Uart.c" />
+    <ClCompile Include="Serial.cpp" />
+    <Text Include="Text.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="pthreads-win32\dll\x86\pthreadVC2.dll">
+      <FileType>Document</FileType>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{EFFF124D-65FF-4568-AEBA-82CFEFD97352}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Firmware</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Configuration)\temp\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>$(ProjectDir)\pthreads-win32\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>pthreadVC2.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <Profile>true</Profile>
+      <AdditionalLibraryDirectories>$(ProjectDir)\pthreads-win32\lib\x86</AdditionalLibraryDirectories>
+    </Link>
+    <CopyFileToFolders />
+    <CopyFileToFolders />
+    <CopyFileToFolders>
+      <DestinationFolders>$(Configuration)\</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,1 @@
+https://www.technical-recipes.com/2016/using-posix-threads-in-microsoft-visual-studio/
