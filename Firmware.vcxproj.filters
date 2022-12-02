@@ -190,5 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="pthreads-win32\dll\x86\pthreadVC2.dll" />
+    <CopyFileToFolders Include="msvcr100.dll" />
   </ItemGroup>
 </Project>
