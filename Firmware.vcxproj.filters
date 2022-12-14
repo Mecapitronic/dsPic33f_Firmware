@@ -28,6 +28,9 @@
     <Filter Include="mecapitronic library\Sources">
       <UniqueIdentifier>{0e661d33-02ef-42ac-b3bf-51bf804e7b22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pthreads">
+      <UniqueIdentifier>{f27805c7-eed6-4334-9c54-6648025d0bc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mecapitronic library\Includes\DELAY module.h">
@@ -110,7 +113,21 @@
     <ClInclude Include="pilot.x\Lidar.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="pthreads-win32\include\pthread.h" />
+    <ClInclude Include="pthreads-win32\include\pthread.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="pthreads\include\pthread.h">
+      <Filter>pthreads</Filter>
+    </ClInclude>
+    <ClInclude Include="pthreads\include\sched.h">
+      <Filter>pthreads</Filter>
+    </ClInclude>
+    <ClInclude Include="pthreads\include\semaphore.h">
+      <Filter>pthreads</Filter>
+    </ClInclude>
+    <ClInclude Include="pthreads\include\_ptw32.h">
+      <Filter>pthreads</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mecapitronic library\Sources\DELAY module.c">
@@ -189,7 +206,8 @@
     <Text Include="Text.txt" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="pthreads-win32\dll\x86\pthreadVC2.dll" />
-    <CopyFileToFolders Include="msvcr100.dll" />
+    <CopyFileToFolders Include="pthreads\dll\pthreadVC3.dll">
+      <Filter>pthreads</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

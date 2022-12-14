@@ -35,6 +35,10 @@
     <ClInclude Include="pilot.x\Trajectory.h" />
     <ClInclude Include="pilot.x\Uart.h" />
     <ClInclude Include="pthreads-win32\include\pthread.h" />
+    <ClInclude Include="pthreads\include\pthread.h" />
+    <ClInclude Include="pthreads\include\sched.h" />
+    <ClInclude Include="pthreads\include\semaphore.h" />
+    <ClInclude Include="pthreads\include\_ptw32.h" />
     <ClInclude Include="Serial.h" />
   </ItemGroup>
   <ItemGroup>
@@ -66,17 +70,9 @@
     <Text Include="Text.txt" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="pthreads-win32\dll\x86\pthreadVC2.dll">
-      <FileType>Document</FileType>
+    <CopyFileToFolders Include="pthreads\dll\pthreadVC3.dll">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Outdir)\</DestinationFolders>
-    </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <CopyFileToFolders Include="msvcr100.dll">
-      <DeploymentContent>true</DeploymentContent>
       <FileType>Document</FileType>
-      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Outdir)\</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -114,20 +110,20 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <ShowIncludes>false</ShowIncludes>
-      <AdditionalIncludeDirectories>$(ProjectDir)\pthreads-win32\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\pthreads\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>pthreadVC2.lib;pthreadVCE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pthreadVC3.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
       <Profile>true</Profile>
-      <AdditionalLibraryDirectories>$(ProjectDir)\pthreads-win32\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\pthreads\lib</AdditionalLibraryDirectories>
     </Link>
     <CopyFileToFolders />
     <CopyFileToFolders />
     <CopyFileToFolders>
-      <DestinationFolders>$(Configuration)\</DestinationFolders>
+      <DestinationFolders>$(Outdir)\</DestinationFolders>
     </CopyFileToFolders>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

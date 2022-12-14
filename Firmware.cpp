@@ -334,21 +334,27 @@ int main(void)
 	//Lancement des thread Interruption primaire et secondaire et pilot et UART reception/transmission
 	
 	ret = pthread_create(&pthread_uart_RX, NULL, thread_uart_RX, NULL);
+	pthread_setname_np(pthread_uart_RX, "uart_RX");
 	if (!ret)
 	{
 		ret = pthread_create(&pthread_uart_TX, NULL, thread_uart_TX, NULL);
+		pthread_setname_np(pthread_uart_TX, "uart_TX");
 		if (!ret)
 		{
 			ret = pthread_create(&pthread_Interruption_1, NULL, thread_Interruption_1, NULL);
+			pthread_setname_np(pthread_Interruption_1, "Interruption_1");
 			if (!ret)
 			{
 				ret = pthread_create(&pthread_Interruption_2, NULL, thread_Interruption_2, NULL);
+				pthread_setname_np(pthread_Interruption_2, "Interruption_2");
 				if (!ret)
 				{
 					ret = pthread_create(&pthread_Interruption_RX, NULL, thread_Interruption_RX, NULL);
+					pthread_setname_np(pthread_Interruption_RX, "Interruption_RX");
 					if (!ret)
 					{
 						ret = pthread_create(&pthread_PILOT, NULL, thread_PILOT, NULL);
+						pthread_setname_np(pthread_PILOT, "PILOT");
 						if (!ret)
 						{
 							printf("Lancement des thread OK !\n");
