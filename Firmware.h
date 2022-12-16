@@ -27,7 +27,7 @@ using namespace std;
 
 extern "C"
 {
-#include "pilot.x\PILOT main.h"
+#include "pilot.x\PILOT_main.h"
 
 //#ifdef _WINDLL
 	__declspec(dllexport) int Firmware(void);

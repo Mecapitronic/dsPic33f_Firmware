@@ -79,7 +79,7 @@ void Initialize_Action(void)
   action[ID].possible = YES;
   action[ID].done = NO;
   action[ID].iteration = 1;
-  if (team == TEAM_JAUNE) action[ID].point = Point(1150,40);
+  if (team == TEAM_A) action[ID].point = Point(1150,40);
   else action[ID].point = Point(1850,40);
   action[ID].function = Action_Prendre_Fusee;
   
@@ -120,7 +120,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_ALLER_PRENDRE;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(200,600);
+  if (team == TEAM_A) action[ID].point = Point(200,600);
   else action[ID].point = Point(2800,600);
   action[ID].function = Action_Aller_Prendre;
   
@@ -129,7 +129,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_ALLER_PRENDRE;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(800,1850);
+  if (team == TEAM_A) action[ID].point = Point(800,1850);
   else action[ID].point = Point(2200,1850);
   action[ID].function = Action_Aller_Prendre;
   
@@ -138,7 +138,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_ALLER_PRENDRE;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(900,1400);
+  if (team == TEAM_A) action[ID].point = Point(900,1400);
   else action[ID].point = Point(2100,1400);
   action[ID].function = Action_Aller_Prendre;
   
@@ -155,7 +155,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(1000,1500);
+  if (team == TEAM_A) action[ID].point = Point(1000,1500);
   else action[ID].point = Point(2000,1500);
   action[ID].function = Action_Lacher;
  
@@ -172,7 +172,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(1090,1590);
+  if (team == TEAM_A) action[ID].point = Point(1090,1590);
   else action[ID].point = Point(1910,1590);
   action[ID].function = Action_Deposer;
   
@@ -181,7 +181,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(1000,1500);
+  if (team == TEAM_A) action[ID].point = Point(1000,1500);
   else action[ID].point = Point(2000,1500);
   action[ID].function = Action_Deposer;
   
@@ -190,7 +190,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(40,1030);
+  if (team == TEAM_A) action[ID].point = Point(40,1030);
   else action[ID].point = Point(2960,1030);
   action[ID].function = Action_Deposer;
 
@@ -199,7 +199,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(40,910);
+  if (team == TEAM_A) action[ID].point = Point(40,910);
   else action[ID].point = Point(2960,910);
   action[ID].function = Action_Deposer;
   
@@ -208,7 +208,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(40,820);
+  if (team == TEAM_A) action[ID].point = Point(40,820);
   else action[ID].point = Point(2960,790);
   action[ID].function = Action_Deposer;
   
@@ -225,7 +225,7 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(40,820);
+  if (team == TEAM_A) action[ID].point = Point(40,820);
   else action[ID].point = Point(2960,790);
   action[ID].function = Action_Lacher;
   
@@ -242,12 +242,12 @@ void Initialize_Action(void)
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
   action[ID].done = NO;
-  if (team == TEAM_JAUNE) action[ID].point = Point(900,1400);
+  if (team == TEAM_A) action[ID].point = Point(900,1400);
   else action[ID].point = Point(2100,1400);
   action[ID].function = Action_Lever_Reculer;
   
   ID = 21; // deposer module devant
-  if (team == TEAM_JAUNE) action[ID].vertexID = 12;
+  if (team == TEAM_A) action[ID].vertexID = 12;
   else action[ID].vertexID = 20;
   action[ID].mission = MISSION_DEPOSER;
   action[ID].possible = YES;
@@ -262,7 +262,7 @@ void Initialize_Action(void)
 //  action[ID].mission = MISSION_GET;
 //  action[ID].possible = YES;
 //  action[ID].done = NO;
-//  if (team == TEAM_JAUNE) action[ID].point = Point(40,1350);
+//  if (team == TEAM_A) action[ID].point = Point(40,1350);
 //  else action[ID].point = Point(2960,1350);
 //  action[ID].function = Action_Prendre_Fusee;
 }
@@ -303,7 +303,7 @@ boolean Action_Aller_Prendre(void)
  
   Translate(-40, SPEED_LIN);
   while(Wait_Trajectory());
-  if (team == TEAM_JAUNE) Rotate(DEG_TO_RAD(-15), SPEED_ANG);
+  if (team == TEAM_A) Rotate(DEG_TO_RAD(-15), SPEED_ANG);
   else Rotate(DEG_TO_RAD(15), SPEED_ANG);
   while(Wait_Trajectory());
   Translate(70, SPEED_LIN);
@@ -315,7 +315,7 @@ boolean Action_Aller_Prendre(void)
   Translate(-distance, SPEED_LIN);
   while(Wait_Trajectory());
   
-  if (team == TEAM_JAUNE) Rotate(DEG_TO_RAD(-180), SPEED_ANG);
+  if (team == TEAM_A) Rotate(DEG_TO_RAD(-180), SPEED_ANG);
   else Rotate(DEG_TO_RAD(180), SPEED_ANG);
   while(Wait_Trajectory());
   
@@ -377,7 +377,7 @@ boolean Action_Pousser(void)
 {
   uint8 iteration = action[current_action].iteration;
   
-  if (team == TEAM_JAUNE) Rotate_To_Angle(45, SPEED_ANG);
+  if (team == TEAM_A) Rotate_To_Angle(45, SPEED_ANG);
   else Rotate_To_Angle(135, SPEED_ANG);
   while(Wait_Trajectory());
   

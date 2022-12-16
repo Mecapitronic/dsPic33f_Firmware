@@ -8,16 +8,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Firmware.h" />
-    <ClInclude Include="mecapitronic library\Includes\ADC module.h" />
-    <ClInclude Include="mecapitronic library\Includes\DELAY module.h" />
-    <ClInclude Include="mecapitronic library\Includes\dsPIC.h" />
-    <ClInclude Include="mecapitronic library\Includes\LCD Custom Character.h" />
-    <ClInclude Include="mecapitronic library\Includes\LCD HD44780 module.h" />
-    <ClInclude Include="mecapitronic library\Includes\LIBRARY module.h" />
-    <ClInclude Include="mecapitronic library\Includes\MATH module.h" />
-    <ClInclude Include="mecapitronic library\Includes\MOVE module.h" />
-    <ClInclude Include="mecapitronic library\Includes\PID module.h" />
-    <ClInclude Include="mecapitronic library\Includes\Structure.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\ADC_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\DELAY_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\dsPIC.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\I2C_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\LCD_Custom_Character.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\LCD_HD44780_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\LIBRARY_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\MATH_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\MOVE_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\p33FJ128MC804.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\PID_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\SPI_module.h" />
+    <ClInclude Include="MecapitronicLibrary\Includes\Structure.h" />
     <ClInclude Include="pilot.x\Action.h" />
     <ClInclude Include="pilot.x\Asserv.h" />
     <ClInclude Include="pilot.x\Lidar.h" />
@@ -27,9 +30,9 @@
     <ClInclude Include="pilot.x\Node.h" />
     <ClInclude Include="pilot.x\Obstacle.h" />
     <ClInclude Include="pilot.x\Odometry.h" />
-    <ClInclude Include="pilot.x\Path Finding.h" />
-    <ClInclude Include="pilot.x\PILOT hardware.h" />
-    <ClInclude Include="pilot.x\PILOT main.h" />
+    <ClInclude Include="pilot.x\Path_Finding.h" />
+    <ClInclude Include="pilot.x\PILOT_hardware.h" />
+    <ClInclude Include="pilot.x\PILOT_main.h" />
     <ClInclude Include="pilot.x\Strategy.h" />
     <ClInclude Include="pilot.x\Timer.h" />
     <ClInclude Include="pilot.x\Trajectory.h" />
@@ -43,15 +46,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Firmware.cpp" />
-    <ClCompile Include="mecapitronic library\Sources\ADC module.c" />
-    <ClCompile Include="mecapitronic library\Sources\DELAY module.c" />
-    <ClCompile Include="mecapitronic library\Sources\LCD HD44780 module.c" />
-    <ClCompile Include="mecapitronic library\Sources\LIBRARY module.c" />
-    <ClCompile Include="mecapitronic library\Sources\MOVE module.c" />
-    <ClCompile Include="mecapitronic library\Sources\PID module.c" />
+    <ClCompile Include="MecapitronicLibrary\Sources\ADC_module.c" />
+    <ClCompile Include="MecapitronicLibrary\Sources\DELAY_module.c" />
+    <ClCompile Include="MecapitronicLibrary\Sources\I2C_module.c" />
+    <ClCompile Include="MecapitronicLibrary\Sources\LCD_HD44780_module.c" />
+    <ClCompile Include="MecapitronicLibrary\Sources\LIBRARY_module.c" />
+    <ClCompile Include="MecapitronicLibrary\Sources\MOVE_module.c" />
+    <ClCompile Include="MecapitronicLibrary\Sources\PID_module.c" />
+    <ClCompile Include="MecapitronicLibrary\Sources\SPI_module.c" />
     <ClCompile Include="pilot.x\Action.c" />
     <ClCompile Include="pilot.x\Asserv.c" />
-    <ClCompile Include="pilot.x\I2C message.c" />
+    <ClCompile Include="pilot.x\I2C_message.c" />
     <ClCompile Include="pilot.x\Lidar.c" />
     <ClCompile Include="pilot.x\List.c" />
     <ClCompile Include="pilot.x\Mapping.c" />
@@ -59,9 +64,9 @@
     <ClCompile Include="pilot.x\Node.c" />
     <ClCompile Include="pilot.x\Obstacle.c" />
     <ClCompile Include="pilot.x\Odometry.c" />
-    <ClCompile Include="pilot.x\Path Finding.c" />
-    <ClCompile Include="pilot.x\PILOT hardware.c" />
-    <ClCompile Include="pilot.x\PILOT main.c" />
+    <ClCompile Include="pilot.x\Path_Finding.c" />
+    <ClCompile Include="pilot.x\PILOT_hardware.c" />
+    <ClCompile Include="pilot.x\PILOT_main.c" />
     <ClCompile Include="pilot.x\Strategy.c" />
     <ClCompile Include="pilot.x\Timer.c" />
     <ClCompile Include="pilot.x\Trajectory.c" />

@@ -516,7 +516,7 @@ void Update_Passability_Obstacle(void)
 //}
 
 /****************************************************************************************
-* Set end vertex for path finding
+* Set end vertex for Path_Finding
 ****************************************************************************************/
 void Set_End_Vertex(t_vertexID id)
 {
@@ -524,7 +524,7 @@ void Set_End_Vertex(t_vertexID id)
 }
 
 /****************************************************************************************
-* Get end vertex for path finding
+* Get end vertex for Path_Finding
 ****************************************************************************************/
 t_vertexID Get_End_Vertex(void)
 {
