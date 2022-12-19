@@ -61,10 +61,10 @@ _MAIN_
 #endif
   
   if (team == TEAM_A) 
-    Initialize_Robot_Position(930, 230, 90);
+    Initialize_Robot_Position(225, 225, 90);
   else
-    Initialize_Robot_Position(2070, 230, 90);
-
+    Initialize_Robot_Position(1775, 225, 90);
+  
     Initialize_Map(team);
     Initialize_Obstacle();
     Initialize_Passability_Graph();

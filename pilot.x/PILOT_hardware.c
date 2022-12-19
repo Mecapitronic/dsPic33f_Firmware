@@ -85,14 +85,14 @@ void Sequence_Initiale(void)
     char i;
 
     LCD_Line(1);
-    LCD_Text("MECAPITRONIC GR2017",LCD_NB_CHARS);
+    LCD_Text("MECAPITRONIC GR2023",LCD_NB_CHARS);
     LCD_Line(2);
     LCD_Text("PILOT version:",LCD_NB_CHARS);
     LCD_Line(3);
     LCD_Text(__DATE__,12);
     LCD_Text(__TIME__,8);
     LCD_Line(4);
-    LCD_Text("By Christopher BUREL",LCD_NB_CHARS);
+    LCD_Text("By BUREL-ARENOU",LCD_NB_CHARS);
 
     for(i=0; i<5; i++)
     {

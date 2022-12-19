@@ -1,5 +1,5 @@
 // Segment
- /* segment[0] = Segment(Point(1000, 2700), Point(1000, 3000));
+  segment[0] = Segment(Point(1000, 2700), Point(1000, 3000));
   segment[1] = Segment(Point(1000, 0), Point(1000, 300));
   segment[2] = Segment(Point(15, 1350), Point(15, 1650));
   segment[3] = Segment(Point(1985, 1350), Point(1985, 1650));
@@ -28,4 +28,3 @@
   vertex[8].point = Point(1775, 1875);
   vertex[9].point = Point(1775, 1125);
   vertex[10].point = Point(1775, 225);
-*/

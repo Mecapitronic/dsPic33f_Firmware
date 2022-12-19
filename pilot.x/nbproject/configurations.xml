@@ -135,6 +135,14 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
+      <item path="../MecapitronicLibrary/Sources/I2C_module.c"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="../MecapitronicLibrary/Sources/SPI_module.c"
+            ex="true"
+            overriding="false">
+      </item>
       <C30>
         <property key="cast-align" value="false"/>
         <property key="code-model" value="default"/>
@@ -266,6 +274,10 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
       </C30Global>
+      <item path="Map2023Bleue.c" ex="true" overriding="false">
+      </item>
+      <item path="Map2023Verte.c" ex="true" overriding="false">
+      </item>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
