@@ -74,13 +74,14 @@ void Initialize_Action(void)
   }
 
   ID = 1; // prendre module dans fusée 2
-  action[ID].vertexID = 2;
+  action[ID].vertexID = 1;
   action[ID].mission = MISSION_FUSEE;
   action[ID].possible = YES;
   action[ID].done = NO;
   action[ID].iteration = 1;
-  if (team == TEAM_A) action[ID].point = Point(1150,40);
-  else action[ID].point = Point(1850,40);
+  action[ID].point = vertex[0].point;
+  //if (team == TEAM_A) action[ID].point = Point(1150,40);
+  //else action[ID].point = Point(1850,40);
   action[ID].function = Action_Prendre_Fusee;
   
 //  ID = 2; // prendre module 3 depuis vertex 1
@@ -92,11 +93,11 @@ void Initialize_Action(void)
 //  action[ID].function = Action_Prendre;
 
   ID = 3; // prendre module 3 en levant
-  action[ID].vertexID = 3;
+  action[ID].vertexID = 2;
   action[ID].mission = MISSION_PRENDRE;
   action[ID].possible = YES;
   action[ID].done = NO;
-  action[ID].point = vertex[3].point;
+  action[ID].point = vertex[2].point;
   action[ID].function = Action_Lever;
 
   ID = 4; // prendre module 7

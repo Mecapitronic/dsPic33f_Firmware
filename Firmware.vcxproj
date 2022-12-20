@@ -48,12 +48,10 @@
     <ClCompile Include="Firmware.cpp" />
     <ClCompile Include="MecapitronicLibrary\Sources\ADC_module.c" />
     <ClCompile Include="MecapitronicLibrary\Sources\DELAY_module.c" />
-    <ClCompile Include="MecapitronicLibrary\Sources\I2C_module.c" />
     <ClCompile Include="MecapitronicLibrary\Sources\LCD_HD44780_module.c" />
     <ClCompile Include="MecapitronicLibrary\Sources\LIBRARY_module.c" />
     <ClCompile Include="MecapitronicLibrary\Sources\MOVE_module.c" />
     <ClCompile Include="MecapitronicLibrary\Sources\PID_module.c" />
-    <ClCompile Include="MecapitronicLibrary\Sources\SPI_module.c" />
     <ClCompile Include="pilot.x\Action.c" />
     <ClCompile Include="pilot.x\Asserv.c" />
     <ClCompile Include="pilot.x\I2C_message.c" />
