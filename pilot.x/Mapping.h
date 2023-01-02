@@ -17,8 +17,8 @@
 /****************************************************************************************
 * Parameters
 ****************************************************************************************/
-#define MAX_SEGMENT    3
-#define MAX_CIRCLE     8
+#define MAX_SEGMENT    4
+#define MAX_CIRCLE     12
 #define MAX_VERTEX     28
 
 #define ROBOT_RADIUS       130  // mm
