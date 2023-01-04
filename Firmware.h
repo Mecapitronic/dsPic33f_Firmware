@@ -11,6 +11,8 @@ using namespace std;
 #include "Serial.h"
 
 #include <windows.h>
+#include <chrono>
+#include <math.h>
 /*
 #include <iostream>
 #include <fstream>

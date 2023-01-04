@@ -4,6 +4,8 @@
 #include <iostream>
 #endif
 //#define _CRT_SECURE_NO_WARNINGS
+#pragma comment(lib, "winmm.lib")
+#pragma comment( user, "Compiled on " __DATE__ " at " __TIME__ )
 
 /********** VARIABLES *******/
 vector<string> messageUartTX;
@@ -25,6 +27,67 @@ t_segment INVALID_SEGMENT = {0};
 CSerial serial;
 
 /********** METHODS *********/
+#ifndef _WINDLL
+#define myprintf printf
+#else
+void __cdecl myprintf(const char* format, ...)
+{
+	char    buf[4096], * p = buf;
+	va_list args;
+	int     n;
+
+	va_start(args, format);
+	n = _vsnprintf(p, sizeof buf - 3, format, args); // buf-3 is room for CR/LF/NUL
+	va_end(args);
+
+	p += (n < 0) ? sizeof buf - 3 : n;
+
+	while (p > buf && isspace(p[-1]))
+		*--p = '\0';
+
+	*p++ = '\r';
+	*p++ = '\n';
+	*p = '\0';
+
+	OutputDebugString(buf);
+}
+
+#endif
+
+void timerSleep(double seconds) {
+	using namespace std::chrono;
+	
+	static HANDLE timer = CreateWaitableTimer(NULL, FALSE, NULL);
+	static double estimate = 5e-3;
+	static double mean = 5e-3;
+	static double m2 = 0;
+	static int64_t count = 1;
+	
+	while (seconds - estimate > 1e-7) {
+		double toWait = seconds - estimate;
+		LARGE_INTEGER due;
+		due.QuadPart = -int64_t(toWait * 1e7);
+		steady_clock::time_point  start = high_resolution_clock::now();
+		SetWaitableTimerEx(timer, &due, 0, NULL, NULL, NULL, 0);
+		WaitForSingleObject(timer, INFINITE);
+		steady_clock::time_point end = high_resolution_clock::now();
+
+		double observed = (end - start).count() / 1e9;
+		seconds -= observed;
+
+		++count;
+		double error = observed - toWait;
+		double delta = error - mean;
+		mean += delta / count;
+		m2 += delta * (error - mean);
+		double stddev = sqrt(m2 / (count - 1));
+		estimate = mean + stddev;
+	}
+
+	// spin lock
+	auto start = high_resolution_clock::now();
+	while ((high_resolution_clock::now() - start).count() / 1e9 < seconds);
+}
 
 void MessageUart(int index, char* strBuffer)
 {
@@ -151,46 +214,56 @@ void Send_UART(char* strBuffer)
 	indexLecture++;
 	if (indexLecture >= 100)
 		indexLecture = 0;
-	OutputDebugString(strBuffer);
+	myprintf(strBuffer);
 	
 }
 
 /********** THREAD INTERRUPTION dsPIC ******/
 static void * thread_Interruption_1(void * p_data)
 {
+	//chrono::steady_clock::time_point  start, end;
+	
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	printf("Start thread Interruption 1\n");
+	myprintf("Start thread Interruption 1\n");
 	while (!arret)
 	{
+		//start = chrono::high_resolution_clock::now();
 		Interruption_PRIMAIRE();
 		INFO_ARM_BUSY = !INFO_ARM_BUSY;
-		Sleep(5);
+		timerSleep(0.005);
+		//end = chrono::high_resolution_clock::now();
+		//myprintf("interruption 1: %0.3f ms, current_time: %d ms\n", (end - start).count() / 1e6, current_time);
 	}
-	printf("End thread Interruption 1\n");
+	myprintf("End thread Interruption 1\n");
 	return NULL;
 }
 static void * thread_Interruption_2(void * p_data)
 {
+	//chrono::steady_clock::time_point start, end;
+
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	printf("Start thread Interruption 2\n");
+	myprintf("Start thread Interruption 2\n");
 	while (!arret)
 	{
+		//start = chrono::high_resolution_clock::now();
 		Interruption_SECONDAIRE();
-		Sleep(50);
+		timerSleep(0.025); timerSleep(0.025);
+		//end = chrono::high_resolution_clock::now();
+		//myprintf("interruption 2: %0.3f ms\n", (end - start).count() / 1e6);
 	}
-	printf("End thread Interruption 2\n");
+	myprintf("End thread Interruption 2\n");
 	return NULL;
 }
 static void * thread_Interruption_RX(void * p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	printf("Start thread Interruption Uart RX\n");
+	myprintf("Start thread Interruption Uart RX\n");
 	while (!arret)
 	{
 		_U1RXInterrupt();
-		OutputDebugString("Message received");
+		myprintf("Message received");
 	}
-	printf("End thread Interruption Uart RX \n");
+	myprintf("End thread Interruption Uart RX \n");
 	return NULL;
 }
 static void * thread_PILOT(void * p_data)
@@ -198,19 +271,19 @@ static void * thread_PILOT(void * p_data)
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	int ret = PILOT();
 	arret = true;
-	printf("End thread PILOT\n");
+	myprintf("End thread PILOT\n");
 	return NULL;
 }
 static void * thread_uart_TX(void * p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	printf("Start thread Uart TX\n");
+	myprintf("Start thread Uart TX\n");
 	//if (serial.Open(1, 125000))
 	{
-		printf("Port opened successfully");
+		myprintf("Port opened successfully");
 	}
 	//else
-		printf("Failed to open port!");
+		myprintf("Failed to open port!");
 
 	U1STAbits.TRMT = 1;
 	string message = "";
@@ -236,13 +309,13 @@ static void * thread_uart_TX(void * p_data)
 			U1STAbits.TRMT = 1;
 		}
 	}
-	printf("End thread Uart TX\n");
+	myprintf("End thread Uart TX\n");
 	return NULL;
 }
 static void * thread_uart_RX(void * p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	printf("Start thread Uart RX\n");
+	myprintf("Start thread Uart RX\n");
 	indexLecture = 0;
 	int indexLecture2 = 0;
 	string message = "";
@@ -261,19 +334,19 @@ static void * thread_uart_RX(void * p_data)
 				message.erase(0, 1);
 				U1STAbits.URXDA = 1;
 			}
-			OutputDebugString("Message sended");
+			myprintf("Message sended");
 			message = "";
 		}
 	}
 	U1STAbits.URXDA == 0;
 
-	printf("End thread Uart RX\n");
+	myprintf("End thread Uart RX\n");
 	return NULL;
 }
 void AbortFirmware(void)
 {
 	int ret = -1;
-	printf("Abort des Thread ! \n");
+	myprintf("Abort des Thread ! \n");
 	ret = pthread_cancel(pthread_PILOT);
 	if (!ret)
 	{
@@ -296,11 +369,11 @@ void AbortFirmware(void)
 
 			ret = pthread_cancel(pthread_Interruption_RX);
 
-			printf("Abort des Thread OK :) \n");
+			myprintf("Abort des Thread OK :) \n");
 		}
 		else
 		{
-			//printf("%s", strerror(ret));
+			//myprintf("%s", strerror(ret));
 		}
 	}
 	else
@@ -328,7 +401,7 @@ int main(void)
 		messageUartRX.push_back("");
 	}
 
-	OutputDebugString("Starting Firmeware Robot !\n");
+	myprintf("Starting Firmeware Robot !\n");
 
 	arret = false;
 	//Lancement des thread Interruption primaire et secondaire et pilot et UART reception/transmission
@@ -357,11 +430,11 @@ int main(void)
 						pthread_setname_np(pthread_PILOT, "PILOT");
 						if (!ret)
 						{
-							printf("Lancement des thread OK !\n");
+							myprintf("Lancement des thread OK !\n");
 						}
 						else
 						{
-							//printf("%s", strerror(ret));
+							//myprintf("%s", strerror(ret));
 						}
 					}
 					else
@@ -371,22 +444,22 @@ int main(void)
 				}
 				else
 				{
-					//printf("%s", strerror(ret));
+					//myprintf("%s", strerror(ret));
 				}
 			}
 			else
 			{
-				//printf("%s", strerror(ret));
+				//myprintf("%s", strerror(ret));
 			}
 		}
 		else
 		{
-			//printf("%s", strerror(ret));
+			//myprintf("%s", strerror(ret));
 		}
 	}
 	else
 	{
-		//printf("%s", strerror(ret));
+		//myprintf("%s", strerror(ret));
 	}
 
 #ifndef _WINDLL

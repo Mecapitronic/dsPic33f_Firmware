@@ -18,7 +18,7 @@
 #define SIMULATION_ENCODER
 #define UART1_ENABLE
 
-// Team color
+// Team color, A = verte, B = bleue
 #define TEAM_A          0
 #define TEAM_B          1
 
