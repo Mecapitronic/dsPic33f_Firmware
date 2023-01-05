@@ -193,7 +193,7 @@ void ListPrint(t_node list[], char *c)
 	int i = 0;
 	printf("-------\n");
 	printf("ListNode : %s \n", c);
-	for (i = 0; i < length; i++)
+	for (i = 0; i < listlength; i++)
 	{
 		if(list[i].currentID==INVALID_VERTEX_ID)
 			break;
