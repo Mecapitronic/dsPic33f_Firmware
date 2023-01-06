@@ -14,7 +14,6 @@
  ****************************************************************************************/
 // Firmware mode
 //#define SERIAL_PRINT
-//#define SIMULATION
 #define SIMULATION_ENCODER
 #define UART1_ENABLE
 

@@ -65,9 +65,8 @@ void Setup_Hardware(void)
 
     Setup_LED();
     Setup_Switch();
-#ifndef SIMULATION
+
     LCD_Setup();
-#endif
     Motor_Setup();
     Setup_Odometry();
 

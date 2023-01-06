@@ -107,12 +107,12 @@ void Update_Odometry(void)
   last_ang_velocity = robot.ang.velocity;
 
   // Current position
-#ifndef SIMULATION_ENCODER
-  robot.lin.position = (encoder_right + encoder_left) / 2;
-  robot.ang.position = ang_position_init + (encoder_right - encoder_left);
-#else
+#ifdef SIMULATION_ENCODER
   robot.lin.position = move_lin.command.position;
   robot.ang.position = move_ang.command.position;
+#else
+  robot.lin.position = (encoder_right + encoder_left) / 2;
+  robot.ang.position = ang_position_init + (encoder_right - encoder_left);
 #endif
 
   // Current velocity (derivate from position)

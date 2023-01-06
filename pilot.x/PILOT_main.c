@@ -15,8 +15,8 @@
 #pragma message (" Serial Print is enabled ! ")
 #endif
 
-#ifdef SIMULATION
-#pragma message (" Simulation mode ! ")
+#ifdef SIMULATION_MPLAB
+#pragma message (" Timer at 0 for Simulation with MPLAB ! ")
 #endif
 
 /****************************************************************************************
@@ -38,12 +38,8 @@ _MAIN_
   current_time = 0;
   Setup_Hardware();
 
-#ifndef SIMULATION
   Sequence_Initiale();
-#endif
-
   
-#ifndef SIMULATION
     LCD_Line(1);
     LCD_Text("ROBOT MECAPITRONIC", 20);
     LCD_Line(3);
@@ -51,14 +47,13 @@ _MAIN_
 
     while(!START_PILOT)  // attente démarrage du copilot
     {
-    team = SELECT;
-    COLOR_TEAM = team;
-    LCD_Line(2);
-    LCD_Text("Couleur ", 8);
-    if (team == TEAM_A) LCD_Text(LCD_TEAM_A,12);
-    else LCD_Text(LCD_TEAM_B,12);
-  }
-#endif
+        team = SELECT;
+        COLOR_TEAM = team;
+        LCD_Line(2);
+        LCD_Text("Couleur ", 8);
+        if (team == TEAM_A) LCD_Text(LCD_TEAM_A,12);
+        else LCD_Text(LCD_TEAM_B,12);
+    }
   
   if (team == TEAM_A) 
     Initialize_Robot_Position(225, 225, 90);
@@ -148,7 +143,6 @@ _MAIN_
  ****************************************************************************************/
 void Display()
 {
-#ifndef SIMULATION
   // robot position
   LCD_Line(1);
   LCD_Text("X ", 2);
@@ -171,7 +165,6 @@ void Display()
   LCD_Value(move_lin.command.velocity, 6, 0);
   LCD_Text("  cVA", 5);
   LCD_Value(move_ang.command.velocity, 6, 0);
-#endif
 }
 
 

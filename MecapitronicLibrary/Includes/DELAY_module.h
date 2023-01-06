@@ -18,13 +18,19 @@
 * Macros Delays Fonctions (without timer)
 ****************************************************************************************/
 //#define DELAY_USE_TIMER
+#define SIMULATION_MPLAB
 
 #ifndef DELAY_USE_TIMER
 // Calibration made with stopwatch for FCY = 40 MIPS (MPLABXv2.35, XC16v1.24 lite)
-#define Delay_Us(t) do{uint32 i = (uint32)t*3.333; while(--i);}while(0)
-#define Delay_Ms(t) do{uint32 i = (uint32)t*3333.333; while(--i);}while(0)
-#define Delay_S(t) do{uint32 i = (uint32)t*3333333.333; while(--i);}while(0)
-
+	#ifdef SIMULATION_MPLAB
+		#define Delay_Us(t) do{}while(0)
+		#define Delay_Ms(t) do{}while(0)
+		#define Delay_S(t) do{}while(0)
+	#else
+		#define Delay_Us(t) do{uint32 i = (uint32)t*3.333; while(--i);}while(0)
+		#define Delay_Ms(t) do{uint32 i = (uint32)t*3333.333; while(--i);}while(0)
+		#define Delay_S(t) do{uint32 i = (uint32)t*3333333.333; while(--i);}while(0)
+	#endif
 #endif
 
 /****************************************************************************************
