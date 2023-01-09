@@ -6,15 +6,15 @@
  * Compilation : MPLAB X IDE (v3.45), compiler XC16 (v1.26) Lite
  ****************************************************************************************/
 
-/****************************************************************************************
- * Includes
- ****************************************************************************************/
+ /****************************************************************************************
+  * Includes
+  ****************************************************************************************/
 #include "Uart.h"
 
-/****************************************************************************************
- * Variables
- ****************************************************************************************/
-// UART1
+  /****************************************************************************************
+   * Variables
+   ****************************************************************************************/
+   // UART1
 volatile char U1_trame[U1RX_SIZE];
 volatile int U1_cursor;
 volatile boolean U1_start_trame;
@@ -35,7 +35,7 @@ void Interrupt_UART1(void)
 {
 	if (IEC0bits.U1RXIE)
 	{
-		U1_data='0';
+		U1_data = '0';
 		while (U1_data != '\n')
 		{
 			while (U1STAbits.URXDA == 0);
@@ -55,15 +55,15 @@ void Interrupt_UART1(void)
  ****************************************************************************************/
 void Initialize_UART1(void)
 {
-  Setup_UART1_RX_Pin();
-  Setup_UART1_TX_Pin();
+	Setup_UART1_RX_Pin();
+	Setup_UART1_TX_Pin();
 
 	U1MODEbits.STSEL = 0; // 1-stop bit
 	U1MODEbits.PDSEL = 2; //U1MODEbits.PDSEL = 10; // Odd Parity, 8-data bits
 	U1MODEbits.ABAUD = 0; // Autobaud Disabled
 	U1MODEbits.BRGH = 0; // Low Speed mode
 
-	U1BRG = (FCY/U1_BAUD)/16 - 1; // baud rate setting
+	U1BRG = (FCY / U1_BAUD) / 16 - 1; // baud rate setting
 
 	U1STAbits.URXISEL = 0; //Interrupt after one RX character is received;
 
@@ -72,11 +72,11 @@ void Initialize_UART1(void)
 	U1MODEbits.UARTEN = 1; // Enable UART
 	U1STAbits.UTXEN = 1;
 
-  for (i = 1; i < U1RX_SIZE; i++)
+	for (i = 1; i < U1RX_SIZE; i++)
 	{
-    U1_trame[i] = 0;
+		U1_trame[i] = 0;
 	}
-  U1_cursor = 0;
+	U1_cursor = 0;
 	U1_start_trame = FALSE;
 	U1_byte_to_read = 0;
 
@@ -101,10 +101,10 @@ void Write_UART1(unsigned int data)
 /****************************************************************************************
  * Write string data to UART1
  ****************************************************************************************/
-void Write_String_UART1(const char * s)
+void Write_String_UART1(const char* s)
 {
 	while (*s)
-    Write_UART1(*s++);
+		Write_UART1(*s++);
 }
 
 /****************************************************************************************
@@ -119,7 +119,7 @@ void Write_Float_UART1(float number, int afterpoint)
 	}
 
 	ftoa(number, res, afterpoint);
-  Write_String_UART1(res); 
+	Write_String_UART1(res);
 }
 
 /****************************************************************************************
@@ -135,23 +135,33 @@ void Write_Int_UART1(int32 number)
  ****************************************************************************************/
 void Update_UART1(void)
 {
+	// Robot Position
 	Write_Int_UART1(robot.mm.x);
-  Write_UART1(';');
+	Write_UART1(';');
 	Write_Int_UART1(robot.mm.y);
-  Write_UART1(';');
+	Write_UART1(';');
 	Write_Float_UART1(RAD_TO_DEG(robot.rad), 0);
-  Write_UART1(';');
+	Write_UART1(';');
 
+	// Robot Start/End path
 	Write_Int_UART1(vertex[0].point.x);
 	Write_UART1(',');
 	Write_Int_UART1(vertex[0].point.y);
-  Write_UART1(';');
+	Write_UART1(';');
 	Write_Int_UART1(vertex[Get_End_Vertex()].point.x);
 	Write_UART1(',');
 	Write_Int_UART1(vertex[Get_End_Vertex()].point.y);
-    Write_UART1(';');
+	Write_UART1(';');
 
-	//write the vertex 0 te be sure path point whow at least one point
+	// Robot Lidar
+	Write_Int_UART1(Get_Distance_LIDAR(0));
+	for (i = 1; i < 10; i++)
+	{
+		Write_UART1(',');
+		Write_Int_UART1(Get_Distance_LIDAR(i));
+	}
+
+	//write the vertex 0 te be sure path point show at least one point
 	Write_Int_UART1(vertex[0].point.x);
 	Write_UART1(',');
 	Write_Int_UART1(vertex[0].point.y);
@@ -163,15 +173,15 @@ void Update_UART1(void)
 		if (solution[i] == INVALID_VERTEX_ID)
 			break;
 		pos = solution[i];
-    Write_UART1(',');
+		Write_UART1(',');
 		x = vertex[pos].point.x;
-    Write_Int_UART1(x);
-    Write_UART1(',');
+		Write_Int_UART1(x);
+		Write_UART1(',');
 		y = vertex[pos].point.y;
-    Write_Int_UART1(y);
+		Write_Int_UART1(y);
 	}
 
-  Write_UART1(10); //10 = Line feed ; 13 = Carriage return
+	Write_UART1(10); //10 = Line feed ; 13 = Carriage return
 
 }
 
@@ -180,35 +190,39 @@ void Update_UART1(void)
  ****************************************************************************************/
 void Get_Data_UART1(char str)
 {
-	if (str == 'S')
+	// L = Lidar	-90°{ d:]20, 1500[, ... } +90°
+	// A = Action		{ ID }
+	// M = Move			{ X, Y }
+	// N = Navigation	{ X, Y }
+	if (str == 'L' || str == 'A' || str == 'M' || str == 'N')
 	{
-      U1_start_trame = TRUE;
-      U1_cursor = 0;
-      U1_trame[U1_cursor] = str;
-      U1_cursor++;
+		U1_start_trame = TRUE;
+		U1_cursor = 0;
+		U1_trame[U1_cursor] = str;
+		U1_cursor++;
 	}
-	else if(str==10)
+	else if (str == 10)
 	{
 
 	}
 	else
 	{
-      if (U1_start_trame == TRUE)
+		if (U1_start_trame == TRUE)
 		{
-        U1_trame[U1_cursor] = str;
-        U1_cursor++;
-        if (U1_cursor == 3)
+			U1_trame[U1_cursor] = str;
+			U1_cursor++;
+			if (U1_cursor == 3)
 			{
 				char nbr_byte[3] = { 0, 0, 0 };
-          nbr_byte[0] = U1_trame[1];
-          nbr_byte[1] = U1_trame[2];
-          U1_byte_to_read = atoi(nbr_byte);
-        }
-        if (U1_cursor == U1_byte_to_read + 3)
-        {
-          Analyse_Data_UART1();
-          U1_start_trame = FALSE;
-          U1_cursor = 0;
+				nbr_byte[0] = U1_trame[1];
+				nbr_byte[1] = U1_trame[2];
+				U1_byte_to_read = atoi(nbr_byte);
+			}
+			if (U1_cursor == U1_byte_to_read + 3)
+			{
+				Analyse_Data_UART1();
+				U1_start_trame = FALSE;
+				U1_cursor = 0;
 			}
 		}
 	}
@@ -219,15 +233,15 @@ void Get_Data_UART1(char str)
  ****************************************************************************************/
 void Analyse_Data_UART1()
 {
-	int convert[10] = { 500, 500, 500, 500, 500, 500, 500, 500, 500, 500 }; int k = 0;
+	int convert[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; int k = 0;
 	char tmp[6] = { 0, 0, 0, 0, 0, 0 }; int j = 0;
 	int i;
-  
+
 	for (i = 4; i < U1_byte_to_read + 3; i++)
 	{
-    if (U1_trame[i] != ';')
+		if (U1_trame[i] != ';')
 		{
-      tmp[j++] = U1_trame[i];
+			tmp[j++] = U1_trame[i];
 		}
 		else
 		{
@@ -241,15 +255,35 @@ void Analyse_Data_UART1()
 		}
 	}
 
-  for (i = 0; i < 8; i++)
+	switch (U1_trame[0])
 	{
-		j = 0;
-		uint16 ui = convert[i];
-		Set_LIDAR(i,ui);
-		//distance_sharp[i] = (distance_sharp[i] + convert[i])/2;
+	case 'L':
+		for (i = 0; i < 10; i++)
+		{
+			Set_LIDAR(i, convert[i]);
+		}
+		break;
+	case 'A':
+	{
+		uint16 id = convert[0];
 	}
-	i = 0;
+	break;
+	case 'M':
+	{
+		uint16 x = convert[0];
+		uint16 y = convert[1];
+	}
+	break;
+	case 'N':
+	{
+		uint16 x = convert[0];
+		uint16 y = convert[1];
+	}
+	break;
+	default:
 
+		break;
+	}
 }
 
 
@@ -257,7 +291,7 @@ void Analyse_Data_UART1()
 /****************************************************************************************
  * Reverse a string 'str' of length 'len'
  ****************************************************************************************/
-void reverse(char *str, int len)
+void reverse(char* str, int len)
 {
 	int i = 0, j = len - 1, temp;
 	while (i < j)
@@ -305,8 +339,8 @@ int intToStr(int x, char str[], int d)
 
 /****************************************************************************************
  * Converts a floating point number to string.
- ****************************************************************************************/ 
-void ftoa(float n, char *res, int afterpoint)
+ ****************************************************************************************/
+void ftoa(float n, char* res, int afterpoint)
 {
 	// Extract integer part
 	int ipart = (int)n;
