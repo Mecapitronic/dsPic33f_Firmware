@@ -155,7 +155,7 @@ void Update_UART1(void)
 
 	// Robot Lidar
 	Write_Int_UART1(Get_Distance_LIDAR(0));
-	for (i = 1; i < 10; i++)
+	for (int i = 1; i < 10; i++)
 	{
 		Write_UART1(',');
 		Write_Int_UART1(Get_Distance_LIDAR(i));
