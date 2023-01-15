@@ -370,14 +370,9 @@ void Afficher_UART(uint8 ligne)
 	int32 i;
 	for (i = 0; i < 20; i++)
 	{
+		if (U1_trame[i] != '\0')
 		LCD_Char(U1_trame[i]);
+		else
+			LCD_Char(' ');
 	}
-	LCD_Line(ligne + 1);
-	for (i = 0; i < 10; i++)
-	{
-		LCD_Char(U1_trame[i + 20]);
-	}
-	i = 0;
-
-
 }
