@@ -188,14 +188,28 @@ void Update_UART1(void)
  ****************************************************************************************/
 void Get_Data_UART1(char str)
 {
+	//First Char :
 	// L = Lidar	-90°{ d:]20, 1500[, ... } +90°
 	// A = Action		{ ID }
 	// M = Move			{ X, Y }
 	// N = Navigation	{ X, Y }
-	if (str == 'L' || str == 'A' || str == 'M' || str == 'N')
+
+	//Second and third Char :
+	// xx = number of bytes to read after the fourth char
+
+	// Fourth Char : ';'
+
+	// Every number is represented with 6 bytes and separated by a semi-colon ';'
+	//Exemple : A01;8    M11;123456;123456     L06;1234
+
+	if (!U1_start_trame && (str == 'L' || str == 'A' || str == 'M' || str == 'N'))
 	{
 		U1_start_trame = TRUE;
 		U1_cursor = 0;
+		for (int32 i = 0; i < U1RX_SIZE; i++)
+		{
+			U1_trame[i] = 0;
+		}
 		U1_trame[U1_cursor] = str;
 		U1_cursor++;
 	}
@@ -216,11 +230,14 @@ void Get_Data_UART1(char str)
 				nbr_byte[1] = U1_trame[2];
 				U1_byte_to_read = atoi(nbr_byte);
 			}
-			if (U1_cursor == U1_byte_to_read + 3)
+			if (U1_cursor == U1_byte_to_read + 4)
 			{
+				if (U1_trame[U1_cursor - 1] != ';')
+					U1_trame[U1_cursor] = ';';
 				Analyse_Data_UART1();
 				U1_start_trame = FALSE;
 				U1_cursor = 0;
+				U1_byte_to_read = 0;
 			}
 		}
 	}
@@ -234,18 +251,21 @@ void Analyse_Data_UART1()
 	int32 convert[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; int32 k = 0;
 	char tmp[6] = { 0, 0, 0, 0, 0, 0 }; int32 j = 0;
 	int32 i;
+	int32 m;
 
-	for (i = 4; i < U1_byte_to_read + 3; i++)
+	for (i = 4; i <= U1_byte_to_read + 4; i++)
 	{
+		m = 0;
 		if (U1_trame[i] != ';')
 		{
 			tmp[j++] = U1_trame[i];
+			m++;
 		}
 		else
 		{
 			convert[k++] = atoi(tmp);
 			int32 l;
-			for (l = 0; l < 6; l++)
+			for (l = 0; l < m; l++)
 			{
 				tmp[l] = 0;
 			}
@@ -371,7 +391,7 @@ void Afficher_UART(uint8 ligne)
 	for (i = 0; i < 20; i++)
 	{
 		if (U1_trame[i] != '\0')
-		LCD_Char(U1_trame[i]);
+			LCD_Char(U1_trame[i]);
 		else
 			LCD_Char(' ');
 	}
