@@ -66,6 +66,10 @@ void interruption_2(void)
   print_navigation();
 #endif
 
+#ifdef _USRDLL
+  Display();
+#endif
+
   TIMER_SECONDAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
 	}
 }
