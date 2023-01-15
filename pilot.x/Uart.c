@@ -16,12 +16,12 @@
    ****************************************************************************************/
    // UART1
 volatile char U1_trame[U1RX_SIZE];
-volatile int U1_cursor;
+volatile int32 U1_cursor;
 volatile boolean U1_start_trame;
-volatile int U1_byte_to_read;
+volatile int32 U1_byte_to_read;
 volatile char U1_data;
 
-int i;
+int32 i;
 
 /****************************************************************************************
  * Interrupt UART1
@@ -86,7 +86,7 @@ void Initialize_UART1(void)
 /****************************************************************************************
  * Write data to UART1
  ****************************************************************************************/
-void Write_UART1(unsigned int data)
+void Write_UART1(uint16 data)
 {
 	while (U1STAbits.TRMT == 0);
 	if (U1MODEbits.PDSEL == 3)
@@ -110,7 +110,7 @@ void Write_String_UART1(const char* s)
 /****************************************************************************************
  * Write float data to UART1
  ****************************************************************************************/
-void Write_Float_UART1(float number, int afterpoint)
+void Write_Float_UART1(float number, int32 afterpoint)
 {
 	char res[32];
 	for (i = 0; i < 32; i++)
@@ -233,9 +233,9 @@ void Get_Data_UART1(char str)
  ****************************************************************************************/
 void Analyse_Data_UART1()
 {
-	int convert[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; int k = 0;
-	char tmp[6] = { 0, 0, 0, 0, 0, 0 }; int j = 0;
-	int i;
+	int32 convert[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; int32 k = 0;
+	char tmp[6] = { 0, 0, 0, 0, 0, 0 }; int32 j = 0;
+	int32 i;
 
 	for (i = 4; i < U1_byte_to_read + 3; i++)
 	{
@@ -246,7 +246,7 @@ void Analyse_Data_UART1()
 		else
 		{
 			convert[k++] = atoi(tmp);
-			int l;
+			int32 l;
 			for (l = 0; l < 6; l++)
 			{
 				tmp[l] = 0;
@@ -265,19 +265,19 @@ void Analyse_Data_UART1()
 		break;
 	case 'A':
 	{
-		uint16 id = convert[0];
+		int32 id = convert[0];
 	}
 	break;
 	case 'M':
 	{
-		uint16 x = convert[0];
-		uint16 y = convert[1];
+		int32 x = convert[0];
+		int32 y = convert[1];
 	}
 	break;
 	case 'N':
 	{
-		uint16 x = convert[0];
-		uint16 y = convert[1];
+		int32 x = convert[0];
+		int32 y = convert[1];
 	}
 	break;
 	default:
@@ -291,9 +291,9 @@ void Analyse_Data_UART1()
 /****************************************************************************************
  * Reverse a string 'str' of length 'len'
  ****************************************************************************************/
-void reverse(char* str, int len)
+void reverse(char* str, int32 len)
 {
-	int i = 0, j = len - 1, temp;
+	int32 i = 0, j = len - 1, temp;
 	while (i < j)
 	{
 		temp = str[i];
@@ -308,16 +308,16 @@ void reverse(char* str, int len)
  * of digits required in output. If d is more than the number
  * of digits in x, then 0s are added at the beginning.
  ****************************************************************************************/
-int intToStr(int x, char str[], int d)
+int32 intToStr(int32 x, char str[], int32 d)
 {
-	int sign;
+	int32 sign;
 	if (x != 0)
 		sign = x / ABS(x);
 	else
 		sign = 1;
 	x = ABS(x);
 
-	int i = 0;
+	int32 i = 0;
 	while (x)
 	{
 		str[i++] = (x % 10) + '0';
@@ -340,16 +340,16 @@ int intToStr(int x, char str[], int d)
 /****************************************************************************************
  * Converts a floating point number to string.
  ****************************************************************************************/
-void ftoa(float n, char* res, int afterpoint)
+void ftoa(float n, char* res, int32 afterpoint)
 {
 	// Extract integer part
-	int ipart = (int)n;
+	int32 ipart = (int32)n;
 
 	// Extract floating part
 	float fpart = ABS(n - (float)ipart);
 
 	// convert integer part to string
-	int i = intToStr(ipart, res, 0);
+	int32 i = intToStr(ipart, res, 0);
 
 	// check for display option after point
 	if (afterpoint != 0)
@@ -361,7 +361,7 @@ void ftoa(float n, char* res, int afterpoint)
 		// to handle cases like 233.007
 		fpart = fpart * pow(10, afterpoint);
 
-		intToStr((int)fpart, res + i + 1, afterpoint);
+		intToStr((int32)fpart, res + i + 1, afterpoint);
 	}
 }
 
@@ -369,7 +369,7 @@ void ftoa(float n, char* res, int afterpoint)
 void Afficher_UART(uint8 ligne)
 {
 	LCD_Line(ligne);
-	int i;
+	int32 i;
 	for (i = 0; i < 20; i++)
 	{
 		LCD_Char(U1_trame[i]);
