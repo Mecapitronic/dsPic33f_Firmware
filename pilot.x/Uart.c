@@ -21,8 +21,6 @@ volatile boolean U1_start_trame;
 volatile int32 U1_byte_to_read;
 volatile char U1_data;
 
-int32 i;
-
 /****************************************************************************************
  * Interrupt UART1
  ****************************************************************************************/
@@ -72,7 +70,7 @@ void Initialize_UART1(void)
 	U1MODEbits.UARTEN = 1; // Enable UART
 	U1STAbits.UTXEN = 1;
 
-	for (i = 1; i < U1RX_SIZE; i++)
+	for (int32 i = 0; i < U1RX_SIZE; i++)
 	{
 		U1_trame[i] = 0;
 	}
@@ -113,7 +111,7 @@ void Write_String_UART1(const char* s)
 void Write_Float_UART1(float number, int32 afterpoint)
 {
 	char res[32];
-	for (i = 0; i < 32; i++)
+	for (int32 i = 0; i < 32; i++)
 	{
 		res[i] = 0;
 	}
@@ -155,7 +153,7 @@ void Update_UART1(void)
 
 	// Robot Lidar
 	Write_Int_UART1(Get_Distance_LIDAR(0));
-	for (i = 1; i < 10; i++)
+	for (int32 i = 1; i < 10; i++)
 	{
 		Write_UART1(',');
 		Write_Int_UART1(Get_Distance_LIDAR(i));
@@ -168,7 +166,7 @@ void Update_UART1(void)
 	int32 pos = 0;
 	int32 x = 0;
 	int32 y = 0;
-	for (i = 0; i < listlength; i++)
+	for (int32 i = 0; i < listlength; i++)
 	{
 		if (solution[i] == INVALID_VERTEX_ID)
 			break;

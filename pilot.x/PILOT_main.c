@@ -153,18 +153,23 @@ void Display()
   LCD_Value(robot.deg, 3, 0);
   LCD_Char(0xDF); // "degre" character
   LCD_Text(" ", 1);
+	
   // command position
   LCD_Line(2);
   LCD_Text("cL", 2);
   LCD_Value(STEP_TO_MM(move_lin.command.position-robot.lin.position), 7, 0);
   LCD_Text("  cA", 4);
   LCD_Value(STEP_TO_DEG(move_ang.command.position-robot.ang.position), 7, 0);
+	
   // command velocity
   LCD_Line(3);
   LCD_Text("cVL", 3);
   LCD_Value(move_lin.command.velocity, 6, 0);
   LCD_Text("  cVA", 5);
   LCD_Value(move_ang.command.velocity, 6, 0);
+
+	// UART Receive
+	Afficher_UART(4);
 }
 
 
