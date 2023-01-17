@@ -12,10 +12,10 @@
 /****************************************************************************************
 * Includes
  ****************************************************************************************/
-#ifdef _USRDLL
-#include "dsPIC.h"
+#ifdef _VISUAL_STUDIO
+	#include "dsPIC.h"
 #else
-#include "p33FJ128MC804.h"
+	#include "p33FJ128MC804.h"
 #endif
 
 #include "stdio.h"

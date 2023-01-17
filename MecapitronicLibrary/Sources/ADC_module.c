@@ -14,7 +14,7 @@
 /****************************************************************************************
 * Routine de lecture d'un canal ADC
 ****************************************************************************************/
-unsigned int ADC_Read(unsigned int channel)
+uint16 ADC_Read(unsigned int channel)
 {
     ADC_CHANNEL = channel;	// select the input channel to be converted
     ADC_Start_Sampling();	// start sampling

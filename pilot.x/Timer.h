@@ -60,11 +60,10 @@ extern uint32 current_time;
                                     PR4 = 31250; \
                                     IPC6bits.T4IP = 3;} // Priority
 
-#ifdef _USRDLL
-void Interruption_PRIMAIRE(void);
-void Interruption_SECONDAIRE(void);
+#ifdef _VISUAL_STUDIO
+void TIMER_PRIMAIRE_INT(void);
+void TIMER_SECONDAIRE_INT(void);
 #endif
-void print_uart(void);
 
 #endif	/* TIMER_H */
 

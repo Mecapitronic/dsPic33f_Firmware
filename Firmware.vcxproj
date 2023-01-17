@@ -70,7 +70,6 @@
     <ClCompile Include="pilot.x\Trajectory.c" />
     <ClCompile Include="pilot.x\Uart.c" />
     <ClCompile Include="Serial.cpp" />
-    <Text Include="Text.txt" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="pthreads\dll\pthreadVC3.dll">
@@ -109,11 +108,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <ShowIncludes>false</ShowIncludes>
       <AdditionalIncludeDirectories>$(ProjectDir)\pthreads\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_VISUAL_STUDIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

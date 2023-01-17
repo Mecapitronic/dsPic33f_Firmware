@@ -16,6 +16,11 @@
 //#define SERIAL_PRINT
 #define SIMULATION_ENCODER
 #define UART1_ENABLE
+#ifdef _VISUAL_STUDIO
+#define __interrupt__
+#define no_auto_psv
+#define __attribute__(__interrupt__, no_auto_psv)
+#endif
 
 // Team color, A = verte, B = bleue
 #define TEAM_A          0
@@ -60,8 +65,11 @@ extern uint8 team;
  * Prototypes fonctions
  ****************************************************************************************/
 
-#ifdef _USRDLL
-	int PILOT(void);
+#ifdef _VISUAL_STUDIO
+	#define _PILOT_ uint16 PILOT(void)
+	uint16 PILOT(void);
+#else
+	#define _PILOT_ int main(void)
 #endif
 void Display();
 

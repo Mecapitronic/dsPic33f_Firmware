@@ -138,10 +138,34 @@
       <item path="../MecapitronicLibrary/Sources/I2C_module.c"
             ex="true"
             overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-CO>
+        </C30-CO>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="../MecapitronicLibrary/Sources/SPI_module.c"
             ex="true"
             overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-CO>
+        </C30-CO>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <C30>
         <property key="cast-align" value="false"/>
@@ -275,8 +299,32 @@
         <property key="save-temps" value="false"/>
       </C30Global>
       <item path="Map2023Bleue.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-CO>
+        </C30-CO>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <item path="Map2023Verte.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AR>
+        </C30-AR>
+        <C30-AS>
+        </C30-AS>
+        <C30-CO>
+        </C30-CO>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
       </item>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
@@ -395,7 +443,7 @@
         <property key="uart1io.uartioenabled" value="true"/>
         <property key="uart2io.output" value="window"/>
         <property key="uart2io.outputfile" value=""/>
-        <property key="uart2io.uartioenabled" value="false"/>
+        <property key="uart2io.uartioenabled" value="true"/>
         <property key="uart3io.output" value="window"/>
         <property key="uart3io.outputfile" value=""/>
         <property key="uart3io.uartioenabled" value="false"/>
@@ -936,7 +984,7 @@
         <property key="uart1io.uartioenabled" value="true"/>
         <property key="uart2io.output" value="window"/>
         <property key="uart2io.outputfile" value=""/>
-        <property key="uart2io.uartioenabled" value="false"/>
+        <property key="uart2io.uartioenabled" value="true"/>
         <property key="uart3io.output" value="window"/>
         <property key="uart3io.outputfile" value=""/>
         <property key="uart3io.uartioenabled" value="false"/>

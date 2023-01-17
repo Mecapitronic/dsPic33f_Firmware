@@ -24,12 +24,7 @@ volatile char U1_data;
 /****************************************************************************************
  * Interrupt UART1
  ****************************************************************************************/
-#ifdef _USRDLL
-#define Interrupt_UART1  _U1RXInterrupt
-#else
-#define Interrupt_UART1  __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt
-#endif
-void Interrupt_UART1(void)
+void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void)
 {
 	if (IEC0bits.U1RXIE)
 	{
@@ -40,7 +35,7 @@ void Interrupt_UART1(void)
 			U1_data = U1RXREG;
 			Get_Data_UART1(U1_data);
 
-#ifdef _USRDLL
+#ifdef _VISUAL_STUDIO
 			U1STAbits.URXDA = 0;
 #endif
 		}
@@ -91,7 +86,7 @@ void Write_UART1(uint16 data)
 		U1TXREG = data;
 	else
 		U1TXREG = data & 0xFF;
-#ifdef _USRDLL
+#ifdef _VISUAL_STUDIO
 	U1STAbits.TRMT = 0;
 #endif
 }

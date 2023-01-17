@@ -14,9 +14,7 @@
 /****************************************************************************************
 * Bits de configuration
 ****************************************************************************************/
-#ifdef _USRDLL
-int32 SHARP[8] = { 700 };
-#else
+#ifndef _VISUAL_STUDIO
 _FOSCSEL( FNOSC_PRIPLL & IESO_OFF )
 // Primary oscillator (XT, HS, EC) w/ PLL
 // Start-up device with user-selected oscillator source

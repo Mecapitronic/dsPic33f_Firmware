@@ -24,12 +24,7 @@ boolean U2_start = FALSE;
 /****************************************************************************************
  * Interrupt UART2 RX
  ****************************************************************************************/
-#ifdef _USRDLL
-#define Interrupt_UART2  _U2RXInterrupt
-#else
-#define Interrupt_UART2  __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt
-#endif
-void Interrupt_UART2(void)
+void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
 {
   //while (U2STAbits.URXDA) // RX buffer has data
   {
@@ -61,12 +56,7 @@ void Interrupt_UART2(void)
 /****************************************************************************************
  * Interrupt UART2 Error
  ****************************************************************************************/
-#ifdef _USRDLL
-#define Interrupt_UART2_Error  _U2ErrInterrupt
-#else
-#define Interrupt_UART2_Error  __attribute__((__interrupt__, no_auto_psv)) _U2ErrInterrupt
-#endif
-void Interrupt_UART2_Error(void)
+void __attribute__((__interrupt__, no_auto_psv)) _U2ErrInterrupt(void)
 {
   U2_start = FALSE;
   U2STAbits.PERR = 0;

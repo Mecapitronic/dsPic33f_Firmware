@@ -34,7 +34,7 @@
 * Prototypes fonctions
 ****************************************************************************************/
 // Read an ADC channel
-unsigned int ADC_Read(unsigned int);
+uint16 ADC_Read(unsigned int);
 
 
 #endif /* ADC_MODULE_H */

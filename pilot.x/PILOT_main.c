@@ -27,13 +27,7 @@ uint8 team = TEAM_A;
 /****************************************************************************************
  * Routine Principale
  ****************************************************************************************/
-#ifdef _USRDLL
-	#define _MAIN_ int PILOT(void)
-#else
-	#define _MAIN_ int main(void)
-#endif
-
-_MAIN_
+_PILOT_
 {
   current_time = 0;
   Setup_Hardware();

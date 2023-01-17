@@ -30,22 +30,22 @@
 ****************************************************************************************/
 // UART1
 void Initialize_UART1(void);
-void Write_UART1(unsigned int data);
-void Write_String_UART1(const char * s);//for strings
-void Write_Float_UART1(float number, int afterpoint);
+void Write_UART1(uint16 data);
+void Write_String_UART1(const char * s);
+void Write_Float_UART1(float number, int32 afterpoint);
 void Write_Int_UART1(int32 number);
 void Update_UART1(void);
 void Get_Data_UART1(char str);
 void Analyse_Data_UART1(void);
 
-void reverse(char *str, int len);
-int intToStr(int x, char str[], int d);
-void ftoa(float n, char *res, int afterpoint);
+void reverse(char *str, int32 len);
+int32 intToStr(int32 x, char str[], int32 d);
+void ftoa(float n, char *res, int32 afterpoint);
 
 
 void Afficher_UART(uint8 ligne);
 
-#ifdef _USRDLL
+#ifdef _VISUAL_STUDIO
 void _U1RXInterrupt(void);
 #endif
 

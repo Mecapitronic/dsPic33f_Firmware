@@ -2,9 +2,8 @@
 * dsPIC33FJ128MC804 processor header MODIFIED
 *-------------------------------------------------------------------------*/
 
-
-#ifndef ____33FJ128MC804__H
-#define ____33FJ128MC804__H
+#ifndef __33FJ128MC804_H
+#define __33FJ128MC804_H
 
  volatile unsigned int  WREG0 ;
  volatile unsigned int  WREG1 ;

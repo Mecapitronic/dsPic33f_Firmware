@@ -19,13 +19,7 @@ uint8 index = 0;
 /****************************************************************************************
  * Interrupt Handle: I2C Module 1 (Slave Mode)
  ****************************************************************************************/
-#ifdef _USRDLL
-#define interruption_SI2C1 _SI2C1Interrupt
-#else
-#define interruption_SI2C1 __attribute__((__interrupt__, no_auto_psv)) _SI2C1Interrupt
-#endif
-
-void interruption_SI2C1(void)
+void __attribute__((__interrupt__, no_auto_psv)) _SI2C1Interrupt(void)
 {
   uint8 data = 0;
   

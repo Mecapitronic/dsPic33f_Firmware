@@ -1,11 +1,5 @@
 /********** INCLUDE *********/
 #include "Firmware.h"
-#ifndef _WINDLL
-#include <iostream>
-#endif
-//#define _CRT_SECURE_NO_WARNINGS
-#pragma comment(lib, "winmm.lib")
-#pragma comment( user, "Compiled on " __DATE__ " at " __TIME__ )
 
 /********** VARIABLES *******/
 vector<string> messageUartTX;
@@ -24,12 +18,14 @@ bool arret = false;
 t_vertex INVALID_VERTEX = {0};
 t_circle INVALID_CIRCLE = {0};
 t_segment INVALID_SEGMENT = {0};
-CSerial serial;
+//CSerial serial;
 
 /********** METHODS *********/
-#ifndef _WINDLL
-#define myprintf printf
-#else
+#ifdef _WINDLL
+void __cdecl myprintf(string str)
+{
+	OutputDebugString(str.c_str());
+}
 void __cdecl myprintf(const char* format, ...)
 {
 	char    buf[4096], * p = buf;
@@ -51,7 +47,8 @@ void __cdecl myprintf(const char* format, ...)
 
 	OutputDebugString(buf);
 }
-
+#else
+	#define myprintf cout<<
 #endif
 
 void timerSleep(double seconds) {
@@ -92,11 +89,6 @@ void timerSleep(double seconds) {
 void MessageUart(int index, char* strBuffer)
 {
 	strcpy(strBuffer, messageUartTX[index].c_str());
-}
-void getText(char* strBuffer)
-{
-	static char* sTest = "Test My String";
-	strcpy(strBuffer, sTest);
 }
 void GetLCDText(int line, char* strBuffer)
 {
@@ -207,7 +199,7 @@ int32 CurrentAction(int index, char* strBuffer)
 	strcpy(strBuffer, str.c_str());
 	return current_action;
 }
-void Send_UART(char* strBuffer)
+void Send_UART(const char* strBuffer)
 {
 	messageUartRX[indexLecture] = strBuffer;
 	//int nBytesSent = serial.SendData(message.c_str(), strlen(message.c_str()));
@@ -215,7 +207,6 @@ void Send_UART(char* strBuffer)
 	if (indexLecture >= 100)
 		indexLecture = 0;
 	myprintf(strBuffer);
-	
 }
 
 /********** THREAD INTERRUPTION dsPIC ******/
@@ -228,7 +219,7 @@ static void * thread_Interruption_1(void * p_data)
 	while (!arret)
 	{
 		//start = chrono::high_resolution_clock::now();
-		Interruption_PRIMAIRE();
+		TIMER_PRIMAIRE_INT();
 		INFO_ARM_BUSY = !INFO_ARM_BUSY;
 		timerSleep(0.005);
 		//end = chrono::high_resolution_clock::now();
@@ -246,7 +237,7 @@ static void * thread_Interruption_2(void * p_data)
 	while (!arret)
 	{
 		//start = chrono::high_resolution_clock::now();
-		Interruption_SECONDAIRE();
+		TIMER_SECONDAIRE_INT();
 		timerSleep(0.025); timerSleep(0.025);
 		//end = chrono::high_resolution_clock::now();
 		//myprintf("interruption 2: %0.3f ms\n", (end - start).count() / 1e6);
@@ -279,11 +270,11 @@ static void * thread_uart_TX(void * p_data)
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	myprintf("Start thread Uart TX\n");
 	//if (serial.Open(1, 125000))
-	{
-		myprintf("Port opened successfully");
-	}
+	//{
+	//	myprintf("Port opened successfully");
+	//}
 	//else
-		myprintf("Failed to open port!");
+	//	myprintf("Failed to open port!");
 
 	U1STAbits.TRMT = 1;
 	string message = "";
@@ -297,14 +288,12 @@ static void * thread_uart_TX(void * p_data)
 			if (U1TXREG == 10)
 			{
 				messageUartTX[indexEcriture] = message;
+				//myprintf(message);
 				//int nBytesSent = serial.SendData(message.c_str(), strlen(message.c_str()));
 				indexEcriture++;
 				if (indexEcriture >= 100)
 					indexEcriture = 0;
 				message = "";
-#ifndef _WINDLL
-				Send_UART("S49;1498;1498;1498;1498;1498;1498;950;950;1498;1498;");
-#endif
 			}
 			U1STAbits.TRMT = 1;
 		}
@@ -338,7 +327,7 @@ static void * thread_uart_RX(void * p_data)
 			message = "";
 		}
 	}
-	U1STAbits.URXDA == 0;
+	U1STAbits.URXDA = 0;
 
 	myprintf("End thread Uart RX\n");
 	return NULL;
@@ -382,11 +371,8 @@ void AbortFirmware(void)
 	}
 }
 
-#ifdef _WINDLL
 int Firmware(void)
-#else
-int main(void)
-#endif
+
 {
 	int ret = 0;
 
@@ -463,8 +449,17 @@ int main(void)
 	}
 
 #ifndef _WINDLL
-	char start = cin.get();
+	myprintf("Press any KEY to start the PILOT\n");
+	string in;
+	cin >> in;
 	PORTBbits.RB7 = 1;
+	myprintf("PILOT STARTING !\n");
+	while (in != "exit")
+	{
+		cin >> in;
+		Send_UART(in.c_str()+'\n');
+	}
+	AbortFirmware();
 #endif
 	ret = pthread_join(pthread_PILOT, NULL);
 	AbortFirmware();

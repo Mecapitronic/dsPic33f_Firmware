@@ -37,4 +37,9 @@ void Reset_Distance_LIDAR(void);
 
 void Set_LIDAR(uint8 sensorID, uint16 distance);
 
+#ifdef _VISUAL_STUDIO
+void _U2RXInterrupt(void);
+void _U2ErrInterrupt(void);
+#endif
+
 #endif
