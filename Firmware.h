@@ -52,19 +52,17 @@ extern "C"
 
 	dll void GetLCDText(int line, char* strBuffer);
 
-	dll void Update_Passability(int x, int y);
 	dll boolean Get_PIN_1(void);
 	dll void Set_PIN_1(boolean state);
-	dll boolean Get_SELECT(void);
-	dll void Set_SELECT(boolean state);
-	dll boolean Get_START(void);
-	dll void Set_START(boolean state);
-	dll void SetSharp(int32 ID, int32 distance);
-	dll void Send_UART(const char* strBuffer);
-	dll t_robot Get_Robot(void);
+	dll boolean GetSelectPin(void);
+	dll void SetSelectPin(boolean state);
+	dll boolean GetStartPin(void);
+	dll void SetStartPin(boolean state);
+	dll void SendUART(const char* strBuffer);
+	dll t_robot GetRobot(void);
 
-	dll int32 CurrentTime(void);
-	dll int32 CurrentAction(int index, char* strBuffer);
+	dll int32 GetTime(void);
+	dll int32 GetCurrentAction(void);
 
 }
 

@@ -141,35 +141,19 @@ void InitMap()
 	Initialize_Passability_Graph();
 }
 
-void Update_Passability(int x, int y)
-{
-	robot.mm.x = x;
-	robot.mm.y = y;
-
-	Update_Passability_Robot();
-}
-
-boolean Get_PIN_1(void)
-{
-	return PIN_1;
-}
-void Set_PIN_1(boolean state)
-{
-	PIN_1 = state;
-}
-boolean Get_SELECT(void)
+boolean GetSelectPin(void)
 {
 	return SELECT;
 }
-void Set_SELECT(boolean state)
+void SetSelectPin(boolean state)
 {
 	SELECT = state;
 }
-boolean Get_START(void)
+boolean GetStartPin(void)
 {
 	return START_PILOT;
 }
-void Set_START(boolean state)
+void SetStartPin(boolean state)
 {
 	START_PILOT = state;
 }
@@ -181,25 +165,19 @@ void InitDsPIC(void)
 	START_PILOT = 0;
 	PORTBbits.RB9 = 0;
 }
-void SetSharp(int32 ID, int32 distance)
-{
-	//SHARP[ID] = distance;
-}
-t_robot Get_Robot()
+t_robot GetRobot()
 {
 	return robot;
 }
-int32 CurrentTime()
+int32 GetTime()
 {
 	return current_time;
 }
-int32 CurrentAction(int index, char* strBuffer)
+int32 GetCurrentAction(void)
 {
-	string str = "Action Pilot";
-	strcpy(strBuffer, str.c_str());
 	return current_action;
 }
-void Send_UART(const char* strBuffer)
+void SendUART(const char* strBuffer)
 {
 	messageUartRX[indexLecture] = strBuffer;
 	//int nBytesSent = serial.SendData(message.c_str(), strlen(message.c_str()));
@@ -457,7 +435,7 @@ int Firmware(void)
 	while (in != "exit")
 	{
 		cin >> in;
-		Send_UART(in.c_str()+'\n');
+		SendUART(in.c_str()+'\n');
 	}
 	AbortFirmware();
 #endif
