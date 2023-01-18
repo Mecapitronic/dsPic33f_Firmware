@@ -15,9 +15,9 @@ pthread_t pthread_uart_TX;
 pthread_t pthread_uart_RX;
 
 bool arret = false;
-t_vertex INVALID_VERTEX = {0};
-t_circle INVALID_CIRCLE = {0};
-t_segment INVALID_SEGMENT = {0};
+t_vertex INVALID_VERTEX = { 0 };
+t_circle INVALID_CIRCLE = { 0 };
+t_segment INVALID_SEGMENT = { 0 };
 //CSerial serial;
 
 /********** METHODS *********/
@@ -48,18 +48,18 @@ void __cdecl myprintf(const char* format, ...)
 	OutputDebugString(buf);
 }
 #else
-	#define myprintf cout<<
+#define myprintf cout<<
 #endif
 
 void timerSleep(double seconds) {
 	using namespace std::chrono;
-	
+
 	static HANDLE timer = CreateWaitableTimer(NULL, FALSE, NULL);
 	static double estimate = 5e-3;
 	static double mean = 5e-3;
 	static double m2 = 0;
 	static int64_t count = 1;
-	
+
 	while (seconds - estimate > 1e-7) {
 		double toWait = seconds - estimate;
 		LARGE_INTEGER due;
@@ -101,35 +101,35 @@ int IndexUart()
 
 t_vertex GetVertex(int index)
 {
-	if(index>=0 && index <MAX_VERTEX)
+	if (index >= 0 && index < MAX_VERTEX)
 		return vertex[index];
 	else
 		return INVALID_VERTEX;
 }
 t_circle GetCircle(int index)
 {
-	if(index>=0 && index <MAX_CIRCLE)
+	if (index >= 0 && index < MAX_CIRCLE)
 		return circle[index];
 	else
 		return INVALID_CIRCLE;
 }
 t_segment GetSegment(int index)
 {
-	if(index>=0 && index <MAX_SEGMENT)
+	if (index >= 0 && index < MAX_SEGMENT)
 		return segment[index];
 	else
 		return INVALID_SEGMENT;
 }
 t_circle GetObstacle(int index)
 {
-	if(index>=0 && index <MAX_OBSTACLE)
+	if (index >= 0 && index < MAX_OBSTACLE)
 		return obstacle[index];
 	else
 		return INVALID_CIRCLE;
 }
 t_circle GetFalseObstacle(int index)
 {
-	if(index>=0 && index <MAX_FALSE_OBSTACLE)
+	if (index >= 0 && index < MAX_FALSE_OBSTACLE)
 		return false_obstacle[index];
 	else
 		return INVALID_CIRCLE;
@@ -210,10 +210,10 @@ void Send_UART(const char* strBuffer)
 }
 
 /********** THREAD INTERRUPTION dsPIC ******/
-static void * thread_Interruption_1(void * p_data)
+static void* thread_Interruption_1(void* p_data)
 {
 	//chrono::steady_clock::time_point  start, end;
-	
+
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	myprintf("Start thread Interruption 1\n");
 	while (!arret)
@@ -228,7 +228,7 @@ static void * thread_Interruption_1(void * p_data)
 	myprintf("End thread Interruption 1\n");
 	return NULL;
 }
-static void * thread_Interruption_2(void * p_data)
+static void* thread_Interruption_2(void* p_data)
 {
 	//chrono::steady_clock::time_point start, end;
 
@@ -245,19 +245,19 @@ static void * thread_Interruption_2(void * p_data)
 	myprintf("End thread Interruption 2\n");
 	return NULL;
 }
-static void * thread_Interruption_RX(void * p_data)
+static void* thread_Interruption_RX(void* p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	myprintf("Start thread Interruption Uart RX\n");
 	while (!arret)
 	{
 		_U1RXInterrupt();
-		myprintf("Message received");
+		//myprintf("Message received");
 	}
 	myprintf("End thread Interruption Uart RX \n");
 	return NULL;
 }
-static void * thread_PILOT(void * p_data)
+static void* thread_PILOT(void* p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	int ret = PILOT();
@@ -265,7 +265,7 @@ static void * thread_PILOT(void * p_data)
 	myprintf("End thread PILOT\n");
 	return NULL;
 }
-static void * thread_uart_TX(void * p_data)
+static void* thread_uart_TX(void* p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	myprintf("Start thread Uart TX\n");
@@ -281,7 +281,7 @@ static void * thread_uart_TX(void * p_data)
 	indexEcriture = 0;
 	while (!arret)
 	{
-		while (U1STAbits.TRMT == 1 && !arret){/*Sleep(10);*/};
+		while (U1STAbits.TRMT == 1 && !arret) { timerSleep(0.002); }
 		if (!arret)
 		{
 			message += U1TXREG;
@@ -301,7 +301,7 @@ static void * thread_uart_TX(void * p_data)
 	myprintf("End thread Uart TX\n");
 	return NULL;
 }
-static void * thread_uart_RX(void * p_data)
+static void* thread_uart_RX(void* p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	myprintf("Start thread Uart RX\n");
@@ -310,20 +310,22 @@ static void * thread_uart_RX(void * p_data)
 	string message = "";
 	while (!arret)
 	{
-		while ((indexLecture != indexLecture2) && !arret)
+		while (indexLecture == indexLecture2 && !arret) { timerSleep(0.002); }
+		if (!arret)
 		{
+
 			message = messageUartRX[indexLecture2];
 			indexLecture2++;
 			if (indexLecture2 >= 100)
 				indexLecture2 = 0;
 			while (message != "" && !arret)
 			{
-				while(U1STAbits.URXDA == 1 && !arret);
-				U1RXREG=message.at(0);
+				while (U1STAbits.URXDA == 1 && !arret);
+				U1RXREG = message.at(0);
 				message.erase(0, 1);
 				U1STAbits.URXDA = 1;
 			}
-			myprintf("Message sended");
+			//myprintf("Message sended");
 			message = "";
 		}
 	}
@@ -391,7 +393,7 @@ int Firmware(void)
 
 	arret = false;
 	//Lancement des thread Interruption primaire et secondaire et pilot et UART reception/transmission
-	
+
 	ret = pthread_create(&pthread_uart_RX, NULL, thread_uart_RX, NULL);
 	pthread_setname_np(pthread_uart_RX, "uart_RX");
 	if (!ret)
@@ -457,7 +459,7 @@ int Firmware(void)
 	while (in != "exit")
 	{
 		cin >> in;
-		Send_UART(in.c_str()+'\n');
+		Send_UART(in.c_str() + '\n');
 	}
 	AbortFirmware();
 #endif

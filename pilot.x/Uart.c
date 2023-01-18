@@ -64,6 +64,7 @@ void Initialize_UART1(void)
 	U1STA &= 0xfffc;
 	U1MODEbits.UARTEN = 1; // Enable UART
 	U1STAbits.UTXEN = 1;
+	U1STAbits.URXDA = 0; //empty buffer
 
 	for (int32 i = 0; i < U1RX_SIZE; i++)
 	{
@@ -135,7 +136,7 @@ void Update_UART1(void)
 	Write_UART1(';');
 	Write_Float_UART1(RAD_TO_DEG(robot.rad), 0);
 	Write_UART1(';');
-
+	/*
 	// Robot Start/End path
 	Write_Int_UART1(vertex[0].point.x);
 	Write_UART1(',');
@@ -145,7 +146,7 @@ void Update_UART1(void)
 	Write_UART1(',');
 	Write_Int_UART1(vertex[Get_End_Vertex()].point.y);
 	Write_UART1(';');
-
+	
 	// Robot Lidar
 	Write_Int_UART1(Get_Distance_LIDAR(0));
 	for (int32 i = 1; i < 10; i++)
@@ -173,7 +174,7 @@ void Update_UART1(void)
 		y = vertex[pos].point.y;
 		Write_Int_UART1(y);
 	}
-
+	*/
 	Write_UART1(10); //10 = Line feed ; 13 = Carriage return
 
 }
