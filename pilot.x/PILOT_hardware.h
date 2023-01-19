@@ -89,7 +89,7 @@
 #define COMMAND_PUT_RIGHT   PIN_3   // out
 #define COMMAND_TURN        PIN_2   // out
 #define INFO_ARM_BUSY       PIN_1   // INPUT 5V 
-#define FREE_PIN_44         PIN_44  // out
+#define MODE_TEST           PIN_44  // input
 #define START_PILOT         PIN_43  // input
 #define COLOR_TEAM          PIN_42  // out
 // Configurer les pins
@@ -104,9 +104,9 @@
 #undef PIN_1
 #define PIN_1   PORTBbits.RB9   // ordre du bras
 #undef PIN_44
-#define PIN_44  LATBbits.LATB8
+#define PIN_44  PORTBbits.RB8   // ordre du copilot
 #undef PIN_43
-#define PIN_43  PORTBbits.RB7    // ordre du copilot
+#define PIN_43  PORTBbits.RB7   // ordre du copilot
 #undef PIN_42
 #define PIN_42  LATBbits.LATB6
 // macro setup
@@ -115,7 +115,7 @@
 #define Setup_Pin_3()   {TRISCbits.TRISC7 = 0;}
 #define Setup_Pin_2()   {TRISCbits.TRISC6 = 0;}
 #define Setup_Pin_1()   {TRISBbits.TRISB9 = 1;} // in
-#define Setup_Pin_44()  {TRISBbits.TRISB8 = 0;}
+#define Setup_Pin_44()  {TRISBbits.TRISB8 = 1;} // in
 #define Setup_Pin_43()  {TRISBbits.TRISB7 = 1;} // in 
 #define Setup_Pin_42()  {TRISBbits.TRISB6 = 0;}
 /****************************************************************************************

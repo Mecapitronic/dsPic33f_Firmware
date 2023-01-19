@@ -114,5 +114,15 @@ typedef struct {
 } t_action;
 
 
-#endif	/* STRUCTURE_H */
+/****************************************************************************************
+* UART COMMAND
+****************************************************************************************/
+typedef struct {
+	char cmd;
+	t_vertexID actionID;
+	t_vertexID vertexID;
+	//boolean available;
+	t_point point;
+} t_uartCMD;
 
+#endif	/* STRUCTURE_H */

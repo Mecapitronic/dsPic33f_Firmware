@@ -157,13 +157,21 @@ void SetStartPin(boolean state)
 {
 	START_PILOT = state;
 }
+boolean GetModePin(void)
+{
+	return MODE_TEST;
+}
+void SetModePin(boolean state)
+{
+	MODE_TEST = state;
+}
 void InitDsPIC(void)
 {
 	IEC0bits.T2IE = 0;
 	IEC1bits.T4IE = 0;
 	SELECT = 0;
 	START_PILOT = 0;
-	PORTBbits.RB9 = 0;
+	MODE_TEST = 0;
 }
 t_robot GetRobot()
 {
@@ -430,8 +438,9 @@ int Firmware(void)
 	myprintf("Press any KEY to start the PILOT\n");
 	string in;
 	cin >> in;
-	PORTBbits.RB7 = 1;
-	myprintf("PILOT STARTING !\n");
+	SetModePin(true);
+	SetStartPin(true);
+	myprintf("PILOT STARTING WITH MODE TEST !\n");
 	while (in != "exit")
 	{
 		cin >> in;

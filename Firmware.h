@@ -51,13 +51,13 @@ extern "C"
 	dll t_circle GetFalseObstacle(int index);
 
 	dll void GetLCDText(int line, char* strBuffer);
-
-	dll boolean Get_PIN_1(void);
-	dll void Set_PIN_1(boolean state);
+	
 	dll boolean GetSelectPin(void);
 	dll void SetSelectPin(boolean state);
 	dll boolean GetStartPin(void);
 	dll void SetStartPin(boolean state);
+	dll boolean GetModePin(void);
+	dll void SetModePin(boolean state);
 	dll void SendUART(const char* strBuffer);
 	dll t_robot GetRobot(void);
 
