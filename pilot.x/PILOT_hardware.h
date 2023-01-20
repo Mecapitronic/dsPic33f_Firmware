@@ -24,7 +24,7 @@
 /****************************************************************************************
 * Déclaration des pins pour pouvoir les renommer ensuite
 ****************************************************************************************/
-// pins synchro
+// pins synchro PILOT <-> COPILOT
 #define PIN_9   
 #define PIN_8
 #define PIN_3
@@ -33,7 +33,8 @@
 #define PIN_44
 #define PIN_43
 #define PIN_42
-// pin 19 à 27
+
+// pins libres 19 à 27
 #define PIN_19  
 #define PIN_20
 #define PIN_21  

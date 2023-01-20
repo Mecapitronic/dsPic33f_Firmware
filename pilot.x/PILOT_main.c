@@ -80,8 +80,50 @@ _PILOT_
 			uartCMDtmp = uartCMD;
 			if (uartCMD.cmd != '0')
 			{
-				uartCMD.cmd == '0';
-				//do stuff with uartCMDtmp
+				uartCMD.cmd = '0';
+				switch (uartCMDtmp.cmd)
+				{
+				case 'L':
+					break;
+				case 'A':
+				{
+					while (!Execute_Action(uartCMD.actionID));
+				}
+				case 'V':
+				{
+					Set_Timeout_Action(10000);
+					while (!TIMEOUT_ACTION || !Navigate_To_Vertex(uartCMD.vertexID, 10));
+				}
+				break;
+				case 'M':
+				{
+					t_point p;
+					p.x = uartCMDtmp.point.x;
+					p.y = uartCMDtmp.point.y;
+					
+					Rotate_To_Point(p, SPEED_ANG);
+					while (Wait_Trajectory());
+					uint32 distance = Get_Distance_Point(&robot.mm, &p);
+					Translate(distance, SPEED_LIN);
+					while (Wait_Trajectory());
+				}
+				break;
+				case 'N':
+				{
+					/*
+					Set_Timeout_Traj(15000);  // 15s
+
+					do
+					{
+						Go_To_Point(p, SPEED_LIN, SPEED_LIN);
+					} while ((Get_Distance_Vertex(0, Get_End_Vertex()) > 10) && !TIMEOUT_TRAJ);
+					*/
+				}
+				break;
+				default:
+
+					break;
+				}
 			}
 		}
 	}
