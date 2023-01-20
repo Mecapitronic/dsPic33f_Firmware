@@ -238,7 +238,7 @@ static void * thread_Interruption_RX(void * p_data)
 	while (!arret)
 	{
 		_U1RXInterrupt();
-		myprintf("Message received");
+		myprintf("Message received\n");
 	}
 	myprintf("End thread Interruption Uart RX \n");
 	return NULL;
@@ -309,7 +309,7 @@ static void * thread_uart_RX(void * p_data)
 				message.erase(0, 1);
 				U1STAbits.URXDA = 1;
 			}
-			myprintf("Message sended");
+			myprintf("Message sended\n");
 			message = "";
 		}
 	}
@@ -435,12 +435,17 @@ int Firmware(void)
 	}
 
 #ifndef _WINDLL
-	myprintf("Press any KEY to start the PILOT\n");
+	myprintf("Type 'start' to start the PILOT Match, or 'test' to enter test mode : \n");
 	string in;
 	cin >> in;
-	SetModePin(true);
+	myprintf("PILOT STARTING");
+	if (in == "TEST" || in == "Test" || in == "test")
+	{
+		SetModePin(true);
+		myprintf(" WITH MODE TEST");
+	}
+	myprintf(" !\n");
 	SetStartPin(true);
-	myprintf("PILOT STARTING WITH MODE TEST !\n");
 	while (in != "exit")
 	{
 		cin >> in;

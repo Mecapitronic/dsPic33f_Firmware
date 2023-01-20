@@ -39,7 +39,7 @@ _PILOT_
 	LCD_Line(3);
 	LCD_Text("Waiting start...", 20);
 
-	while(!START_PILOT || MODE_TEST)  // attente démarrage du copilot ou du passage en mode TEST
+	while(!START_PILOT)  // attente de démarrage du copilot
 	{
 		team = SELECT;
 		COLOR_TEAM = team;
@@ -47,6 +47,10 @@ _PILOT_
 		LCD_Text("Couleur ", 8);
 		if (team == TEAM_A) LCD_Text(LCD_TEAM_A,12);
 		else LCD_Text(LCD_TEAM_B,12);
+
+		LCD_Line(4);
+		if(MODE_TEST) LCD_Text("Mode Test", 10);
+		else LCD_Text("Mode Match!", 10);
 	}
 
 	if (team == TEAM_A)
