@@ -21,6 +21,7 @@ volatile boolean U1_start_trame;
 volatile int32 U1_byte_to_read;
 volatile char U1_data;
 t_uartCMD uartCMD;
+boolean send_ack = FALSE;
 
 /****************************************************************************************
  * Interrupt UART1
@@ -184,6 +185,12 @@ void Update_UART1(void)
 
 }
 
+void Send_UART1_ACK(void)
+{
+	Write_String_UART1("ACK;\n");
+	Write_UART1(10);
+}
+
 /****************************************************************************************
  * Get data received from UART1
  ****************************************************************************************/
@@ -192,6 +199,7 @@ void Get_Data_UART1(char str)
 	//First Char :
 	// L = Lidar	-90°{ d:]20, 1500[, ... } +90°
 	// A = Action		{ ID }
+	// V = Vertex		{ ID }
 	// M = Move			{ X, Y }
 	// N = Navigation	{ X, Y }
 
@@ -288,6 +296,7 @@ void Analyse_Data_UART1()
 		{
 			uartCMD.actionID = convert[0];
 			uartCMD.cmd = U1_trame[0];
+			send_ack = TRUE;
 		}
 	}
 	case 'V':
@@ -296,6 +305,7 @@ void Analyse_Data_UART1()
 		{
 			uartCMD.vertexID = convert[0];
 			uartCMD.cmd = U1_trame[0];
+			send_ack = TRUE;
 		}
 	}
 	break;
@@ -306,6 +316,7 @@ void Analyse_Data_UART1()
 			uartCMD.point.x = convert[0];
 			uartCMD.point.y = convert[1];
 			uartCMD.cmd = U1_trame[0];
+			send_ack = TRUE;
 		}
 	}
 	break;
@@ -316,6 +327,7 @@ void Analyse_Data_UART1()
 			uartCMD.point.x = convert[0];
 			uartCMD.point.y = convert[1];
 			uartCMD.cmd = U1_trame[0];
+			send_ack = TRUE;
 		}
 	}
 	break;

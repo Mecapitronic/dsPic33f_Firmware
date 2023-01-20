@@ -51,7 +51,12 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void)
 	{
 
 #ifdef UART1_ENABLE
-	Update_UART1();
+		if (send_ack)
+		{
+			send_ack = FALSE;
+			Send_UART1_ACK();
+		}
+		Update_UART1();
 #endif
 
 #ifdef SERIAL_PRINT
