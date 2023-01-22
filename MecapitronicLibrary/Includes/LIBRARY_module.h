@@ -91,6 +91,11 @@ typedef double float64; // about 16 decimal digits
 #define	NULL	   (0)
 #endif
 
+#define CMD_FREE		0
+#define CMD_BUSY		1
+#define CMD_DONE		2
+#define CMD_FAIL		3
+
 /****************************************************************************************
  * User Includes
  ****************************************************************************************/

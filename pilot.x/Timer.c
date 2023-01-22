@@ -53,8 +53,9 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void)
 #ifdef UART1_ENABLE
 		if (send_ack)
 		{
+			Update_UART1_ACK(send_ack_cmd);
+			send_ack_cmd = CMD_FREE;
 			send_ack = FALSE;
-			Send_UART1_ACK();
 		}
 		Update_UART1();
 #endif

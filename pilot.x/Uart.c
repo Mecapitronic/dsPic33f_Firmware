@@ -22,6 +22,7 @@ volatile int32 U1_byte_to_read;
 volatile char U1_data;
 t_uartCMD uartCMD;
 boolean send_ack = FALSE;
+uint8 send_ack_cmd = 0;
 
 /****************************************************************************************
  * Interrupt UART1
@@ -186,9 +187,16 @@ void Update_UART1(void)
 
 }
 
-void Send_UART1_ACK(void)
+void Send_UART1_ACK(uint8 ack)
 {
-	Write_String_UART1("ACK;\n");
+	send_ack = TRUE;
+	send_ack_cmd = ack;
+}
+
+void Update_UART1_ACK(uint8 ack)
+{
+	Write_String_UART1("ACK;");
+	Write_Int_UART1(ack);
 	Write_UART1(10);
 }
 
@@ -296,8 +304,7 @@ void Analyse_Data_UART1()
 		if (uartCMD.cmd == '0')
 		{
 			uartCMD.actionID = convert[0];
-			uartCMD.cmd = U1_trame[0];
-			send_ack = TRUE;
+			uartCMD.cmd = 'A';
 		}
 	}
 	case 'V':
@@ -305,8 +312,7 @@ void Analyse_Data_UART1()
 		if (uartCMD.cmd == '0')
 		{
 			uartCMD.vertexID = convert[0];
-			uartCMD.cmd = U1_trame[0];
-			send_ack = TRUE;
+			uartCMD.cmd = 'V';
 		}
 	}
 	break;
@@ -316,8 +322,7 @@ void Analyse_Data_UART1()
 		{
 			uartCMD.point.x = convert[0];
 			uartCMD.point.y = convert[1];
-			uartCMD.cmd = U1_trame[0];
-			send_ack = TRUE;
+			uartCMD.cmd = 'M';
 		}
 	}
 	break;
@@ -327,8 +332,7 @@ void Analyse_Data_UART1()
 		{
 			uartCMD.point.x = convert[0];
 			uartCMD.point.y = convert[1];
-			uartCMD.cmd = U1_trame[0];
-			send_ack = TRUE;
+			uartCMD.cmd = 'N';
 		}
 	}
 	break;

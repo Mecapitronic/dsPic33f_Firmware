@@ -35,6 +35,15 @@ _PILOT_
 	Sequence_Initiale();
 
 	LCD_Line(1);
+	LCD_Clear_Line();
+	LCD_Line(2);
+	LCD_Clear_Line();
+	LCD_Line(3);
+	LCD_Clear_Line();
+	LCD_Line(4);
+	LCD_Clear_Line();
+
+	LCD_Line(1);
 	LCD_Text("ROBOT MECAPITRONIC", 20);
 	LCD_Line(3);
 	LCD_Text("Waiting start...", 20);
@@ -72,40 +81,55 @@ _PILOT_
 	Set_Timer_Primaire(ON);
 	Set_Timer_Secondaire(ON);
 
-	t_uartCMD uartCMDtmp;
 	if (MODE_TEST)
 	{
 		while (FOREVER)
 		{
-			uartCMDtmp = uartCMD;
 			if (uartCMD.cmd != '0')
 			{
-				uartCMD.cmd = '0';
-				switch (uartCMDtmp.cmd)
+				switch (uartCMD.cmd)
 				{
 				case 'L':
 					break;
 				case 'A':
 				{
-					while (!Execute_Action(uartCMD.actionID));
+
+					Send_UART1_ACK(CMD_BUSY);
+					if (Execute_Action(uartCMD.actionID))
+					{
+						Send_UART1_ACK(CMD_DONE);
+					}
+					else 
+					{
+						Send_UART1_ACK(CMD_FAIL);
+					}
 				}
 				case 'V':
 				{
-					Set_Timeout_Action(10000);
-					while (!TIMEOUT_ACTION || !Navigate_To_Vertex(uartCMD.vertexID, 10));
+					Send_UART1_ACK(CMD_BUSY);
+					if (Navigate_To_Vertex(uartCMD.vertexID, 10))
+					{
+						Send_UART1_ACK(CMD_DONE);
+					}
+					else
+					{
+						Send_UART1_ACK(CMD_FAIL);
+					}
 				}
 				break;
 				case 'M':
 				{
+					Send_UART1_ACK(CMD_BUSY);
 					t_point p;
-					p.x = uartCMDtmp.point.x;
-					p.y = uartCMDtmp.point.y;
+					p.x = uartCMD.point.x;
+					p.y = uartCMD.point.y;
 					
 					Rotate_To_Point(p, SPEED_ANG);
 					while (Wait_Trajectory());
 					uint32 distance = Get_Distance_Point(&robot.mm, &p);
 					Translate(distance, SPEED_LIN);
 					while (Wait_Trajectory());
+					Send_UART1_ACK(CMD_DONE);
 				}
 				break;
 				case 'N':
@@ -124,6 +148,7 @@ _PILOT_
 
 					break;
 				}
+				uartCMD.cmd = '0';
 			}
 		}
 	}
