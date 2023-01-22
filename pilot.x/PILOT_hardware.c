@@ -50,6 +50,7 @@ void Setup_Hardware(void)
     Setup_Pin_24();
     Setup_Pin_25();
     Setup_Pin_26();
+
     Setup_Pin_9();
     Setup_Pin_8();
     Setup_Pin_3();
@@ -69,9 +70,8 @@ void Setup_Hardware(void)
     Setup_Odometry();
 
     ADC_On();
-#ifdef UART1_ENABLE
 	Initialize_UART1();
-#endif
+
 }
 
 /****************************************************************************************

@@ -141,37 +141,29 @@ void InitMap()
 	Initialize_Passability_Graph();
 }
 
-void Update_Passability(int x, int y)
-{
-	robot.mm.x = x;
-	robot.mm.y = y;
-
-	Update_Passability_Robot();
-}
-
-boolean Get_PIN_1(void)
-{
-	return PIN_1;
-}
-void Set_PIN_1(boolean state)
-{
-	PIN_1 = state;
-}
-boolean Get_SELECT(void)
+boolean GetSelectPin(void)
 {
 	return SELECT;
 }
-void Set_SELECT(boolean state)
+void SetSelectPin(boolean state)
 {
 	SELECT = state;
 }
-boolean Get_START(void)
+boolean GetStartPin(void)
 {
 	return START_PILOT;
 }
-void Set_START(boolean state)
+void SetStartPin(boolean state)
 {
 	START_PILOT = state;
+}
+boolean GetModePin(void)
+{
+	return MODE_TEST;
+}
+void SetModePin(boolean state)
+{
+	MODE_TEST = state;
 }
 void InitDsPIC(void)
 {
@@ -179,27 +171,21 @@ void InitDsPIC(void)
 	IEC1bits.T4IE = 0;
 	SELECT = 0;
 	START_PILOT = 0;
-	PORTBbits.RB9 = 0;
+	MODE_TEST = 0;
 }
-void SetSharp(int32 ID, int32 distance)
-{
-	//SHARP[ID] = distance;
-}
-t_robot Get_Robot()
+t_robot GetRobot()
 {
 	return robot;
 }
-int32 CurrentTime()
+int32 GetTime()
 {
 	return current_time;
 }
-int32 CurrentAction(int index, char* strBuffer)
+int32 GetCurrentAction(void)
 {
-	string str = "Action Pilot";
-	strcpy(strBuffer, str.c_str());
 	return current_action;
 }
-void Send_UART(const char* strBuffer)
+void SendUART(const char* strBuffer)
 {
 	messageUartRX[indexLecture] = strBuffer;
 	//int nBytesSent = serial.SendData(message.c_str(), strlen(message.c_str()));
@@ -451,11 +437,17 @@ int Firmware(void)
 	}
 
 #ifndef _WINDLL
-	myprintf("Press any KEY to start the PILOT\n");
+	myprintf("Type 'start' to start the PILOT Match, or 'test' to enter test mode : \n");
 	string in;
 	cin >> in;
-	PORTBbits.RB7 = 1;
-	myprintf("PILOT STARTING !\n");
+	myprintf("PILOT STARTING");
+	if (in == "TEST" || in == "Test" || in == "test")
+	{
+		SetModePin(true);
+		myprintf(" WITH MODE TEST");
+	}
+	myprintf(" !\n");
+	SetStartPin(true);
 	while (in != "exit")
 	{
 		cin >> in;

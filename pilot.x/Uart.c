@@ -6,20 +6,22 @@
  * Compilation : MPLAB X IDE (v3.45), compiler XC16 (v1.26) Lite
  ****************************************************************************************/
 
- /****************************************************************************************
-  * Includes
-  ****************************************************************************************/
+/****************************************************************************************
+* Includes
+****************************************************************************************/
 #include "Uart.h"
 
-  /****************************************************************************************
-   * Variables
-   ****************************************************************************************/
-   // UART1
+/****************************************************************************************
+* Variables
+****************************************************************************************/
+// UART1
 volatile char U1_trame[U1RX_SIZE];
 volatile int32 U1_cursor;
 volatile boolean U1_start_trame;
 volatile int32 U1_byte_to_read;
 volatile char U1_data;
+t_uartCMD uartCMD;
+boolean send_ack = FALSE;
 
 /****************************************************************************************
  * Interrupt UART1
@@ -74,6 +76,11 @@ void Initialize_UART1(void)
 	U1_start_trame = FALSE;
 	U1_byte_to_read = 0;
 
+	uartCMD.cmd = '0';
+	uartCMD.actionID = 0;
+	uartCMD.vertexID = 0;
+	uartCMD.point.x = 0;
+	uartCMD.point.y = 0;
 }
 
 
@@ -179,6 +186,12 @@ void Update_UART1(void)
 
 }
 
+void Send_UART1_ACK(void)
+{
+	Write_String_UART1("ACK;\n");
+	Write_UART1(10);
+}
+
 /****************************************************************************************
  * Get data received from UART1
  ****************************************************************************************/
@@ -187,6 +200,7 @@ void Get_Data_UART1(char str)
 	//First Char :
 	// L = Lidar	-90°{ d:]20, 1500[, ... } +90°
 	// A = Action		{ ID }
+	// V = Vertex		{ ID }
 	// M = Move			{ X, Y }
 	// N = Navigation	{ X, Y }
 
@@ -198,7 +212,7 @@ void Get_Data_UART1(char str)
 	// Every number is represented with 6 bytes and separated by a semi-colon ';'
 	//Exemple : A01;8    M11;123456;123456     L06;1234
 
-	if (!U1_start_trame && (str == 'L' || str == 'A' || str == 'M' || str == 'N'))
+	if (!U1_start_trame && (str == 'L' || str == 'A' || str == 'M' || str == 'N' || str == 'V'))
 	{
 		U1_start_trame = TRUE;
 		U1_cursor = 0;
@@ -279,19 +293,43 @@ void Analyse_Data_UART1()
 		break;
 	case 'A':
 	{
-		int32 id = convert[0];
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.actionID = convert[0];
+			uartCMD.cmd = U1_trame[0];
+			send_ack = TRUE;
+		}
+	}
+	case 'V':
+	{
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.vertexID = convert[0];
+			uartCMD.cmd = U1_trame[0];
+			send_ack = TRUE;
+		}
 	}
 	break;
 	case 'M':
 	{
-		int32 x = convert[0];
-		int32 y = convert[1];
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.point.x = convert[0];
+			uartCMD.point.y = convert[1];
+			uartCMD.cmd = U1_trame[0];
+			send_ack = TRUE;
+		}
 	}
 	break;
 	case 'N':
 	{
-		int32 x = convert[0];
-		int32 y = convert[1];
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.point.x = convert[0];
+			uartCMD.point.y = convert[1];
+			uartCMD.cmd = U1_trame[0];
+			send_ack = TRUE;
+		}
 	}
 	break;
 	default:

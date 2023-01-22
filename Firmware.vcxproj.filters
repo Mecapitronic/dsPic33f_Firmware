@@ -210,6 +210,12 @@
     <ClCompile Include="MecapitronicLibrary\Sources\ADC_module.c">
       <Filter>MecapitronicLibrary\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="pilot.x\Map2023Verte.c">
+      <Filter>Fichiers sources\PathPlanning</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Map2023Bleue.c">
+      <Filter>Fichiers sources\PathPlanning</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="pthreads\dll\pthreadVC3.dll">

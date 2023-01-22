@@ -57,6 +57,13 @@
     <ClCompile Include="pilot.x\I2C_message.c" />
     <ClCompile Include="pilot.x\Lidar.c" />
     <ClCompile Include="pilot.x\List.c" />
+    <ClCompile Include="pilot.x\Map2023Bleue.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Map2023Verte.c">
+      <FileType>CppCode</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="pilot.x\Mapping.c" />
     <ClCompile Include="pilot.x\Motor.c" />
     <ClCompile Include="pilot.x\Node.c" />
