@@ -43,7 +43,7 @@ void Write_Float_UART1(float number, int32 afterpoint);
 void Write_Int_UART1(int32 number);
 void Update_UART1(void);
 void Send_UART1_ACK(uint8 ack);
-void Get_Data_UART1(char str);
+void Process_Data_UART1(char str);
 void Analyse_Data_UART1(void);
 
 void reverse(char *str, int32 len);

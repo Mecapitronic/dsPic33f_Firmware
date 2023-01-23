@@ -31,17 +31,17 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void)
 {
 	if (IEC0bits.U1RXIE)
 	{
-		U1_data = '0';
-		while (U1_data != '\n')
+		//U1_data = '0';
+		//while (U1_data != '\n')
+		//{
+			//while (U1STAbits.URXDA == 0);
+		if (U1STAbits.URXDA == 1)
 		{
-			while (U1STAbits.URXDA == 0);
 			U1_data = U1RXREG;
-			Get_Data_UART1(U1_data);
-
-#ifdef _VISUAL_STUDIO
-			U1STAbits.URXDA = 0;
-#endif
+			Process_Data_UART1(U1_data);
 		}
+
+		//}
 		IFS0bits.U1RXIF = 0;
 	}
 }
@@ -201,9 +201,9 @@ void Update_UART1_ACK(uint8 ack)
 }
 
 /****************************************************************************************
- * Get data received from UART1
+ * Process data received from UART1
  ****************************************************************************************/
-void Get_Data_UART1(char str)
+void Process_Data_UART1(char str)
 {
 	//First Char :
 	// L = Lidar	-90°{ d:]20, 1500[, ... } +90°

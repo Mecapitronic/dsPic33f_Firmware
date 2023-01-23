@@ -184,7 +184,7 @@ _PILOT_
 		//  }
 
 		// Do not restart the main
-		while (FOREVER) Display();
+		while (FOREVER);
 
 		return 1;
 			}

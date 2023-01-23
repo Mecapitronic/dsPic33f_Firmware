@@ -8,11 +8,8 @@ int indexEcriture;
 int indexLecture;
 //http://franckh.developpez.com/tutoriels/posix/pthreads/
 pthread_t pthread_PILOT;
-pthread_t pthread_Interruption_1;
-pthread_t pthread_Interruption_2;
-pthread_t pthread_Interruption_RX;
-pthread_t pthread_uart_TX;
-pthread_t pthread_uart_RX;
+pthread_t pthread_Interruption;
+pthread_t pthread_uart;
 
 bool arret = false;
 t_vertex INVALID_VERTEX = { 0 };
@@ -165,14 +162,6 @@ void SetModePin(boolean state)
 {
 	MODE_TEST = state;
 }
-void InitDsPIC(void)
-{
-	IEC0bits.T2IE = 0;
-	IEC1bits.T4IE = 0;
-	SELECT = 0;
-	START_PILOT = 0;
-	MODE_TEST = 0;
-}
 t_robot GetRobot()
 {
 	return robot;
@@ -196,53 +185,31 @@ void SendUART(const char* strBuffer)
 }
 
 /********** THREAD INTERRUPTION dsPIC ******/
-static void* thread_Interruption_1(void* p_data)
+static void* thread_Interruption(void* p_data)
 {
 	//chrono::steady_clock::time_point  start, end;
 
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	myprintf("Start thread Interruption 1\n");
+	myprintf("Start thread Interruption\n");
+	int i = 0;
 	while (!arret)
 	{
 		//start = chrono::high_resolution_clock::now();
 		TIMER_PRIMAIRE_INT();
-		INFO_ARM_BUSY = !INFO_ARM_BUSY;
+		i += PERIOD_MS;
+		if (i >= 50)
+		{
+			i = 0;
+			TIMER_SECONDAIRE_INT();
+		}
 		timerSleep(0.005);
 		//end = chrono::high_resolution_clock::now();
 		//myprintf("interruption 1: %0.3f ms, current_time: %d ms\n", (end - start).count() / 1e6, current_time);
 	}
-	myprintf("End thread Interruption 1\n");
+	myprintf("End thread Interruption\n");
 	return NULL;
 }
-static void* thread_Interruption_2(void* p_data)
-{
-	//chrono::steady_clock::time_point start, end;
 
-	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	myprintf("Start thread Interruption 2\n");
-	while (!arret)
-	{
-		//start = chrono::high_resolution_clock::now();
-		TIMER_SECONDAIRE_INT();
-		timerSleep(0.025); timerSleep(0.025);
-		//end = chrono::high_resolution_clock::now();
-		//myprintf("interruption 2: %0.3f ms\n", (end - start).count() / 1e6);
-	}
-	myprintf("End thread Interruption 2\n");
-	return NULL;
-}
-static void* thread_Interruption_RX(void* p_data)
-{
-	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	myprintf("Start thread Interruption Uart RX\n");
-	while (!arret)
-	{
-		_U1RXInterrupt();
-		//myprintf("Message received");
-	}
-	myprintf("End thread Interruption Uart RX \n");
-	return NULL;
-}
 static void* thread_PILOT(void* p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
@@ -251,73 +218,53 @@ static void* thread_PILOT(void* p_data)
 	myprintf("End thread PILOT\n");
 	return NULL;
 }
-static void* thread_uart_TX(void* p_data)
+
+static void* thread_uart(void* p_data)
 {
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	myprintf("Start thread Uart TX\n");
-	//if (serial.Open(1, 125000))
-	//{
-	//	myprintf("Port opened successfully");
-	//}
-	//else
-	//	myprintf("Failed to open port!");
-
+	myprintf("Start thread Uart\n");
 	U1STAbits.TRMT = 1;
-	string message = "";
+	U1STAbits.URXDA = 0;
 	indexEcriture = 0;
+	indexLecture = 0;
+	int indexLecture2 = 0;
+	string messageRX = "";
+	string messageTX = "";
 	while (!arret)
 	{
-		while (U1STAbits.TRMT == 1 && !arret) { timerSleep(0.002); }
-		if (!arret)
+		if (indexLecture != indexLecture2)
 		{
-			message += U1TXREG;
+			messageRX = messageUartRX[indexLecture2];
+			indexLecture2++;
+			if (indexLecture2 >= 100)
+				indexLecture2 = 0;
+			while (messageRX != "" && !arret)
+			{
+				U1RXREG = messageRX.at(0);
+				messageRX.erase(0, 1);
+				U1STAbits.URXDA = 1;
+				_U1RXInterrupt();
+				U1STAbits.URXDA = 0;
+			}
+			messageRX = "";
+		}
+
+		if (U1STAbits.TRMT == 0)
+		{
+			messageTX += U1TXREG;
 			if (U1TXREG == 10)
 			{
-				messageUartTX[indexEcriture] = message;
-				//myprintf(message);
-				//int nBytesSent = serial.SendData(message.c_str(), strlen(message.c_str()));
+				messageUartTX[indexEcriture] = messageTX;
 				indexEcriture++;
 				if (indexEcriture >= 100)
 					indexEcriture = 0;
-				message = "";
+				messageTX = "";
 			}
 			U1STAbits.TRMT = 1;
 		}
 	}
-	myprintf("End thread Uart TX\n");
-	return NULL;
-}
-static void* thread_uart_RX(void* p_data)
-{
-	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-	myprintf("Start thread Uart RX\n");
-	indexLecture = 0;
-	int indexLecture2 = 0;
-	string message = "";
-	while (!arret)
-	{
-		while (indexLecture == indexLecture2 && !arret) { timerSleep(0.002); }
-		if (!arret)
-		{
 
-			message = messageUartRX[indexLecture2];
-			indexLecture2++;
-			if (indexLecture2 >= 100)
-				indexLecture2 = 0;
-			while (message != "" && !arret)
-			{
-				while (U1STAbits.URXDA == 1 && !arret);
-				U1RXREG = message.at(0);
-				message.erase(0, 1);
-				U1STAbits.URXDA = 1;
-			}
-			//myprintf("Message sended");
-			message = "";
-		}
-	}
-	U1STAbits.URXDA = 0;
-
-	myprintf("End thread Uart RX\n");
+	myprintf("End thread Uart\n");
 	return NULL;
 }
 void AbortFirmware(void)
@@ -332,36 +279,26 @@ void AbortFirmware(void)
 		{
 			arret = true;
 
-			ret = pthread_cancel(pthread_Interruption_1);
+			ret = pthread_cancel(pthread_Interruption);
 			//ret = pthread_join(pthread_Interruption_1, NULL);
 
-			ret = pthread_cancel(pthread_Interruption_2);
+			ret = pthread_cancel(pthread_uart);
 			//ret = pthread_join(pthread_Interruption_2, NULL);
-
-			ret = pthread_cancel(pthread_uart_TX);
-			//ret = pthread_join(pthread_uart_TX, NULL);
-
-			ret = pthread_cancel(pthread_uart_RX);
-			//ret = pthread_join(pthread_uart_RX, NULL);
-
-			ret = pthread_cancel(pthread_Interruption_RX);
 
 			myprintf("Abort des Thread OK :) \n");
 		}
-		else
-		{
-			//myprintf("%s", strerror(ret));
-		}
-	}
-	else
-	{
-		//printf("%s", strerror(ret));
 	}
 }
 
 int Firmware(void)
-
 {
+	//Initialisation du dsPIC
+	IEC0bits.T2IE = 0;
+	IEC1bits.T4IE = 0;
+	SELECT = 0;
+	START_PILOT = 0;
+	MODE_TEST = 0;
+
 	int ret = 0;
 
 	messageUartTX.clear();
@@ -380,60 +317,22 @@ int Firmware(void)
 	arret = false;
 	//Lancement des thread Interruption primaire et secondaire et pilot et UART reception/transmission
 
-	ret = pthread_create(&pthread_uart_RX, NULL, thread_uart_RX, NULL);
-	pthread_setname_np(pthread_uart_RX, "uart_RX");
+	ret = pthread_create(&pthread_Interruption, NULL, thread_Interruption, NULL);
+	pthread_setname_np(pthread_Interruption, "Interruption");
 	if (!ret)
 	{
-		ret = pthread_create(&pthread_uart_TX, NULL, thread_uart_TX, NULL);
-		pthread_setname_np(pthread_uart_TX, "uart_TX");
+		ret = pthread_create(&pthread_uart, NULL, thread_uart, NULL);
+		pthread_setname_np(pthread_uart, "UART");
+
 		if (!ret)
 		{
-			ret = pthread_create(&pthread_Interruption_1, NULL, thread_Interruption_1, NULL);
-			pthread_setname_np(pthread_Interruption_1, "Interruption_1");
+			ret = pthread_create(&pthread_PILOT, NULL, thread_PILOT, NULL);
+			pthread_setname_np(pthread_PILOT, "PILOT");
 			if (!ret)
 			{
-				ret = pthread_create(&pthread_Interruption_2, NULL, thread_Interruption_2, NULL);
-				pthread_setname_np(pthread_Interruption_2, "Interruption_2");
-				if (!ret)
-				{
-					ret = pthread_create(&pthread_Interruption_RX, NULL, thread_Interruption_RX, NULL);
-					pthread_setname_np(pthread_Interruption_RX, "Interruption_RX");
-					if (!ret)
-					{
-						ret = pthread_create(&pthread_PILOT, NULL, thread_PILOT, NULL);
-						pthread_setname_np(pthread_PILOT, "PILOT");
-						if (!ret)
-						{
-							myprintf("Lancement des thread OK !\n");
-						}
-						else
-						{
-							//myprintf("%s", strerror(ret));
-						}
-					}
-					else
-					{
-
-					}
-				}
-				else
-				{
-					//myprintf("%s", strerror(ret));
-				}
-			}
-			else
-			{
-				//myprintf("%s", strerror(ret));
+				myprintf("Lancement des thread OK !\n");
 			}
 		}
-		else
-		{
-			//myprintf("%s", strerror(ret));
-		}
-	}
-	else
-	{
-		//myprintf("%s", strerror(ret));
 	}
 
 #ifndef _WINDLL
@@ -451,7 +350,7 @@ int Firmware(void)
 	while (in != "exit")
 	{
 		cin >> in;
-		Send_UART(in.c_str() + '\n');
+		SendUART(in.c_str() + '\n');
 	}
 	AbortFirmware();
 #endif
@@ -459,4 +358,4 @@ int Firmware(void)
 	AbortFirmware();
 
 	return ret;
-}
+			}
