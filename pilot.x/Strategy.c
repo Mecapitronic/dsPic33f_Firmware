@@ -65,8 +65,8 @@ boolean Execute_Action(uint8 ID)
     return OK;
   }
 
-  if (action[ID].mission == MISSION_PRENDRE) 
-    Action_Preparer_Prise();
+  //if (action[ID].mission == MISSION_PRENDRE) 
+  //  Action_Preparer_Prise();
 
   navigation_result = Navigate_To_Vertex(action[ID].vertexID, 10);
 

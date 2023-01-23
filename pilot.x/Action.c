@@ -73,40 +73,38 @@ void Initialize_Action(void)
     action[ID].function = Action_NULL;  // function to execute
   }
 
-  ID = 1; // prendre module dans fusée 2
-  action[ID].vertexID = 1;
+  ID = 1; // Prendre Cerises
+  action[ID].vertexID = 3;
   action[ID].mission = MISSION_FUSEE;
   action[ID].possible = YES;
   action[ID].done = NO;
   action[ID].iteration = 1;
-  action[ID].point = vertex[0].point;
-  //if (team == TEAM_A) action[ID].point = Point(1150,40);
-  //else action[ID].point = Point(1850,40);
-  action[ID].function = Action_Prendre_Fusee;
+  action[ID].point = vertex[3].point;
+  action[ID].function = Action_NULL;
   
-//  ID = 2; // prendre module 3 depuis vertex 1
-//  action[ID].vertexID = 1;
-//  action[ID].mission = MISSION_PRENDRE;
-//  action[ID].possible = YES;
-//  action[ID].done = NO;
-//  action[ID].point = vertex[3].point;
-//  action[ID].function = Action_Prendre;
-
-  ID = 3; // prendre module 3 en levant
-  action[ID].vertexID = 2;
+  ID = 2; // prendre Cerises
+  action[ID].vertexID = 6;
   action[ID].mission = MISSION_PRENDRE;
   action[ID].possible = YES;
   action[ID].done = NO;
-  action[ID].point = vertex[2].point;
-  action[ID].function = Action_Lever;
+  action[ID].point = vertex[6].point;
+  action[ID].function = Action_NULL;
 
-  ID = 4; // prendre module 7
-  action[ID].vertexID = 7;
+  ID = 3; // prendre Cerises
+  action[ID].vertexID = 10;
   action[ID].mission = MISSION_PRENDRE;
   action[ID].possible = YES;
   action[ID].done = NO;
-  action[ID].point = vertex[7].point;
-  action[ID].function = Action_Lever_Reculer;
+  action[ID].point = vertex[10].point;
+  action[ID].function = Action_NULL;
+
+  ID = 4; // Retour Base
+  action[ID].vertexID = 1;
+  action[ID].mission = MISSION_PRENDRE;
+  action[ID].possible = YES;
+  action[ID].done = NO;
+  action[ID].point = vertex[1].point;
+  action[ID].function = Action_NULL;
   
 //  ID = 5; // prendre module 7 depuis vertex 6
 //  action[ID].vertexID = 6;

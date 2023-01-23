@@ -156,7 +156,9 @@ _PILOT_
 	{
 		action[1].iteration = 3;
 		while (!Execute_Action(1));
+		while (!Execute_Action(2));
 		while (!Execute_Action(3));
+		while (!Execute_Action(4));
 	}
 
 	//#define RECHERCHE_ACTION
