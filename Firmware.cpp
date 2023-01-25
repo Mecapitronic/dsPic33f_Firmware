@@ -138,6 +138,11 @@ void InitMap()
 	Initialize_Passability_Graph();
 }
 
+void UpdatePassability()
+{
+	Update_Passability_Graph();
+}
+
 boolean GetSelectPin(void)
 {
 	return SELECT;
