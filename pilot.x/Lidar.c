@@ -26,7 +26,7 @@ boolean U2_start = FALSE;
  ****************************************************************************************/
 void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
 {
-  //while (U2STAbits.URXDA) // RX buffer has data
+  if (U2STAbits.URXDA == 1) // RX buffer has data
   {
     U2_data = U2RXREG;
 

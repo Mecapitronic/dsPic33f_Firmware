@@ -59,6 +59,7 @@ extern "C"
 	dll boolean GetModePin(void);
 	dll void SetModePin(boolean state);
 	dll void SendUART(const char* strBuffer);
+	dll void SendUART2(const char* strBuffer);
 	dll t_robot GetRobot(void);
 
 	dll int32 GetTime(void);

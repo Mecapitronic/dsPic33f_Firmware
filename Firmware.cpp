@@ -4,8 +4,10 @@
 /********** VARIABLES *******/
 vector<string> messageUartTX;
 vector<string> messageUartRX;
+vector<string> messageUartRX2;
 int indexEcriture;
 int indexLecture;
+int indexLecture2;
 //http://franckh.developpez.com/tutoriels/posix/pthreads/
 pthread_t pthread_PILOT;
 pthread_t pthread_Interruption;
@@ -140,6 +142,7 @@ void InitMap()
 
 void UpdatePassability()
 {
+	Update_Obstacle(BRAKE_DISTANCE);
 	Update_Passability_Graph();
 }
 
@@ -188,6 +191,14 @@ void SendUART(const char* strBuffer)
 		indexLecture = 0;
 	myprintf(strBuffer);
 }
+void SendUART2(const char* strBuffer)
+{
+	messageUartRX2[indexLecture2] = strBuffer;
+	indexLecture2++;
+	if (indexLecture2 >= 100)
+		indexLecture2 = 0;
+	myprintf(strBuffer);
+}
 
 /********** THREAD INTERRUPTION dsPIC ******/
 static void* thread_Interruption(void* p_data)
@@ -230,19 +241,24 @@ static void* thread_uart(void* p_data)
 	myprintf("Start thread Uart\n");
 	U1STAbits.TRMT = 1;
 	U1STAbits.URXDA = 0;
+	U2STAbits.TRMT = 1;
+	U2STAbits.URXDA = 0;
 	indexEcriture = 0;
 	indexLecture = 0;
-	int indexLecture2 = 0;
+	indexLecture2 = 0;
+	int indexLectureTmp = 0;
+	int indexLecture2Tmp = 0;
 	string messageRX = "";
+	string messageRX2 = "";
 	string messageTX = "";
 	while (!arret)
 	{
-		if (indexLecture != indexLecture2)
+		if (indexLecture != indexLectureTmp)
 		{
-			messageRX = messageUartRX[indexLecture2];
-			indexLecture2++;
-			if (indexLecture2 >= 100)
-				indexLecture2 = 0;
+			messageRX = messageUartRX[indexLectureTmp];
+			indexLectureTmp++;
+			if (indexLectureTmp >= 100)
+				indexLectureTmp = 0;
 			while (messageRX != "" && !arret)
 			{
 				U1RXREG = messageRX.at(0);
@@ -252,6 +268,23 @@ static void* thread_uart(void* p_data)
 				U1STAbits.URXDA = 0;
 			}
 			messageRX = "";
+		}
+
+		if (indexLecture2 != indexLecture2Tmp)
+		{
+			messageRX2 = messageUartRX2[indexLecture2Tmp];
+			indexLecture2Tmp++;
+			if (indexLecture2Tmp >= 100)
+				indexLecture2Tmp = 0;
+			while (messageRX2 != "" && !arret)
+			{
+				U2RXREG = messageRX2.at(0);
+				messageRX2.erase(0, 1);
+				U2STAbits.URXDA = 1;
+				_U2RXInterrupt();
+				U2STAbits.URXDA = 0;
+			}
+			messageRX2 = "";
 		}
 
 		if (U1STAbits.TRMT == 0)
@@ -316,6 +349,11 @@ int Firmware(void)
 	{
 		messageUartRX.push_back("");
 	}
+	messageUartRX2.clear();
+	for (int i = 0; i < 100; i++)
+	{
+		messageUartRX2.push_back("");
+	}
 
 	myprintf("Starting Firmeware Robot !\n");
 
@@ -344,6 +382,17 @@ int Firmware(void)
 	myprintf("Type 'start' to start the PILOT Match, or 'test' to enter test mode : \n");
 	string in;
 	cin >> in;
+	string out;
+	out += 0xF0;
+	out += 0x64;
+	out += 0xF1;
+	out += 0x6E;
+	out += 0xF2;
+	out += 0x78;
+	out += 0xF3;
+	out += 0x82;
+	out += 0xF4;
+	out += 0x8C;
 	myprintf("PILOT STARTING");
 	if (in == "TEST" || in == "Test" || in == "test")
 	{
@@ -355,7 +404,8 @@ int Firmware(void)
 	while (in != "exit")
 	{
 		cin >> in;
-		SendUART(in.c_str() + '\n');
+		SendUART(in.c_str());
+		SendUART2(out.c_str());
 	}
 	AbortFirmware();
 #endif
