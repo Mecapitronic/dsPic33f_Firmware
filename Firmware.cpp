@@ -1,10 +1,13 @@
 /********** INCLUDE *********/
 #include "Firmware.h"
 
+/********** CONSTANTES *******/
+#define byteArrayLength 2
+
 /********** VARIABLES *******/
 vector<string> messageUartTX;
 vector<string> messageUartRX;
-vector<string> messageUartRX2;
+vector<byte*> messageUartRX2;
 int indexEcriture;
 int indexLecture;
 int indexLecture2;
@@ -191,13 +194,16 @@ void SendUART(const char* strBuffer)
 		indexLecture = 0;
 	myprintf(strBuffer);
 }
-void SendUART2(const char* strBuffer)
+void SendUART2(byte* pArray, int nSize)
 {
-	messageUartRX2[indexLecture2] = strBuffer;
+	for (int i = 0; i < nSize; i++)
+	{
+		messageUartRX2[indexLecture2][i] = pArray[i];
+	}
+	//myprintf("Lidar %2d", pArray);
 	indexLecture2++;
 	if (indexLecture2 >= 100)
 		indexLecture2 = 0;
-	myprintf(strBuffer);
 }
 
 /********** THREAD INTERRUPTION dsPIC ******/
@@ -249,7 +255,7 @@ static void* thread_uart(void* p_data)
 	int indexLectureTmp = 0;
 	int indexLecture2Tmp = 0;
 	string messageRX = "";
-	string messageRX2 = "";
+	byte messageRX2[byteArrayLength] = { 0,0 };
 	string messageTX = "";
 	while (!arret)
 	{
@@ -272,19 +278,22 @@ static void* thread_uart(void* p_data)
 
 		if (indexLecture2 != indexLecture2Tmp)
 		{
-			messageRX2 = messageUartRX2[indexLecture2Tmp];
+			for (int i = 0; i < byteArrayLength; i++)
+			{
+				messageRX2[i] = messageUartRX2[indexLecture2Tmp][i];
+			}
 			indexLecture2Tmp++;
 			if (indexLecture2Tmp >= 100)
 				indexLecture2Tmp = 0;
-			while (messageRX2 != "" && !arret)
+			//while (messageRX2 != "" && !arret)
+			for (int i = 0; i < byteArrayLength; i++)
 			{
-				U2RXREG = messageRX2.at(0);
-				messageRX2.erase(0, 1);
+				U2RXREG = messageRX2[i];
+				messageRX2[i] = 0;
 				U2STAbits.URXDA = 1;
 				_U2RXInterrupt();
 				U2STAbits.URXDA = 0;
 			}
-			messageRX2 = "";
 		}
 
 		if (U1STAbits.TRMT == 0)
@@ -352,7 +361,12 @@ int Firmware(void)
 	messageUartRX2.clear();
 	for (int i = 0; i < 100; i++)
 	{
-		messageUartRX2.push_back("");
+		byte b[byteArrayLength];
+		for (int i = 0; i < byteArrayLength; i++)
+		{
+			b[i] = 0;
+		}
+		messageUartRX2.push_back(b);
 	}
 
 	myprintf("Starting Firmeware Robot !\n");
@@ -413,4 +427,4 @@ int Firmware(void)
 	AbortFirmware();
 
 	return ret;
-			}
+}

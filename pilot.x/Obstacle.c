@@ -40,13 +40,14 @@ boolean Is_Valid_Obstacle(uint8 obstacleID)
 void Initialize_Obstacle(void)
 {
   // Define false obstacle
+	/*
 	false_obstacle[0] = Circle(40, 1350, 40 + OBSTACLE_MARGIN);   // fusee 
 	false_obstacle[1] = Circle(0, 1000, OBSTACLE_MARGIN);       // mat balise
 	false_obstacle[2] = Circle(2960, 1350, 40 + OBSTACLE_MARGIN); // fusee
 	false_obstacle[3] = Circle(3000, 1000, OBSTACLE_MARGIN);    // mat balise
 	false_obstacle[4] = Circle(1150, 40, 40 + OBSTACLE_MARGIN);   // fusee
 	false_obstacle[5] = Circle(1850, 40, 40 + OBSTACLE_MARGIN);   // fusee 
-   
+   */
   // Initialize LIDAR (UART 2)
   Initialize_LIDAR();
   

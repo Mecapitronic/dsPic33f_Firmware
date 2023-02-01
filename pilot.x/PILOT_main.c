@@ -150,6 +150,11 @@ _PILOT_
 				}
 				uartCMD.cmd = '0';
 			}
+			else
+			{
+				Update_Obstacle(BRAKE_DISTANCE);
+				Update_Passability_Graph();
+			}
 		}
 	}
 	else
