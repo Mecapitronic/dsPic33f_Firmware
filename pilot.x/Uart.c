@@ -6,15 +6,15 @@
  * Compilation : MPLAB X IDE (v3.45), compiler XC16 (v1.26) Lite
  ****************************************************************************************/
 
-/****************************************************************************************
-* Includes
-****************************************************************************************/
+ /****************************************************************************************
+ * Includes
+ ****************************************************************************************/
 #include "Uart.h"
 
-/****************************************************************************************
-* Variables
-****************************************************************************************/
-// UART1
+ /****************************************************************************************
+ * Variables
+ ****************************************************************************************/
+ // UART1
 volatile char U1_trame[U1RX_SIZE];
 volatile int32 U1_cursor;
 volatile boolean U1_start_trame;
@@ -144,6 +144,18 @@ void Update_UART1(void)
 	Write_UART1(';');
 	Write_Float_UART1(RAD_TO_DEG(robot.rad), 0);
 	Write_UART1(';');
+
+
+	for (int32 i = 0; i < 10; i++)
+	{
+		if (Is_Valid_Obstacle(i)) {
+			
+			Write_Int_UART1(Get_Obstacle(i).p.x);Write_UART1(',');
+			Write_Int_UART1(Get_Obstacle(i).p.y);Write_UART1(',');
+			Write_Int_UART1(Get_Obstacle(i).r);Write_UART1(',');
+		}
+	}
+
 	/*
 	// Robot Start/End path
 	Write_Int_UART1(vertex[0].point.x);
@@ -154,7 +166,7 @@ void Update_UART1(void)
 	Write_UART1(',');
 	Write_Int_UART1(vertex[Get_End_Vertex()].point.y);
 	Write_UART1(';');
-	
+
 	// Robot Lidar
 	Write_Int_UART1(Get_Distance_LIDAR(0));
 	for (int32 i = 1; i < 10; i++)
