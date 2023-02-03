@@ -117,6 +117,22 @@ _PILOT_
 					}
 				}
 				break;
+				case 'T':
+				{
+					Send_UART1_ACK(CMD_BUSY);
+					Translate(uartCMD.distance, SPEED_LIN);
+					while (Wait_Trajectory());
+					Send_UART1_ACK(CMD_DONE);
+				}
+				break;
+				case 'R':
+				{
+					Send_UART1_ACK(CMD_BUSY);
+					Rotate_To_Angle(uartCMD.angle, SPEED_ANG);
+					while (Wait_Trajectory());
+					Send_UART1_ACK(CMD_DONE);
+				}
+				break;
 				case 'M':
 				{
 					Send_UART1_ACK(CMD_BUSY);

@@ -123,6 +123,8 @@ typedef struct {
 	t_vertexID vertexID;
 	//boolean available;
 	t_point point;
+	float32 angle;
+	int32 distance;
 } t_uartCMD;
 
 #endif	/* STRUCTURE_H */
