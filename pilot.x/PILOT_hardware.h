@@ -91,7 +91,7 @@
 
 // PIN 19
 #define FREE_PIN_19         PIN_19
-#define PIN_19_CONFIG       IN_
+#define PIN_19_CONFIG       OUT_
 // PIN 20
 #define FREE_PIN_20         PIN_20
 #define PIN_20_CONFIG       IN_
