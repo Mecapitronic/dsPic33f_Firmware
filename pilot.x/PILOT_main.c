@@ -50,6 +50,8 @@ _PILOT_
 
 	while(!START_PILOT)  // attente de démarrage du copilot
 	{
+		LED_Toggle();
+        Delay_Ms(250);
 		team = SELECT;
 		COLOR_TEAM = team;
 		LCD_Line(2);
@@ -123,6 +125,14 @@ _PILOT_
 					Send_UART1_ACK(CMD_DONE);
 				}
 				break;
+				case 'P':
+				{
+					Send_UART1_ACK(CMD_BUSY);
+					Initialize_Robot_Position(uartCMD.point.x, uartCMD.point.y, uartCMD.angle);
+					Initialize_Asserv();
+					Send_UART1_ACK(CMD_DONE);
+				}
+				break;
 				case 'R':
 				{
 					Send_UART1_ACK(CMD_BUSY);
@@ -164,11 +174,6 @@ _PILOT_
 				}
 				uartCMD.cmd = '0';
 			}
-			else
-			{
-				Update_Obstacle(BRAKE_DISTANCE);
-				Update_Passability_Graph();
-			}
 		}
 	}
 	else
@@ -208,41 +213,41 @@ _PILOT_
 		while (FOREVER);
 
 		return 1;
-			}
+}
 
 
-	/****************************************************************************************
-	 * LCD display
-	 ****************************************************************************************/
-				void Display()
-			{
-				// robot position
-				LCD_Line(1);
-				LCD_Text("X ", 2);
-				LCD_Value(robot.mm.x, 4, 0);
-				LCD_Text("  Y ", 4);
-				LCD_Value(robot.mm.y, 4, 0);
-				LCD_Text(" ", 1);
-				LCD_Value(robot.deg, 3, 0);
-				LCD_Char(0xDF); // "degre" character
-				LCD_Text(" ", 1);
+/****************************************************************************************
+ * LCD display
+ ****************************************************************************************/
+	void Display()
+{
+	// robot position
+	LCD_Line(1);
+	LCD_Text("X ", 2);
+	LCD_Value(robot.mm.x, 4, 0);
+	LCD_Text("  Y ", 4);
+	LCD_Value(robot.mm.y, 4, 0);
+	LCD_Text(" ", 1);
+	LCD_Value(robot.deg, 3, 0);
+	LCD_Char(0xDF); // "degre" character
+	LCD_Text(" ", 1);
 
-				// command position
-				LCD_Line(2);
-				LCD_Text("cL", 2);
-				LCD_Value(STEP_TO_MM(move_lin.command.position - robot.lin.position), 7, 0);
-				LCD_Text("  cA", 4);
-				LCD_Value(STEP_TO_DEG(move_ang.command.position - robot.ang.position), 7, 0);
+	// command position
+	LCD_Line(2);
+	LCD_Text("cL", 2);
+	LCD_Value(STEP_TO_MM(move_lin.command.position - robot.lin.position), 7, 0);
+	LCD_Text("  cA", 4);
+	LCD_Value(STEP_TO_DEG(move_ang.command.position - robot.ang.position), 7, 0);
 
-				// command velocity
-				LCD_Line(3);
-				LCD_Text("cVL", 3);
-				LCD_Value(move_lin.command.velocity, 6, 0);
-				LCD_Text("  cVA", 5);
-				LCD_Value(move_ang.command.velocity, 6, 0);
+	// command velocity
+	LCD_Line(3);
+	LCD_Text("cVL", 3);
+	LCD_Value(move_lin.command.velocity, 6, 0);
+	LCD_Text("  cVA", 5);
+	LCD_Value(move_ang.command.velocity, 6, 0);
 
-				// UART Receive
-				Afficher_UART(4);
-			}
+	// UART Receive
+	Afficher_UART(4);
+}
 
 

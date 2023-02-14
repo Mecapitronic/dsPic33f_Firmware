@@ -241,7 +241,7 @@ void Process_Data_UART1(char str)
 	// Every number is represented with 6 bytes and separated by a semi-colon ';'
 	//Exemple : A01;8    M11;123456;123456     L06;1234
 
-	if (!U1_start_trame && (str == 'A' || str == 'M' || str == 'T' || str == 'R' || str == 'N' || str == 'V'))
+	if (!U1_start_trame && (str == 'A' || str == 'M' || str == 'T' || str == 'P' || str == 'R' || str == 'N' || str == 'V'))
 	{
 		U1_start_trame = TRUE;
 		U1_cursor = 0;
@@ -290,11 +290,10 @@ void Analyse_Data_UART1()
 	int32 convert[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; int32 k = 0;
 	char tmp[6] = { 0, 0, 0, 0, 0, 0 }; int32 j = 0;
 	int32 i;
-	int32 m;
+	int32 m=0;
 
 	for (i = 4; i <= U1_byte_to_read + 4; i++)
 	{
-		m = 0;
 		if (U1_trame[i] != ';')
 		{
 			tmp[j++] = U1_trame[i];
@@ -308,6 +307,7 @@ void Analyse_Data_UART1()
 			{
 				tmp[l] = 0;
 			}
+			m = 0;
 			j = 0;
 		}
 	}
@@ -340,6 +340,16 @@ void Analyse_Data_UART1()
 		}
 	}
 	break;
+	case 'P':
+	{
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.point.x = convert[0];
+			uartCMD.point.y = convert[1];
+			uartCMD.angle = convert[2];
+			uartCMD.cmd = 'P';
+		}
+	}
 	case 'R':
 	{
 		if (uartCMD.cmd == '0')

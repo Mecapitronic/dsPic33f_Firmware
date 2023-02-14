@@ -82,7 +82,9 @@ void Initialize_Robot_Position(int32 x_mm, int32 y_mm, float32 angle_deg)
   robot.ang.position = ang_position_init;
   robot.ang.velocity = 0;
   robot.ang.acceleration = 0;
-  
+  last_lin_position = 0;
+  last_ang_position = ang_position_init;
+
   encoder_right = 0;
   encoder_left = 0;
 }
