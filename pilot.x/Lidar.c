@@ -127,16 +127,3 @@ void Reset_Distance_LIDAR(void)
     lidar_distance_cm[i] = LIDAR_CM_MAX;
   }
 }
-
-/****************************************************************************************
- * Set distance and angle to LIDAR sensor in mm and degree
- ****************************************************************************************/
-void Set_LIDAR(uint8 sensorID, uint16 distance)
-{
-	if ((distance > LIDAR_CM_MIN*10) && (distance < LIDAR_CM_MAX*10))
-      {
-        lidar_distance_cm[sensorID] = distance;
-        lidar_robot_deg[sensorID] = robot.deg;
-      }
-}
-

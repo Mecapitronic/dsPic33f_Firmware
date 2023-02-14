@@ -89,8 +89,6 @@ _PILOT_
 			{
 				switch (uartCMD.cmd)
 				{
-				case 'L':
-					break;
 				case 'A':
 				{
 
@@ -99,7 +97,7 @@ _PILOT_
 					{
 						Send_UART1_ACK(CMD_DONE);
 					}
-					else 
+					else
 					{
 						Send_UART1_ACK(CMD_FAIL);
 					}

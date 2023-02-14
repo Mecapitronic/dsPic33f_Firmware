@@ -143,12 +143,6 @@ void InitMap()
 	Initialize_Passability_Graph();
 }
 
-void UpdatePassability()
-{
-	Update_Obstacle(BRAKE_DISTANCE);
-	Update_Passability_Graph();
-}
-
 boolean GetSelectPin(void)
 {
 	return SELECT;
@@ -209,7 +203,7 @@ void SendUART2(byte* pArray, int nSize)
 /********** THREAD INTERRUPTION dsPIC ******/
 static void* thread_Interruption(void* p_data)
 {
-	//chrono::steady_clock::time_point  start, end;
+	//chrono::steady_clock::time_point  start, mid, end;
 
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	myprintf("Start thread Interruption\n");
@@ -224,6 +218,8 @@ static void* thread_Interruption(void* p_data)
 			i = 0;
 			TIMER_SECONDAIRE_INT();
 		}
+		//mid = chrono::high_resolution_clock::now();
+		//myprintf("interruption 1: %0.3f ms, time calcul: %d ms\n", (mid - start).count() / 1e6, current_time);
 		timerSleep(0.005);
 		//end = chrono::high_resolution_clock::now();
 		//myprintf("interruption 1: %0.3f ms, current_time: %d ms\n", (end - start).count() / 1e6, current_time);

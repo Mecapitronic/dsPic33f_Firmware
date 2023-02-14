@@ -39,8 +39,7 @@ extern "C"
 	dll void AbortFirmware(void);
 
 	dll void InitMap();
-	dll void UpdatePassability();
-
+	
 	dll int IndexUart();
 	dll void MessageUart(int index, char* strBuffer);
 

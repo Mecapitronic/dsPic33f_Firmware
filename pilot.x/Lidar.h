@@ -35,8 +35,6 @@ uint16 Get_Distance_LIDAR(uint8 sensorID);
 float32 Get_Angle_LIDAR(uint8 sensorID);
 void Reset_Distance_LIDAR(void);
 
-void Set_LIDAR(uint8 sensorID, uint16 distance);
-
 #ifdef _VISUAL_STUDIO
 void _U2RXInterrupt(void);
 void _U2ErrInterrupt(void);
