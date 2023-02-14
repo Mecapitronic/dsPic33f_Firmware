@@ -45,17 +45,53 @@
 #define PIN_26
 #define PIN_27
 
+
+/****************************************************************************************
+* Configurations des pins synchro
+ * Nommer la pin (facultatif, la pin est nommé PIN_x par défaut)
+ * Définir la configuration :
+ *      IN_ : entrée numérique
+ *      OUT_ : sortie numérique
+****************************************************************************************/
+
+// PIN 9
+#define UART_RX             PIN_9
+#define PIN_9_CONFIG        IN_
+// PIN 8
+#define FREE_PIN_8          PIN_8
+#define PIN_8_CONFIG        IN_
+// PIN 3
+#define FREE_PIN_3          PIN_3
+#define PIN_3_CONFIG        IN_
+// PIN 2
+#define FREE_PIN_2          PIN_2
+#define PIN_2_CONFIG        IN_
+// PIN 1
+#define FREE_PIN_1          PIN_1
+#define PIN_1_CONFIG        IN_
+// PIN 44
+#define MODE_TEST           PIN_44
+#define PIN_44_CONFIG       IN_
+// PIN 43
+#define START_PILOT         PIN_43
+#define PIN_43_CONFIG       IN_
+// PIN 42
+#define COLOR_TEAM          PIN_42
+#define PIN_42_CONFIG       OUT_
+
+
 /****************************************************************************************
 * Configurations des pins
- * Nommer la pin (facultatif, la pin est nommer PIN_x par défaut)
+ * Nommer la pin (facultatif, la pin est nommé PIN_x par défaut)
  * Définir la configuration :
  *      AN_ : entrée analogique
  *      IN_ : entrée numérique
  *      OUT_ : sortie numérique
 ****************************************************************************************/
+
 // PIN 19
-#define COMMAND_GO_IN         PIN_19
-#define PIN_19_CONFIG       OUT_
+#define FREE_PIN_19         PIN_19
+#define PIN_19_CONFIG       IN_
 // PIN 20
 #define FREE_PIN_20         PIN_20
 #define PIN_20_CONFIG       IN_
@@ -72,53 +108,15 @@
 #define FREE_PIN_24         PIN_24
 #define PIN_24_CONFIG       IN_
 // PIN 25
-#define COMMAND_PUMP        PIN_25
-#define PIN_25_CONFIG       OUT_
+#define FREE_PIN_25         PIN_25
+#define PIN_25_CONFIG       IN_
 // PIN 26
-#define COMMAND_GO_OUT      PIN_26
+#define UART_TX             PIN_26
 #define PIN_26_CONFIG       OUT_
 // PIN 27
-#define FREE_PIN_27       PIN_27
-#define PIN_27_CONFIG       OUT_
+#define FREE_PIN_27         PIN_27
+#define PIN_27_CONFIG       IN_
 
-/****************************************************************************************
-* Configurations des pins synchro
-****************************************************************************************/
-// Nommer les pins
-#define COMMAND_PUT_IN      PIN_9   // out
-#define COMMAND_PUT_LEFT    PIN_8   // out
-#define COMMAND_PUT_RIGHT   PIN_3   // out
-#define COMMAND_TURN        PIN_2   // out
-#define INFO_ARM_BUSY       PIN_1   // INPUT 5V 
-#define MODE_TEST           PIN_44  // input
-#define START_PILOT         PIN_43  // input
-#define COLOR_TEAM          PIN_42  // out
-// Configurer les pins
-#undef PIN_9
-#define PIN_9   LATBbits.LATB11
-#undef PIN_8
-#define PIN_8   LATBbits.LATB10
-#undef PIN_3
-#define PIN_3   LATCbits.LATC7
-#undef PIN_2
-#define PIN_2   LATCbits.LATC6
-#undef PIN_1
-#define PIN_1   PORTBbits.RB9   // ordre du bras
-#undef PIN_44
-#define PIN_44  PORTBbits.RB8   // ordre du copilot
-#undef PIN_43
-#define PIN_43  PORTBbits.RB7   // ordre du copilot
-#undef PIN_42
-#define PIN_42  LATBbits.LATB6
-// macro setup
-#define Setup_Pin_9()   {TRISBbits.TRISB11 = 0;}
-#define Setup_Pin_8()   {TRISBbits.TRISB10 = 0;}
-#define Setup_Pin_3()   {TRISCbits.TRISC7 = 0;}
-#define Setup_Pin_2()   {TRISCbits.TRISC6 = 0;}
-#define Setup_Pin_1()   {TRISBbits.TRISB9 = 1;} // in
-#define Setup_Pin_44()  {TRISBbits.TRISB8 = 1;} // in
-#define Setup_Pin_43()  {TRISBbits.TRISB7 = 1;} // in 
-#define Setup_Pin_42()  {TRISBbits.TRISB6 = 0;}
 /****************************************************************************************
 * Définition des autres ports entrées/sorties
 ****************************************************************************************/
@@ -136,6 +134,106 @@
 // PWM moteurs : voir Motor.h
 // QEI : voir Odometry.h
 // Ecran LCD : voir LCD.h
+
+
+/****************************************************************************************
+* Gestion de configuration des pins synchro (/!\ modifier avec précaution)
+****************************************************************************************/
+// PIN 9
+#if PIN_9_CONFIG == IN_
+#undef PIN_9
+#define PIN_9  PORTBbits.RB11
+#define Setup_Pin_9()  {TRISBbits.TRISB11 = 1;}
+#elif PIN_9_CONFIG == OUT_
+#undef PIN_9
+#define PIN_9  LATBbits.LATB11
+#define Setup_Pin_9()  {TRISBbits.TRISB11 = 0;}
+#else
+#error "PIN 9 not configured"
+#endif
+// PIN 8
+#if PIN_8_CONFIG == IN_
+#undef PIN_8
+#define PIN_8  PORTBbits.RB10
+#define Setup_Pin_8()  {TRISBbits.TRISB10 = 1;}
+#elif PIN_8_CONFIG == OUT_
+#undef PIN_8
+#define PIN_8  LATBbits.LATB10
+#define Setup_Pin_8()  {TRISBbits.TRISB10 = 0;}
+#else
+#error "PIN 8 not configured"
+#endif
+// PIN 3
+#if PIN_3_CONFIG == IN_
+#undef PIN_3
+#define PIN_3  PORTCbits.RC7
+#define Setup_Pin_3()  {TRISCbits.TRISC7 = 1;}
+#elif PIN_3_CONFIG == OUT_
+#undef PIN_3
+#define PIN_3  LATCbits.LATC7
+#define Setup_Pin_3()  {TRISCbits.TRISC7 = 0;}
+#else
+#error "PIN 3 not configured"
+#endif
+// PIN 2
+#if PIN_2_CONFIG == IN_
+#undef PIN_2
+#define PIN_2  PORTCbits.RC6
+#define Setup_Pin_2()  {TRISCbits.TRISC6 = 1;}
+#elif PIN_2_CONFIG == OUT_
+#undef PIN_2
+#define PIN_2  LATCbits.LATC6
+#define Setup_Pin_2()  {TRISCbits.TRISC6 = 0;}
+#else
+#error "PIN 2 not configured"
+#endif
+// PIN 1
+#if PIN_1_CONFIG == IN_
+#undef PIN_1
+#define PIN_1  PORTBbits.RB9
+#define Setup_Pin_1()  {TRISBbits.TRISB9 = 1;}
+#elif PIN_1_CONFIG == OUT_
+#undef PIN_1
+#define PIN_1  LATBbits.LATB9
+#define Setup_Pin_1()  {TRISBbits.TRISB9 = 0;}
+#else
+#error "PIN 1 not configured"
+#endif
+// PIN 44
+#if PIN_44_CONFIG == IN_
+#undef PIN_44
+#define PIN_44  PORTBbits.RB8
+#define Setup_Pin_44()  {TRISBbits.TRISB8 = 1;}
+#elif PIN_44_CONFIG == OUT_
+#undef PIN_44
+#define PIN_44  LATBbits.LATB8
+#define Setup_Pin_44()  {TRISBbits.TRISB8 = 0;}
+#else
+#error "PIN 44 not configured"
+#endif
+// PIN 43
+#if PIN_43_CONFIG == IN_
+#undef PIN_43
+#define PIN_43  PORTBbits.RB7
+#define Setup_Pin_43()  {TRISBbits.TRISB7 = 1;}
+#elif PIN_43_CONFIG == OUT_
+#undef PIN_43
+#define PIN_43  LATBbits.LATB7
+#define Setup_Pin_43()  {TRISBbits.TRISB7 = 0;}
+#else
+#error "PIN 43 not configured"
+#endif// PIN 42
+#if PIN_42_CONFIG == IN_
+#undef PIN_42
+#define PIN_42  PORTBbits.RB6
+#define Setup_Pin_42()  {TRISBbits.TRISB6 = 1;}
+#elif PIN_42_CONFIG == OUT_
+#undef PIN_42
+#define PIN_42  LATBbits.LATB6
+#define Setup_Pin_42()  {TRISBbits.TRISB6 = 0;}
+#else
+#error "PIN 42 not configured"
+#endif
 
 /****************************************************************************************
 * Gestion de configuration des pins 19 à 26 (/!\ modifier avec précaution)

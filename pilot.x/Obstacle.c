@@ -48,8 +48,6 @@ void Initialize_Obstacle(void)
 	false_obstacle[4] = Circle(1150, 40, 40 + OBSTACLE_MARGIN);   // fusee
 	false_obstacle[5] = Circle(1850, 40, 40 + OBSTACLE_MARGIN);   // fusee 
    */
-  // Initialize LIDAR (UART 2)
-  Initialize_LIDAR();
   
   // enable obstacle detection
   obstacle_enable = YES;
