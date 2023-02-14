@@ -26,31 +26,33 @@ boolean U2_start = FALSE;
  ****************************************************************************************/
 void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
 {
-  if (U2STAbits.URXDA == 1) // RX buffer has data
-  {
-    U2_data = U2RXREG;
+    if (IEC1bits.U2RXIE)
+    {
+        if (U2STAbits.URXDA == 1) // RX buffer has data
+        {
+            U2_data = U2RXREG;
 
-    // first data => start condition + sensor index
-    if (U2_start == FALSE) 
-    {
-      if ((U2_data >= 0xF0) && (U2_data <= 0xF9))
-      {
-        U2_index = U2_data & 0x0F;
-        U2_start = TRUE;
-      }
+            // first data => start condition + sensor index
+            if (U2_start == FALSE)
+            {
+                if ((U2_data >= 0xF0) && (U2_data <= 0xF9))
+                {
+                    U2_index = U2_data & 0x0F;
+                    U2_start = TRUE;
+                }
+            }
+            else // second data => distance value
+            {
+                if ((U2_data > LIDAR_CM_MIN) && (U2_data < LIDAR_CM_MAX))
+                {
+                    lidar_distance_cm[U2_index] = U2_data;
+                    lidar_robot_deg[U2_index] = robot.deg;
+                }
+                U2_start = FALSE;
+            }
+        }
     }
-    else // second data => distance value
-    {
-      if ((U2_data > LIDAR_CM_MIN) && (U2_data < LIDAR_CM_MAX))
-      {
-        lidar_distance_cm[U2_index] = U2_data;
-        lidar_robot_deg[U2_index] = robot.deg;
-      }
-      U2_start = FALSE;
-    }
-  }
-  
-  IFS1bits.U2RXIF = 0; // clear interrupt flag
+    IFS1bits.U2RXIF = 0; // clear interrupt flag
 }
 
 /****************************************************************************************

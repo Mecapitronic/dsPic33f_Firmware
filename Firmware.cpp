@@ -392,17 +392,6 @@ int Firmware(void)
 	myprintf("Type 'start' to start the PILOT Match, or 'test' to enter test mode : \n");
 	string in;
 	cin >> in;
-	string out;
-	out += 0xF0;
-	out += 0x64;
-	out += 0xF1;
-	out += 0x6E;
-	out += 0xF2;
-	out += 0x78;
-	out += 0xF3;
-	out += 0x82;
-	out += 0xF4;
-	out += 0x8C;
 	myprintf("PILOT STARTING");
 	if (in == "TEST" || in == "Test" || in == "test")
 	{
@@ -415,7 +404,6 @@ int Firmware(void)
 	{
 		cin >> in;
 		SendUART(in.c_str());
-		SendUART2(out.c_str());
 	}
 	AbortFirmware();
 #endif

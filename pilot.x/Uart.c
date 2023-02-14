@@ -31,19 +31,26 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void)
 {
 	if (IEC0bits.U1RXIE)
 	{
-		//U1_data = '0';
-		//while (U1_data != '\n')
-		//{
-			//while (U1STAbits.URXDA == 0);
-		if (U1STAbits.URXDA == 1)
+		/* Check for receive errors */
+		if (U1STAbits.FERR == 1)
+		{
+			//continue;
+		}
+
+		/* Must clear the overrun error to keep UART receiving */
+		if (U1STAbits.OERR == 1)
+		{
+			U1STAbits.OERR = 0;
+			//continue;
+		}
+
+		if (U1STAbits.URXDA == 1) // RX buffer has data
 		{
 			U1_data = U1RXREG;
 			Process_Data_UART1(U1_data);
 		}
-
-		//}
-		IFS0bits.U1RXIF = 0;
 	}
+	IFS0bits.U1RXIF = 0;  // clear interrupt flag
 }
 
 /****************************************************************************************
@@ -121,6 +128,8 @@ void Write_Float_UART1(float number, int32 afterpoint)
 	}
 
 	ftoa(number, res, afterpoint);
+	if (res[0] == '\0')
+		res[0] = '0';
 	Write_String_UART1(res);
 }
 
