@@ -18,11 +18,10 @@
 * Macros Delays Fonctions (without timer)
 ****************************************************************************************/
 //#define DELAY_USE_TIMER
-#define SIMULATION_MPLAB
 
 #ifndef DELAY_USE_TIMER
 // Calibration made with stopwatch for FCY = 40 MIPS (MPLABXv2.35, XC16v1.24 lite)
-	#ifdef SIMULATION_MPLAB
+	#if defined __MPLAB_SIMULATION__ || defined _VISUAL_STUDIO
 		#define Delay_Us(t) do{}while(0)
 		#define Delay_Ms(t) do{}while(0)
 		#define Delay_S(t) do{}while(0)

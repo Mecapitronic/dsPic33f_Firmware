@@ -15,7 +15,7 @@
 #pragma message (" Serial Print is enabled ! ")
 #endif
 
-#ifdef SIMULATION_MPLAB
+#ifdef __MPLAB_SIMULATION__
 #pragma message (" Timer at 0 for Simulation with MPLAB ! ")
 #endif
 
