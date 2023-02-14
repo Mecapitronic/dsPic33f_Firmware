@@ -232,7 +232,7 @@ void Process_Data_UART1(char str)
 	// Every number is represented with 6 bytes and separated by a semi-colon ';'
 	//Exemple : A01;8    M11;123456;123456     L06;1234
 
-	if (!U1_start_trame && (str == 'L' || str == 'A' || str == 'M' || str == 'T' || str == 'R' || str == 'N' || str == 'V'))
+	if (!U1_start_trame && (str == 'A' || str == 'M' || str == 'T' || str == 'R' || str == 'N' || str == 'V'))
 	{
 		U1_start_trame = TRUE;
 		U1_cursor = 0;
@@ -305,12 +305,6 @@ void Analyse_Data_UART1()
 
 	switch (U1_trame[0])
 	{
-	case 'L':
-		for (i = 0; i < 10; i++)
-		{
-			Set_LIDAR(i, convert[i]);
-		}
-		break;
 	case 'A':
 	{
 		if (uartCMD.cmd == '0')

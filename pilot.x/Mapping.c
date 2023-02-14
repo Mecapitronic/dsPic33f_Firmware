@@ -106,15 +106,16 @@ t_segment Segment(t_point p1, t_point p2)
   s.p2 = p2;
   
   if (p1.x == p2.x)
-    s.a = 10000;  // infinite slope (vertical line)
+  { 
+      s.a = 9999;  // infinite slope (vertical line)
+      s.b = p1.x;
+  }
   else
   {
     s.a = (p2.y - p1.y);  // slope
     s.a /= (p2.x - p1.x);
+    s.b = (p1.y - (s.a * p1.x));  // intercept
   }
-  
-  s.b = (p1.y - (s.a * p1.x));  // intercept
-
   return s;
 }
 
@@ -124,12 +125,29 @@ t_segment Segment(t_point p1, t_point p2)
 boolean Is_Intersection_Segment(t_segment *s1, t_segment *s2)
 {
 	t_point commun;
-  
-  if (s1->a == s2->a) // check if segments are parallel
-    return 0;
 
-  commun.x = (s2->b - s1->b) / (s1->a - s2->a);
-  commun.y = (s1->a * commun.x) + s1->b;
+    if ((s1->a == s2->a) && (s1->b == s2->b)) // segments are one the same line (parallel but not distinct)
+        if (Is_Point_On_Segment(&s2->p1, s1) && Is_Point_On_Segment(&s2->p2, s1))
+            return 1; 
+
+    if ((s1->a == s2->a) && (s1->b != s2->b)) // segments are parallel and distinct
+        return 0;
+
+    if (s1->a == 9999) // segment 1 is vertical
+    {
+        commun.x = s1->p1.x;
+        commun.y = (s2->a * commun.x) + s2->b;
+    }
+    else if (s2->a == 9999) // segment 2 is vertical
+    {
+        commun.x = s2->p1.x;
+        commun.y = (s1->a * commun.x) + s1->b;
+    }
+    else
+    {
+        commun.x = (s2->b - s1->b) / (s1->a - s2->a);
+        commun.y = (s1->a * commun.x) + s1->b;
+    }
   
   if (Is_Point_On_Segment(&commun, s1) && Is_Point_On_Segment(&commun, s2))
     return 1;

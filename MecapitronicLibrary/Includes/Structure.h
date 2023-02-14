@@ -66,8 +66,8 @@ typedef struct {
 typedef struct {
   t_point p1;
   t_point p2;
-  float32 a;
-  int32 b;
+  float32 a;	// slope of the segment : rise/run = (Y2 - Y1) / (X2 - X1)
+  int32 b;		// intercept the axis : y = a*x + b
 } t_segment;
 
 typedef struct {
