@@ -26,6 +26,8 @@
 
 #define INVALID_VERTEX_ID  255
 
+#define MAP_X_MAX 2000
+#define MAP_Y_MAX 3000
 
 /****************************************************************************************
 * Global Variables

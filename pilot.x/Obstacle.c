@@ -61,9 +61,9 @@ boolean Is_False_Obstacle(t_circle circle_obstacle)
 	uint8 i;
 	// check map border limits
 	if (circle_obstacle.p.x < OBSTACLE_MARGIN) return 1;
-  if (circle_obstacle.p.x > (3000-OBSTACLE_MARGIN)) return 1;
+  if (circle_obstacle.p.x > (MAP_X_MAX - OBSTACLE_MARGIN)) return 1;
 	if (circle_obstacle.p.y < OBSTACLE_MARGIN) return 1;
-  if (circle_obstacle.p.y > (2000-OBSTACLE_MARGIN)) return 1;
+  if (circle_obstacle.p.y > (MAP_Y_MAX - OBSTACLE_MARGIN)) return 1;
 	// check some special point
 	for (i = 0; i < MAX_FALSE_OBSTACLE; i++)
 	{
