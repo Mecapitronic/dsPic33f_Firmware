@@ -17,8 +17,6 @@
  // UART1
 volatile char U1_trame[U1RX_SIZE];
 volatile int32 U1_cursor;
-volatile boolean U1_start_trame;
-volatile int32 U1_byte_to_read;
 volatile char U1_data;
 t_uartCMD uartCMD;
 boolean send_ack = FALSE;
@@ -47,7 +45,19 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void)
 		if (U1STAbits.URXDA == 1) // RX buffer has data
 		{
 			U1_data = U1RXREG;
-			Process_Data_UART1(U1_data);
+			if (U1_data == 10)
+			{
+				if (U1_cursor > 0 && U1_trame[U1_cursor - 1] != ';')
+					U1_trame[U1_cursor++] = ';';
+				Analyse_Data_UART1();
+				for (uint8 i = 0; i < U1_cursor; i++)
+				{
+					U1_trame[i] = 0;
+				}
+				U1_cursor = 0;
+			}
+			else
+				U1_trame[U1_cursor++] = U1_data;
 		}
 	}
 	IFS0bits.U1RXIF = 0;  // clear interrupt flag
@@ -81,8 +91,6 @@ void Initialize_UART1(void)
 		U1_trame[i] = 0;
 	}
 	U1_cursor = 0;
-	U1_start_trame = FALSE;
-	U1_byte_to_read = 0;
 
 	uartCMD.cmd = '0';
 	uartCMD.actionID = 0;
@@ -158,7 +166,7 @@ void Update_UART1(void)
 	for (int32 i = 0; i < 10; i++)
 	{
 		if (Is_Valid_Obstacle(i)) {
-			
+
 			Write_Int_UART1(Get_Obstacle(i).p.x);Write_UART1(',');
 			Write_Int_UART1(Get_Obstacle(i).p.y);Write_UART1(',');
 			Write_Int_UART1(Get_Obstacle(i).r);Write_UART1(',');
@@ -222,77 +230,15 @@ void Update_UART1_ACK(uint8 ack)
 }
 
 /****************************************************************************************
- * Process data received from UART1
- ****************************************************************************************/
-void Process_Data_UART1(char str)
-{
-	//First Char :
-	// L = Lidar	-90°{ d:]20, 1500[, ... } +90°
-	// A = Action		{ ID }
-	// V = Vertex		{ ID }
-	// M = Move			{ X, Y }
-	// N = Navigation	{ X, Y }
-
-	//Second and third Char :
-	// xx = number of bytes to read after the fourth char
-
-	// Fourth Char : ';'
-
-	// Every number is represented with 6 bytes and separated by a semi-colon ';'
-	//Exemple : A01;8    M11;123456;123456     L06;1234
-
-	if (!U1_start_trame && (str == 'A' || str == 'M' || str == 'T' || str == 'P' || str == 'R' || str == 'N' || str == 'V'))
-	{
-		U1_start_trame = TRUE;
-		U1_cursor = 0;
-		for (int32 i = 0; i < U1RX_SIZE; i++)
-		{
-			U1_trame[i] = 0;
-		}
-		U1_trame[U1_cursor] = str;
-		U1_cursor++;
-	}
-	else if (str == 10)
-	{
-
-	}
-	else
-	{
-		if (U1_start_trame == TRUE)
-		{
-			U1_trame[U1_cursor] = str;
-			U1_cursor++;
-			if (U1_cursor == 3)
-			{
-				char nbr_byte[3] = { 0, 0, 0 };
-				nbr_byte[0] = U1_trame[1];
-				nbr_byte[1] = U1_trame[2];
-				U1_byte_to_read = atoi(nbr_byte);
-			}
-			if (U1_cursor == U1_byte_to_read + 4)
-			{
-				if (U1_trame[U1_cursor - 1] != ';')
-					U1_trame[U1_cursor] = ';';
-				Analyse_Data_UART1();
-				U1_start_trame = FALSE;
-				U1_cursor = 0;
-				U1_byte_to_read = 0;
-			}
-		}
-	}
-}
-
-/****************************************************************************************
  * Analyse data received from UART1
  ****************************************************************************************/
 void Analyse_Data_UART1()
 {
 	int32 convert[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; int32 k = 0;
 	char tmp[6] = { 0, 0, 0, 0, 0, 0 }; int32 j = 0;
-	int32 i;
-	int32 m=0;
+	int32 m = 0;
 
-	for (i = 4; i <= U1_byte_to_read + 4; i++)
+	for (uint8 i = 1; i < U1_cursor; i++)
 	{
 		if (U1_trame[i] != ';')
 		{
@@ -314,73 +260,64 @@ void Analyse_Data_UART1()
 
 	switch (U1_trame[0])
 	{
-	case 'A':
-	{
-		if (uartCMD.cmd == '0')
+		case 'A':
 		{
-			uartCMD.actionID = convert[0];
-			uartCMD.cmd = 'A';
+			if (uartCMD.cmd == '0')
+			{
+				uartCMD.actionID = convert[0];
+				uartCMD.cmd = 'A';
+			}
 		}
-	}
-	case 'V':
-	{
-		if (uartCMD.cmd == '0')
+		break;
+		case 'V':
 		{
-			uartCMD.vertexID = convert[0];
-			uartCMD.cmd = 'V';
+			if (uartCMD.cmd == '0')
+			{
+				uartCMD.vertexID = convert[0];
+				uartCMD.cmd = 'V';
+			}
 		}
-	}
-	break;
-	case 'T':
-	{
-		if (uartCMD.cmd == '0')
+		break;
+		case 'P':
 		{
-			uartCMD.distance = convert[0];
-			uartCMD.cmd = 'T';
+			if (uartCMD.cmd == '0')
+			{
+				uartCMD.point.x = convert[0];
+				uartCMD.point.y = convert[1];
+				uartCMD.angle = convert[2];
+				uartCMD.cmd = 'P';
+			}
 		}
-	}
-	break;
-	case 'P':
-	{
-		if (uartCMD.cmd == '0')
+		break;
+		case 'M':
 		{
-			uartCMD.point.x = convert[0];
-			uartCMD.point.y = convert[1];
-			uartCMD.angle = convert[2];
-			uartCMD.cmd = 'P';
+			if (uartCMD.cmd == '0')
+			{
+				uartCMD.point.x = convert[0];
+				uartCMD.point.y = convert[1];
+				uartCMD.cmd = 'M';
+			}
 		}
-	}
-	case 'R':
-	{
-		if (uartCMD.cmd == '0')
+		break;
+		case 'T':
 		{
-			uartCMD.angle = convert[0];
-			uartCMD.cmd = 'R';
+			if (uartCMD.cmd == '0')
+			{
+				uartCMD.distance = convert[0];
+				uartCMD.cmd = 'T';
+			}
 		}
-	}
-	break;
-	case 'M':
-	{
-		if (uartCMD.cmd == '0')
+		break;
+		case 'R':
 		{
-			uartCMD.point.x = convert[0];
-			uartCMD.point.y = convert[1];
-			uartCMD.cmd = 'M';
+			if (uartCMD.cmd == '0')
+			{
+				uartCMD.angle = convert[0];
+				uartCMD.cmd = 'R';
+			}
 		}
-	}
-	break;
-	case 'N':
-	{
-		if (uartCMD.cmd == '0')
-		{
-			uartCMD.point.x = convert[0];
-			uartCMD.point.y = convert[1];
-			uartCMD.cmd = 'N';
-		}
-	}
-	break;
-	default:
-
+		break;
+		default:
 		break;
 	}
 }

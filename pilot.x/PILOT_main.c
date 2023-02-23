@@ -117,27 +117,11 @@ _PILOT_
 					}
 				}
 				break;
-				case 'T':
-				{
-					Send_UART1_ACK(CMD_BUSY);
-					Translate(uartCMD.distance, SPEED_LIN);
-					while (Wait_Trajectory());
-					Send_UART1_ACK(CMD_DONE);
-				}
-				break;
 				case 'P':
 				{
 					Send_UART1_ACK(CMD_BUSY);
 					Initialize_Robot_Position(uartCMD.point.x, uartCMD.point.y, uartCMD.angle);
 					Initialize_Asserv();
-					Send_UART1_ACK(CMD_DONE);
-				}
-				break;
-				case 'R':
-				{
-					Send_UART1_ACK(CMD_BUSY);
-					Rotate_To_Angle(uartCMD.angle, SPEED_ANG);
-					while (Wait_Trajectory());
 					Send_UART1_ACK(CMD_DONE);
 				}
 				break;
@@ -147,7 +131,7 @@ _PILOT_
 					t_point p;
 					p.x = uartCMD.point.x;
 					p.y = uartCMD.point.y;
-					
+
 					Rotate_To_Point(p, SPEED_ANG);
 					while (Wait_Trajectory());
 					uint32 distance = Get_Distance_Point(&robot.mm, &p);
@@ -156,16 +140,20 @@ _PILOT_
 					Send_UART1_ACK(CMD_DONE);
 				}
 				break;
-				case 'N':
+				case 'T':
 				{
-					/*
-					Set_Timeout_Traj(15000);  // 15s
-
-					do
-					{
-						Go_To_Point(p, SPEED_LIN, SPEED_LIN);
-					} while ((Get_Distance_Vertex(0, Get_End_Vertex()) > 10) && !TIMEOUT_TRAJ);
-					*/
+					Send_UART1_ACK(CMD_BUSY);
+					Translate(uartCMD.distance, SPEED_LIN);
+					while (Wait_Trajectory());
+					Send_UART1_ACK(CMD_DONE);
+				}
+				break;
+				case 'R':
+				{
+					Send_UART1_ACK(CMD_BUSY);
+					Rotate_To_Angle(uartCMD.angle, SPEED_ANG);
+					while (Wait_Trajectory());
+					Send_UART1_ACK(CMD_DONE);
 				}
 				break;
 				default:
