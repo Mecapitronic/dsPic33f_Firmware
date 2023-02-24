@@ -19,7 +19,7 @@
 ****************************************************************************************/
 #define MAX_SEGMENT    4
 #define MAX_CIRCLE     12
-#define MAX_VERTEX     28
+#define MAX_VERTEX     24
 
 #define ROBOT_RADIUS       130  // mm
 #define ROBOT_MARGIN       30   // mm

@@ -31,5 +31,13 @@
   vertex[11].point = Point(1225, 1125);
   vertex[12].point = Point(1225, 225);
   vertex[13].point = Point(2000, 550);
-  vertex[14].point = Point(2000, 1500);
-  vertex[15].point = Point(2000, 2450);
+  vertex[14].point = Point(2000, 1125);
+  vertex[15].point = Point(2000, 1500);
+  vertex[16].point = Point(2000, 1875);
+  vertex[17].point = Point(2000, 2450);
+  vertex[18].point = Point(2525, 2325);
+  vertex[19].point = Point(1475, 2325);
+  vertex[20].point = Point(2525, 675);
+  vertex[21].point = Point(1475, 675);
+  vertex[22].point = Point(2275, 225);
+  vertex[23].point = Point(1725, 225);
