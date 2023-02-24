@@ -15,6 +15,7 @@
  * Variables
  ****************************************************************************************/
 t_circle obstacle[MAX_OBSTACLE];
+uint8 obs_cursor = 0;
 uint16 obstacleFading[MAX_OBSTACLE];
 t_circle false_obstacle[MAX_FALSE_OBSTACLE];
 boolean obstacle_enable = NO;
@@ -92,9 +93,9 @@ t_circle Circle_Obstacle(float32 angle_rad, float32 distance_mm)
 	if (distance_mm < distance_min)
 		distance_mm = distance_min;  // insure minimum distance
 
-  reduction = (1000 / distance_mm) - 1;
-  if (reduction > 1) reduction = 1;
-  else if (reduction < 0) reduction = 0;
+  reduction = distance_mm/1000;
+  if (reduction < 1) reduction = 1;
+  //else if (reduction < 0) reduction = 0;
 
   circle_obstacle.p.x = robot.mm.x + distance_mm*COS(angle_rad);
   circle_obstacle.p.y = robot.mm.y + distance_mm*SIN(angle_rad);
@@ -107,7 +108,7 @@ t_circle Circle_Obstacle(float32 angle_rad, float32 distance_mm)
 }
 
 /****************************************************************************************
- * Update circle obstacle for graph, return obstacle presence in margin at move direction
+ * Update circle obstacle list for graph
  ****************************************************************************************/
 void Update_Obstacles(void)
 {
@@ -137,30 +138,44 @@ void Update_Obstacles(void)
 /****************************************************************************************
  * Add circle obstacle for graph, return obstacle presence in margin at move direction
  ****************************************************************************************/
-boolean Add_Obstacle(uint8 id)
+void Add_Obstacle(uint8 id)
 {
 	float32 angle = 0;
 	uint16 distance = 0;
-	boolean imminent_obstacle = NO;
+	t_circle obs;
+	uint8 i = 0;
+	boolean newObs = TRUE;
 
 	if (obstacle_enable)
 	{
 		angle = Get_Angle_LIDAR(id);
 		distance = Get_Distance_LIDAR(id);
-		obstacle[id] = Circle_Obstacle(DEG_TO_RAD(angle), distance);
-
-		if (Is_Valid_Obstacle(id))
-			obstacleFading[id] = 600;
-
-		if (distance <= BRAKE_DISTANCE)
+		obs = Circle_Obstacle(DEG_TO_RAD(angle), distance);
+		
+		if (obs.r > 0)
 		{
-			imminent_obstacle = YES;
+			for (i = 0; i < MAX_OBSTACLE; i++)
+			{
+				if (Is_Valid_Obstacle(i))
+				{
+					if (abs(obstacle[i].p.x - obs.p.x) < 100 && abs(obstacle[i].p.y - obs.p.y) < 100)
+					{
+						newObs = FALSE;
+						obstacle[i] = obs;
+						break;
+					}
+				}
+			}
+			if (newObs)
+			{
+				obstacle[obs_cursor] = obs;
+				obstacleFading[obs_cursor] = 600;
+				obs_cursor++;
+				if (obs_cursor >= MAX_OBSTACLE)
+					obs_cursor = 0;
+			}
 		}		
 	}
 	// Clear old distance
     Reset_Distance_LIDAR(id);
-
-	return imminent_obstacle;
 }
-
-
