@@ -15,6 +15,7 @@
  * Variables
  ****************************************************************************************/
 t_circle obstacle[MAX_OBSTACLE];
+uint16 obstacleFading[MAX_OBSTACLE];
 t_circle false_obstacle[MAX_FALSE_OBSTACLE];
 boolean obstacle_enable = NO;
 
@@ -113,7 +114,6 @@ void Update_Obstacles(void)
 	uint8 i;
 	float32 angle=0;
 	uint16 distance=0;
-	boolean imminent_obstacle = NO;
 
   if (obstacle_enable)
 	{
@@ -121,8 +121,14 @@ void Update_Obstacles(void)
     {
 		if (Is_Valid_Obstacle(i))
 		{
-			//imminent_obstacle = YES;
-			// TODO
+			if (obstacleFading[i] > 0)
+				obstacleFading[i]--;
+			else
+			{
+				obstacle[i].p.x = 0;
+				obstacle[i].p.y = 0;
+				obstacle[i].r = 0;
+			}
 		}
 	}
   }
@@ -144,7 +150,7 @@ boolean Add_Obstacle(uint8 id)
 		obstacle[id] = Circle_Obstacle(DEG_TO_RAD(angle), distance);
 
 		if (Is_Valid_Obstacle(id))
-			obstacleFading[id] = 500;
+			obstacleFading[id] = 600;
 
 		if (distance <= BRAKE_DISTANCE)
 		{

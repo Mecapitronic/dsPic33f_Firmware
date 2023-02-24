@@ -155,14 +155,11 @@ void Update_UART1(void)
 	Write_UART1(';');
 
 
-	for (int32 i = 0; i < 10; i++)
+	for (int32 i = 0; i < MAX_OBSTACLE; i++)
 	{
-		if (Is_Valid_Obstacle(i)) {
-			
-			Write_Int_UART1(Get_Obstacle(i).p.x);Write_UART1(',');
-			Write_Int_UART1(Get_Obstacle(i).p.y);Write_UART1(',');
-			Write_Int_UART1(Get_Obstacle(i).r);Write_UART1(',');
-		}
+		Write_Int_UART1(Get_Obstacle(i).p.x);Write_UART1(',');
+		Write_Int_UART1(Get_Obstacle(i).p.y);Write_UART1(',');
+		Write_Int_UART1(Get_Obstacle(i).r);Write_UART1(',');
 	}
 
 	/*
