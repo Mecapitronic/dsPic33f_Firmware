@@ -47,6 +47,8 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
                 {
                     lidar_distance_cm[U2_index] = U2_data;
                     lidar_robot_deg[U2_index] = robot.deg;
+                    Add_Obstacle(U2_index);
+                    Update_Passability_Obstacle();
                 }
                 U2_start = FALSE;
             }
@@ -72,7 +74,10 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2ErrInterrupt(void)
  ****************************************************************************************/
 void Initialize_LIDAR(void)
 {
-  Reset_Distance_LIDAR();
+    for (uint8 id=0; id<LIDAR_MAX_SENSOR; id++)
+    {
+        Reset_Distance_LIDAR(id);
+    }
   U2_index = 0;
 	U2_start = FALSE;
   
@@ -121,11 +126,7 @@ float32 Get_Angle_LIDAR(uint8 sensorID)
 /****************************************************************************************
  * Reset distance data of LIDAR => must be call to erase ghost obstacle !
  ****************************************************************************************/
-void Reset_Distance_LIDAR(void)
+void Reset_Distance_LIDAR(uint8 sensorID)
 {
-  uint8 i;
-  for (i=0; i<LIDAR_MAX_SENSOR; i++)
-  {
-    lidar_distance_cm[i] = LIDAR_CM_MAX;
-  }
+  lidar_distance_cm[sensorID] = LIDAR_CM_MAX;
 }

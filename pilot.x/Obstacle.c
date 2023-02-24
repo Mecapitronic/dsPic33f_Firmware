@@ -108,7 +108,7 @@ t_circle Circle_Obstacle(float32 angle_rad, float32 distance_mm)
 /****************************************************************************************
  * Update circle obstacle for graph, return obstacle presence in margin at move direction
  ****************************************************************************************/
-boolean Update_Obstacle(uint16 margin)
+void Update_Obstacles(void)
 {
 	uint8 i;
 	float32 angle=0;
@@ -119,21 +119,42 @@ boolean Update_Obstacle(uint16 margin)
 	{
     for (i=0; i<MAX_OBSTACLE; i++)
     {
-      angle = Get_Angle_LIDAR(i);
-      distance = Get_Distance_LIDAR(i);
-      obstacle[i] = Circle_Obstacle(DEG_TO_RAD(angle), distance);
-
-		if (distance <= margin)
+		if (Is_Valid_Obstacle(i))
 		{
-			imminent_obstacle = YES;
+			//imminent_obstacle = YES;
+			// TODO
 		}
 	}
   }
-	// Clear old distance
-  Reset_Distance_LIDAR();
-
-  return imminent_obstacle;
 }
 
+/****************************************************************************************
+ * Add circle obstacle for graph, return obstacle presence in margin at move direction
+ ****************************************************************************************/
+boolean Add_Obstacle(uint8 id)
+{
+	float32 angle = 0;
+	uint16 distance = 0;
+	boolean imminent_obstacle = NO;
+
+	if (obstacle_enable)
+	{
+		angle = Get_Angle_LIDAR(id);
+		distance = Get_Distance_LIDAR(id);
+		obstacle[id] = Circle_Obstacle(DEG_TO_RAD(angle), distance);
+
+		if (Is_Valid_Obstacle(id))
+			obstacleFading[id] = 500;
+
+		if (distance <= BRAKE_DISTANCE)
+		{
+			imminent_obstacle = YES;
+		}		
+	}
+	// Clear old distance
+    Reset_Distance_LIDAR(id);
+
+	return imminent_obstacle;
+}
 
 

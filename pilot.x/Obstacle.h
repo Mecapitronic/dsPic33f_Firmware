@@ -37,7 +37,8 @@ boolean Is_Valid_Obstacle(uint8 obstacleID);
 void Initialize_Obstacle(void);
 boolean Is_False_Obstacle(t_circle circle_obstacle);
 t_circle Circle_Obstacle(float32 angle_rad, float32 distance_mm);
-boolean Update_Obstacle(uint16 margin);
+void Update_Obstacles(void);
+boolean Add_Obstacle(uint8 id);
 
 #endif	/* OBSTACLE_H */
 
