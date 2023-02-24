@@ -476,18 +476,24 @@ void Update_Passability_Obstacle(void)
     {
       for (i=1; i<MAX_VERTEX; i++)
       { 
-        for (j=(i+1); j<MAX_VERTEX; j++) // ignore vertex couple already checked (i,j)=(j,i)
-        {
-          if (Is_Adjacent(i, j))  // for all couple passabled
+          if (Is_Valid_Vertex(i))
           {
-            edge = Segment(vertex[i].point, vertex[j].point);
+              for (j = (i + 1); j < MAX_VERTEX; j++) // ignore vertex couple already checked (i,j)=(j,i)
+              {
+                  if (Is_Valid_Vertex(j))
+                  {
+                      if (Is_Adjacent(i, j))  // for all couple passabled
+                      {
+                          edge = Segment(vertex[i].point, vertex[j].point);
 
-            if (Is_Circle_CloseTo_Segment(&obstacle[k], &edge, margin)) // check circle proximity
-  {
-              Clear_Adjacent(i,j);  // Temporarily not passabled 
-            }
+                              if (Is_Circle_CloseTo_Segment(&obstacle[k], &edge, margin)) // check circle proximity
+                              {
+                                  Clear_Adjacent(i, j);  // Temporarily not passabled 
+                              }
+                      }
+                  }
+              }
           }
-        }
       }
     }
   }
@@ -555,6 +561,14 @@ t_vertexID Get_End_Vertex(void)
 boolean Is_Equal_Vertex(t_vertexID id1, t_vertexID id2)
 {
   return Is_Equal_Point(&vertex[id1].point, &vertex[id2].point);
+}
+
+/****************************************************************************************
+* Return 1 if the vertex is valid
+****************************************************************************************/
+boolean Is_Valid_Vertex(uint8 vertexID)
+{
+    return (&vertex[vertexID].point.x !=0 || &vertex[vertexID].point.y != 0);
 }
 
 /****************************************************************************************
