@@ -48,7 +48,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
                     lidar_distance_cm[U2_index] = U2_data;
                     lidar_robot_deg[U2_index] = robot.deg;
                     Add_Obstacle(U2_index);
-                    Update_Passability_Obstacle();
+                    //Update_Passability_Obstacle();
                 }
                 U2_start = FALSE;
             }
