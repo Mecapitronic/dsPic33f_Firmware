@@ -64,25 +64,49 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void)
 }
 
 /****************************************************************************************
+ * Interrupt UART1 Error
+ ****************************************************************************************/
+void __attribute__((__interrupt__, no_auto_psv)) _U1ErrInterrupt(void)
+{
+  U1STAbits.PERR = 0;
+  U1STAbits.FERR = 0;
+  U1STAbits.OERR = 0;
+  IFS4bits.U1EIF = 0; // clear interrupt flag
+}
+
+/****************************************************************************************
  * Initialize UART1
  ****************************************************************************************/
 void Initialize_UART1(void)
 {
 	Setup_UART1_RX_Pin();
 	Setup_UART1_TX_Pin();
-
-	U1MODEbits.STSEL = 0; // 1-stop bit
-	U1MODEbits.PDSEL = 2; //U1MODEbits.PDSEL = 10; // Odd Parity, 8-data bits
-	U1MODEbits.ABAUD = 0; // Autobaud Disabled
+    
+    //STSEL: Stop Selection bit
+    //1 = 2 Stop bits
+    //0 = 1 Stop bit
+	U1MODEbits.STSEL = 0;
+    
+	//Parity and Data Selection bits
+    //11 = 9-bit data, no parity
+    //10 = 8-bit data, odd parity
+    //01 = 8-bit data, even parity
+    //00 = 8-bit data, no parity
+	U1MODEbits.PDSEL = 0;
+    
+    U1MODEbits.ABAUD = 0; // Autobaud Disabled
 	U1MODEbits.BRGH = 0; // Low Speed mode
 
 	U1BRG = (FCY / U1_BAUD) / 16 - 1; // baud rate setting
 
 	U1STAbits.URXISEL = 0; //Interrupt after one RX character is received;
 
-	IEC0bits.U1RXIE = 1;
-	U1STA &= 0xfffc;
-	U1MODEbits.UARTEN = 1; // Enable UART
+    IPC2bits.U1RXIP = 4; //UART1 RX interrupt priority, mid-range
+    IPC16bits.U1EIP = 5; //UART1 error priority set higher
+  
+    IEC4bits.U1EIE = 1;     // enable error interrupt
+	IEC0bits.U1RXIE = 1;    // enable RX interrupt
+	U1MODEbits.UARTEN = 1;  // Enable UART
 	U1STAbits.UTXEN = 1;
 	U1STAbits.URXDA = 0; //empty buffer
 
@@ -162,14 +186,14 @@ void Update_UART1(void)
 	Write_Float_UART1(RAD_TO_DEG(robot.rad), 0);
 	Write_UART1(';');
 
-
+/*
 	for (int32 i = 0; i < MAX_OBSTACLE; i++)
 	{
 		Write_Int_UART1(Get_Obstacle(i).p.x);Write_UART1(',');
 		Write_Int_UART1(Get_Obstacle(i).p.y);Write_UART1(',');
 		Write_Int_UART1(Get_Obstacle(i).r);Write_UART1(',');
 	}
-
+*/
 	/*
 	// Robot Start/End path
 	Write_Int_UART1(vertex[0].point.x);
