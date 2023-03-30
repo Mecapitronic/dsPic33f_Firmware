@@ -71,7 +71,7 @@ void Setup_Hardware(void)
 
     ADC_On();
 	Initialize_UART1();
-    Initialize_LIDAR();
+    Initialize_UART2();
 
 }
 

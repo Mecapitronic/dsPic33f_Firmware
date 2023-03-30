@@ -148,8 +148,8 @@ void Add_Obstacle(uint8 id)
 
 	if (obstacle_enable)
 	{
-		angle = Get_Angle_LIDAR(id);
-		distance = Get_Distance_LIDAR(id);
+		//angle = Get_Angle_LIDAR(id);
+		//distance = Get_Distance_LIDAR(id);
 		obs = Circle_Obstacle(DEG_TO_RAD(angle), distance);
 		
 		if (obs.r > 0)
@@ -177,5 +177,5 @@ void Add_Obstacle(uint8 id)
 		}		
 	}
 	// Clear old distance
-    Reset_Distance_LIDAR(id);
+    //Reset_Distance_LIDAR(id);
 }
