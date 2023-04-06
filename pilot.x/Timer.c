@@ -58,6 +58,7 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void)
 			send_ack = FALSE;
 		}
 		Update_UART1();
+		Update_UART2();
 #endif
 
 #ifdef SERIAL_PRINT

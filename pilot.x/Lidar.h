@@ -19,7 +19,7 @@
 ****************************************************************************************/
 // UART 2
 #define U2_FCY     (unsigned long)40000000   // operating frequency (MIPS)
-#define U2_BAUD    250000 // /!\ check if UxBRG value is integer
+#define U2_BAUD    125000 // /!\ check if UxBRG value is integer
 #define U2RX_SIZE  16
 #define Setup_UART2_RX_Pin()  do{ RPINR19bits.U2RXR = 2; }while(0);  // pin 23 / RP2
 #define Setup_UART2_TX_Pin()  do{  }while(0);  // pin 24 / RP3 => No need TX for LIDAR
@@ -33,6 +33,9 @@
 ****************************************************************************************/
 void Initialize_UART2(void);
 void Analyse_Data_UART2();
+
+void Afficher_UART2(uint8 ligne);
+void Update_UART2(void);
 
 #ifdef _VISUAL_STUDIO
 void _U2RXInterrupt(void);

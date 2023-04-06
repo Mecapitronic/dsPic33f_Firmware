@@ -137,7 +137,27 @@ void Analyse_Data_UART2()
 	int num = convert[0];
 	int x = convert[1];
 	int y = convert[2];
-
-
 }
 
+void Afficher_UART2(uint8 ligne)
+{
+	LCD_Line(ligne);
+	//LCD_Text("O", 1);
+	LCD_Value(obstacle[0].p.x, 4, 0);
+	LCD_Text(",", 1);
+	LCD_Value(obstacle[0].p.y, 4, 0);
+	LCD_Text(";", 1);
+	LCD_Value(obstacle[1].p.x, 4, 0);
+	LCD_Text(",", 1);
+	LCD_Value(obstacle[1].p.y, 4, 0);
+}
+
+void Update_UART2(void)
+{
+	// Robot Position
+	//Write_Int_UART2(robot.mm.x);
+	//Write_UART1(';');
+	//Write_Int_UART2(robot.mm.y);
+	//Write_UART1(';');
+	//Write_Float_UART2(RAD_TO_DEG(robot.rad), 0);
+}
