@@ -159,7 +159,7 @@ void Update_Obstacles(void)
 /****************************************************************************************
  * Add circle obstacle for graph, return obstacle presence in margin at move direction
  ****************************************************************************************/
-void Add_Obstacle(uint8 id)
+void Add_Obstacle_Polar(uint8 id)
 {
 	float32 angle = 0;
 	uint16 distance = 0;
@@ -171,7 +171,7 @@ void Add_Obstacle(uint8 id)
 	{
 		//angle = Get_Angle_LIDAR(id);
 		//distance = Get_Distance_LIDAR(id);
-		obs = Circle_Obstacle(DEG_TO_RAD(angle), distance);
+		obs = Circle_Obstacle_Polar(DEG_TO_RAD(angle), distance);
 		
 		if (obs.r > 0)
 		{
@@ -199,4 +199,16 @@ void Add_Obstacle(uint8 id)
 	}
 	// Clear old distance
     //Reset_Distance_LIDAR(id);
+}
+
+/****************************************************************************************
+ * Add circle obstacle for graph, return obstacle presence in margin at move direction
+ ****************************************************************************************/
+void Add_Obstacle_Cart(uint8 id, int x, int y)
+{
+	if (obstacle_enable)
+	{
+        obstacle[id] = Circle_Obstacle_Cart(x, y);
+        obstacleFading[id] = 100;	
+	}
 }

@@ -137,6 +137,7 @@ void Analyse_Data_UART2()
 	int num = convert[0];
 	int x = convert[1];
 	int y = convert[2];
+	Add_Obstacle_Cart(num, x, y);
 }
 
 void Afficher_UART2(uint8 ligne)
