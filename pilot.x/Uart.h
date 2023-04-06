@@ -26,7 +26,7 @@ extern uint8 send_ack_cmd;
 ****************************************************************************************/
 #define FCY  (unsigned long)40000000   // operating frequency (MIPS)
 // UART 1
-#define U1_BAUD    57600 // /!\ check if UxBRG value is integer
+#define U1_BAUD    125000 // /!\ check if UxBRG value is integer
 #define U1RX_SIZE  64
 #define Setup_UART1_RX_Pin()  do{ RPINR18bits.U1RXR = 11; }while(0);  // pin 9 / RP 11
 #define Setup_UART1_TX_Pin()  do{ RPOR8bits.RP17R = 3; }while(0);     // pin 26 / RP 17
