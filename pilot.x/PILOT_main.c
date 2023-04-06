@@ -58,11 +58,27 @@ _PILOT_
 		LCD_Text("Couleur ", 8);
 		if (team == TEAM_A) LCD_Text(LCD_TEAM_A,12);
 		else LCD_Text(LCD_TEAM_B,12);
-
+        
+        LCD_Line(3);
+        LCD_Text("Waiting start ", 14);
+        for (uint8 i = 0; i < start; i++) 
+        {
+			LCD_Char('.');
+		}
+        for (uint8 i = 0; i < 6; i++) 
+        {
+			LCD_Char(' ');
+		}
+        start++;
+        if(start >=5)
+            start=0;
+        
 		LCD_Line(4);
 		if(MODE_TEST) LCD_Text("Mode Test", 10);
 		else LCD_Text("Mode Match!", 10);
 	}
+    LCD_Line(3);
+	LCD_Text(" --> Starting ! <-- ", 20);
 
 	Initialize_UART1();
     Initialize_UART2();
