@@ -110,74 +110,60 @@ _PILOT_
 			{
 				switch (uartCMD.cmd)
 				{
-				case 'A':
-				{
-
-					Send_UART1_ACK(CMD_BUSY);
-					if (Execute_Action(uartCMD.actionID))
-					{
-						Send_UART1_ACK(CMD_DONE);
-					}
-					else
-					{
-						Send_UART1_ACK(CMD_FAIL);
-					}
-				}
-				case 'V':
-				{
-					Send_UART1_ACK(CMD_BUSY);
-					if (Navigate_To_Vertex(uartCMD.vertexID, 10))
-					{
-						Send_UART1_ACK(CMD_DONE);
-					}
-					else
-					{
-						Send_UART1_ACK(CMD_FAIL);
-					}
-				}
-				break;
-				case 'P':
-				{
-					Send_UART1_ACK(CMD_BUSY);
-					Initialize_Robot_Position(uartCMD.point.x, uartCMD.point.y, uartCMD.angle);
-					Initialize_Asserv();
-					Send_UART1_ACK(CMD_DONE);
-				}
-				break;
-				case 'M':
-				{
-					Send_UART1_ACK(CMD_BUSY);
-					t_point p;
-					p.x = uartCMD.point.x;
-					p.y = uartCMD.point.y;
-
-					Rotate_To_Point(p, SPEED_ANG);
-					while (Wait_Trajectory());
-					uint32 distance = Get_Distance_Point(&robot.mm, &p);
-					Translate(distance, SPEED_LIN);
-					while (Wait_Trajectory());
-					Send_UART1_ACK(CMD_DONE);
-				}
-				break;
-				case 'T':
-				{
-					Send_UART1_ACK(CMD_BUSY);
-					Translate(uartCMD.distance, SPEED_LIN);
-					while (Wait_Trajectory());
-					Send_UART1_ACK(CMD_DONE);
-				}
-				break;
-				case 'R':
-				{
-					Send_UART1_ACK(CMD_BUSY);
-					Rotate_To_Angle(uartCMD.angle, SPEED_ANG);
-					while (Wait_Trajectory());
-					Send_UART1_ACK(CMD_DONE);
-				}
-				break;
-				default:
-
-					break;
+                    case 'A':
+					    Send_UART1_ACK(CMD_BUSY);
+                        if (Execute_Action(uartCMD.actionID))
+                        {
+                            Send_UART1_ACK(CMD_DONE);
+                        }
+                        else
+                        {
+                            Send_UART1_ACK(CMD_FAIL);
+                        }				
+                        break;
+                    case 'V':				
+                        Send_UART1_ACK(CMD_BUSY);
+                        if (Navigate_To_Vertex(uartCMD.vertexID, 10))
+                        {
+                            Send_UART1_ACK(CMD_DONE);
+                        }
+                        else
+                        {
+                            Send_UART1_ACK(CMD_FAIL);
+                        }
+                        break;
+                    case 'P':				
+                        Send_UART1_ACK(CMD_BUSY);
+                        Initialize_Robot_Position(uartCMD.point.x, uartCMD.point.y, uartCMD.angle);
+                        Initialize_Asserv();
+                        Send_UART1_ACK(CMD_DONE);
+                        break;
+                    case 'M':				
+                        Send_UART1_ACK(CMD_BUSY);
+                        t_point p;
+                        p.x = uartCMD.point.x;
+                        p.y = uartCMD.point.y;
+                        Rotate_To_Point(p, SPEED_ANG);
+                        while (Wait_Trajectory());
+                        uint32 distance = Get_Distance_Point(&robot.mm, &p);
+                        Translate(distance, SPEED_LIN);
+                        while (Wait_Trajectory());
+                        Send_UART1_ACK(CMD_DONE);                   
+                        break;
+                    case 'T':				
+                        Send_UART1_ACK(CMD_BUSY);
+                        Translate(uartCMD.distance, SPEED_LIN);
+                        while (Wait_Trajectory());
+                        Send_UART1_ACK(CMD_DONE);
+                        break;
+                    case 'R':				
+                        Send_UART1_ACK(CMD_BUSY);
+                        Rotate_To_Angle(uartCMD.angle, SPEED_ANG);
+                        while (Wait_Trajectory());
+                        Send_UART1_ACK(CMD_DONE);
+                        break;
+                    default:
+                        break;
 				}
 				uartCMD.cmd = '0';
 			}

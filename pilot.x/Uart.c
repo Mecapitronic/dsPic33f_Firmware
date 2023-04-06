@@ -282,25 +282,20 @@ void Analyse_Data_UART1()
 	switch (U1_trame[0])
 	{
 		case 'A':
-		{
 			if (uartCMD.cmd == '0')
 			{
 				uartCMD.actionID = convert[0];
 				uartCMD.cmd = 'A';
 			}
-		}
-		break;
+			break;
 		case 'V':
-		{
 			if (uartCMD.cmd == '0')
 			{
 				uartCMD.vertexID = convert[0];
 				uartCMD.cmd = 'V';
 			}
-		}
-		break;
+			break;
 		case 'P':
-		{
 			if (uartCMD.cmd == '0')
 			{
 				uartCMD.point.x = convert[0];
@@ -308,38 +303,31 @@ void Analyse_Data_UART1()
 				uartCMD.angle = convert[2];
 				uartCMD.cmd = 'P';
 			}
-		}
-		break;
+			break;
 		case 'M':
-		{
 			if (uartCMD.cmd == '0')
 			{
 				uartCMD.point.x = convert[0];
 				uartCMD.point.y = convert[1];
 				uartCMD.cmd = 'M';
 			}
-		}
-		break;
+			break;
 		case 'T':
-		{
 			if (uartCMD.cmd == '0')
 			{
 				uartCMD.distance = convert[0];
 				uartCMD.cmd = 'T';
 			}
-		}
-		break;
+			break;
 		case 'R':
-		{
 			if (uartCMD.cmd == '0')
 			{
 				uartCMD.angle = convert[0];
 				uartCMD.cmd = 'R';
 			}
-		}
-		break;
+			break;
 		default:
-		break;
+			break;
 	}
 }
 
