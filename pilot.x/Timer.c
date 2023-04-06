@@ -31,9 +31,6 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_PRIMAIRE_INT(void)
 		Update_Asserv();    // Motor control
 
 		Update_Start_Vertex();  // start vertex for graph (robot position)
-		Update_Passability_Obstacle();
-		Update_Passability_Robot();
-		Update_Obstacles();
   }
   else
   {
@@ -52,7 +49,7 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void)
 {
 	if (TIMER_SECONDAIRE_INT_ENABLE)
 	{
-
+        Update_Obstacles();
 #ifdef UART1_ENABLE
 		if (send_ack)
 		{

@@ -138,7 +138,7 @@ boolean Path_Planning(void)
   boolean result;
   LED = !LED;
   //Update_Obstacles(BRAKE_DISTANCE);
-  //Update_Passability_Graph();
+  Update_Passability_Graph();
   result = Path_Finding();
   //LED = OFF;
   return result;
