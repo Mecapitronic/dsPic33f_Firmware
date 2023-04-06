@@ -36,7 +36,8 @@ t_circle Get_Obstacle(uint8 obstacleID);
 boolean Is_Valid_Obstacle(uint8 obstacleID);
 void Initialize_Obstacle(void);
 boolean Is_False_Obstacle(t_circle circle_obstacle);
-t_circle Circle_Obstacle(float32 angle_rad, float32 distance_mm);
+t_circle Circle_Obstacle_Polar(float32 angle_rad, float32 distance_mm);
+t_circle Circle_Obstacle_Cart(int x, int y);
 void Update_Obstacles(void);
 void Add_Obstacle(uint8 id);
 

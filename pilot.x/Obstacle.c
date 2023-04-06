@@ -50,7 +50,13 @@ void Initialize_Obstacle(void)
 	false_obstacle[4] = Circle(1150, 40, 40 + OBSTACLE_MARGIN);   // fusee
 	false_obstacle[5] = Circle(1850, 40, 40 + OBSTACLE_MARGIN);   // fusee 
    */
-  
+    for (uint8 i=0; i<MAX_OBSTACLE; i++)
+    {
+        obstacle[i].p.x = 0;
+        obstacle[i].p.y = 0;
+        obstacle[i].r = 0;
+    }
+    
   // enable obstacle detection
   obstacle_enable = YES;
 }
@@ -78,7 +84,7 @@ boolean Is_False_Obstacle(t_circle circle_obstacle)
 /****************************************************************************************
 * Return a circle obstacle at angle and distance from robot center
 ****************************************************************************************/
-t_circle Circle_Obstacle(float32 angle_rad, float32 distance_mm)
+t_circle Circle_Obstacle_Polar(float32 angle_rad, float32 distance_mm)
 {
 	t_circle circle_obstacle;
 	uint16 distance_min;
@@ -108,13 +114,28 @@ t_circle Circle_Obstacle(float32 angle_rad, float32 distance_mm)
 }
 
 /****************************************************************************************
+* Return a circle obstacle at x and y in absolute
+****************************************************************************************/
+t_circle Circle_Obstacle_Cart(int x, int y)
+{
+    t_circle circle_obstacle;
+    if (x == 0 && y == 0)
+		return Circle(0, 0, 0);
+    circle_obstacle.p.x = x; //robot.mm.x
+    circle_obstacle.p.y = y; //robot.mm.y
+    circle_obstacle.r = OBSTACLE_RADIUS;
+    
+	if (Is_False_Obstacle(circle_obstacle))
+		return Circle(0, 0, 0);    
+	return circle_obstacle;
+}
+
+/****************************************************************************************
  * Update circle obstacle list for graph
  ****************************************************************************************/
 void Update_Obstacles(void)
 {
 	uint8 i;
-	float32 angle=0;
-	uint16 distance=0;
 
   if (obstacle_enable)
 	{
