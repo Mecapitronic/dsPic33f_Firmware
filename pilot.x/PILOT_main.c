@@ -64,6 +64,9 @@ _PILOT_
 		else LCD_Text("Mode Match!", 10);
 	}
 
+	Initialize_UART1();
+    Initialize_UART2();
+    
 	if (team == TEAM_A)
 		Initialize_Robot_Position(225, 225, 90);
 	else

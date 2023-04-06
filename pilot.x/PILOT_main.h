@@ -35,7 +35,7 @@
 /****************************************************************************************
  * Includes
  ****************************************************************************************/
-#include "../MECAPITRONICLibrary/Includes/LIBRARY_module.h"
+#include "../MecapitronicLibrary/Includes/LIBRARY_module.h"
 
 #include "PILOT_hardware.h"
 #include "Motor.h"
