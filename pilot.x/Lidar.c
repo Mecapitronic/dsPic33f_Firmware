@@ -26,17 +26,32 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
 {
 	if (IEC1bits.U2RXIE)
 	{
-		if (U2STAbits.URXDA == 1) // RX buffer has data
+        /* Check for receive errors */
+		if (U1STAbits.FERR == 1)
+		{
+			//continue;
+		}
+
+		/* Must clear the overrun error to keep UART receiving */
+		if (U1STAbits.OERR == 1)
+		{
+			U1STAbits.OERR = 0;
+			//continue;
+		}
+
+		while (U2STAbits.URXDA == 1) // RX buffer has data
 		{
 			// 01;3000;3000\n
 			U2_data = U2RXREG;
-
 			if (U2_cursor < U2RX_SIZE)
 			{
 				U2_trame[U2_cursor++] = U2_data;
 
-				if (U2_data == 10 && U2_cursor == U2RX_SIZE)
+				if (U2_data == 10)
 				{
+                    if (U2_cursor > 0 && U2_cursor < U2RX_SIZE-1 && U2_trame[U2_cursor - 1] != ';')
+                        U2_trame[U2_cursor++] = ';';
+                    
 					Analyse_Data_UART2();
 					for (uint16 i = 0; i < U2_cursor; i++)
 					{
