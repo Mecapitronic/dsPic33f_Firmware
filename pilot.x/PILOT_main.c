@@ -48,6 +48,8 @@ _PILOT_
 	LCD_Line(3);
 	LCD_Text("Waiting start...", 20);
 
+    uint8 start=0;
+
 	while(!START_PILOT)  // attente de démarrage du copilot
 	{
 		LED_Toggle();
@@ -144,22 +146,22 @@ _PILOT_
                         p.x = uartCMD.point.x;
                         p.y = uartCMD.point.y;
                         Rotate_To_Point(p, SPEED_ANG);
-                        while (Wait_Trajectory());
+						while (Wait_Trajectory()) { Display(); };
                         uint32 distance = Get_Distance_Point(&robot.mm, &p);
                         Translate(distance, SPEED_LIN);
-                        while (Wait_Trajectory());
+                        while (Wait_Trajectory()) { Display(); };
                         Send_UART1_ACK(CMD_DONE);                   
                         break;
                     case 'T':				
                         Send_UART1_ACK(CMD_BUSY);
                         Translate(uartCMD.distance, SPEED_LIN);
-                        while (Wait_Trajectory());
+                        while (Wait_Trajectory()) { Display(); };
                         Send_UART1_ACK(CMD_DONE);
                         break;
                     case 'R':				
                         Send_UART1_ACK(CMD_BUSY);
                         Rotate_To_Angle(uartCMD.angle, SPEED_ANG);
-                        while (Wait_Trajectory());
+                        while (Wait_Trajectory()) { Display(); };
                         Send_UART1_ACK(CMD_DONE);
                         break;
                     default:
@@ -167,6 +169,7 @@ _PILOT_
 				}
 				uartCMD.cmd = '0';
 			}
+            Display();
 		}
 	}
 	else
@@ -212,7 +215,9 @@ _PILOT_
 /****************************************************************************************
  * LCD display
  ****************************************************************************************/
-	void Display()
+int32 running=0;
+int32 coef=32;
+void Display()
 {
 	// robot position
 	LCD_Line(1);
@@ -223,9 +228,22 @@ _PILOT_
 	LCD_Text(" ", 1);
 	LCD_Value(robot.deg, 3, 0);
 	LCD_Char(0xDF); // "degre" character
-	LCD_Text(" ", 1);
-
-	// command position
+	//LCD_Text(" ", 1);
+    if(running<coef)
+        LCD_Text("|", 1);
+    else if(running<coef*2)
+        LCD_Text("/", 1);
+    else if(running<coef*3)
+        LCD_Text("-", 1);
+    else if(running<coef*4)
+        LCD_Text("\\", 1);
+        //LCD_Char(0x5C); // '\' char
+    
+    running++;
+    if(running>coef*4)
+        running=0;
+	
+    // command position
 	LCD_Line(2);
 	LCD_Text("cL", 2);
 	LCD_Value(STEP_TO_MM(move_lin.command.position - robot.lin.position), 7, 0);
@@ -233,14 +251,17 @@ _PILOT_
 	LCD_Value(STEP_TO_DEG(move_ang.command.position - robot.ang.position), 7, 0);
 
 	// command velocity
-	LCD_Line(3);
-	LCD_Text("cVL", 3);
-	LCD_Value(move_lin.command.velocity, 6, 0);
-	LCD_Text("  cVA", 5);
-	LCD_Value(move_ang.command.velocity, 6, 0);
+	//LCD_Line(3);
+	//LCD_Text("cVL", 3);
+	//LCD_Value(move_lin.command.velocity, 6, 0);
+	//LCD_Text("  cVA", 5);
+	//LCD_Value(move_ang.command.velocity, 6, 0);
 
+    Afficher_UART(3);
+    
 	// UART Receive
-	Afficher_UART(4);
+	Afficher_UART2(4);
+    
 }
 
 
