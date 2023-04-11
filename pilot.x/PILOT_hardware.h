@@ -105,8 +105,8 @@
 #define LIDAR_RX            PIN_23
 #define PIN_23_CONFIG       IN_
 // PIN 24
-#define FREE_PIN_24         PIN_24
-#define PIN_24_CONFIG       IN_
+#define LIDAR_TX            PIN_24
+#define PIN_24_CONFIG       OUT_
 // PIN 25
 #define FREE_PIN_25         PIN_25
 #define PIN_25_CONFIG       IN_

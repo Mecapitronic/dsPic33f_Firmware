@@ -22,7 +22,7 @@
 #define U2_BAUD    125000 // /!\ check if UxBRG value is integer
 #define U2RX_SIZE  16
 #define Setup_UART2_RX_Pin()  do{ RPINR19bits.U2RXR = 2; }while(0);  // pin 23 / RP2
-#define Setup_UART2_TX_Pin()  do{  }while(0);  // pin 24 / RP3 => No need TX for LIDAR
+#define Setup_UART2_TX_Pin()  do{ RPOR1bits.RP3R = 5; }while(0);  // pin 24 / RP3
 
 #define LIDAR_CM_MIN     2   // cm
 #define LIDAR_CM_MAX     150  // cm

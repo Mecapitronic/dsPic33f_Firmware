@@ -39,7 +39,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
 			//continue;
 		}
 
-		while (U2STAbits.URXDA == 1) // RX buffer has data
+		if (U2STAbits.URXDA == 1) // RX buffer has data
 		{
 			// 01;3000;3000\n
 			U2_data = U2RXREG;
@@ -102,7 +102,31 @@ void Initialize_UART2(void)
 	IEC1bits.U2RXIE = 1; // enable RX interrupt
 
 	U2MODEbits.UARTEN = 1; // Enable UART
-	//U2STAbits.UTXEN = 1; 
+	U2STAbits.UTXEN = 1; 
+    
+	U2STAbits.URXDA = 0; //empty buffer
+        
+	for (int32 i = 0; i < U2RX_SIZE; i++)
+	{
+		U2_trame[i] = 0;
+	}
+	U2_cursor = 0;
+
+}
+
+/****************************************************************************************
+ * Write data to UART2
+ ****************************************************************************************/
+void Write_UART2(uint16 data)
+{
+	while (U2STAbits.TRMT == 0);
+	if (U2MODEbits.PDSEL == 3)
+		U2TXREG = data;
+	else
+		U2TXREG = data & 0xFF;
+#ifdef _VISUAL_STUDIO
+	U2STAbits.TRMT = 0;
+#endif
 }
 
 /****************************************************************************************
@@ -155,10 +179,24 @@ void Afficher_UART2(uint8 ligne)
 
 void Update_UART2(void)
 {
-	// Robot Position
-	//Write_Int_UART2(robot.mm.x);
-	//Write_UART1(';');
-	//Write_Int_UART2(robot.mm.y);
-	//Write_UART1(';');
-	//Write_Float_UART2(RAD_TO_DEG(robot.rad), 0);
+    t_point p = robot.mm;
+    
+	//Starting char : '!'
+    Write_UART2(0x21);
+    
+    //Robot X    
+    Write_UART2(p.x%256);
+    Write_UART2(p.x >> 8);
+    
+    //Robot Y
+    Write_UART2(p.y%256);
+    Write_UART2(p.y >> 8);
+        
+    //Robot Angle * 100
+    int32 angle = (int32)(robot.deg*100);
+    Write_UART2(angle%256);
+    Write_UART2(angle >> 8);
+    
+    //Ending char : 'LF'
+    Write_UART2(10);
 }
