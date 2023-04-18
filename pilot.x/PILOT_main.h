@@ -29,8 +29,8 @@
 #define MAP_FILE_TEAM_A      "Map2023Verte.c"
 #define MAP_FILE_TEAM_B      "Map2023Bleue.c"
 
-#define LCD_TEAM_A       "VERTE"
-#define LCD_TEAM_B       "BLEUE"
+#define LCD_TEAM_A       "VERT"
+#define LCD_TEAM_B       "BLEU"
 
 /****************************************************************************************
  * Includes

@@ -388,7 +388,7 @@
 * Prototypes Fonctions
 ****************************************************************************************/
 void Setup_Hardware(void);
-void Sequence_Initiale(void);
+void Sequence_LED_Initiale(void);
 
 #endif	/* PILOT_HARDWARE_H */
 
