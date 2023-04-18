@@ -94,7 +94,12 @@ void MessageUart(int index, char* strBuffer)
 }
 void GetLCDText(int line, char* strBuffer)
 {
-	strcpy(strBuffer, LCDText[line]);
+	string text = "";
+	for (size_t i = 0; i < 20; i++)
+	{
+		text += LCDText[line][i];
+	}
+	strcpy(strBuffer, text.c_str());
 }
 int IndexUart()
 {
