@@ -42,40 +42,21 @@ _PILOT_
 	LCD_Clear_Line();
 	LCD_Line(4);
 	LCD_Clear_Line();
-
-	LCD_Line(1);
-	LCD_Text("MECAPITRONIC GR 2023", LCD_NB_CHARS);
-	LCD_Line(2);
-	LCD_Text("V: ",3);
-	LCD_Text(__DATE__, 6);
-	LCD_Text(" ", 1);
-	LCD_Text(__TIME__, 8);
-
-    uint8 start=0;
+	
+	uint16 timeLCD = 0;
 	while(!START_PILOT)  // attente de démarrage du copilot
 	{
-		LED_Toggle();
-        Delay_Ms(250); //TODO check more for START_PILOT, we can loose at start 250ms
 		team = SELECT;
 		COLOR_TEAM = team;
-		LCD_Line(3);
-		LCD_Text("PILOT ", 6);
-		if(MODE_TEST) LCD_Text("Test ", 5);
-		else LCD_Text("Match", 5);
-		for (uint8 i = 0; i < 5; i++)
-		{
-			if (start == i)
-				LCD_Char('.');
-			else
-				LCD_Char(' ');
+		if (timeLCD > 250) {
+			LED_Toggle();			
+			Sequence_LCD_Initiale();
+			timeLCD = 0;
 		}
-		if (team == TEAM_A) LCD_Text(LCD_TEAM_A,4);
-		else LCD_Text(LCD_TEAM_B,4);	
-		
-        start++;
-        if(start >=5)
-            start=0;
+		timeLCD++;
+		Delay_Ms(1);
 	}
+
 	Initialize_UART1();
     Initialize_UART2();
     
