@@ -32,6 +32,10 @@
 * Prototypes
 ****************************************************************************************/
 void Initialize_UART2(void);
+void Start_UART2(void);
+void Stop_UART2(void);
+boolean State_UART2(void);
+
 void Analyse_Data_UART2();
 
 void Afficher_UART2(uint8 ligne);

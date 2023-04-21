@@ -68,10 +68,10 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1RXInterrupt(void)
  ****************************************************************************************/
 void __attribute__((__interrupt__, no_auto_psv)) _U1ErrInterrupt(void)
 {
-  U1STAbits.PERR = 0;
-  U1STAbits.FERR = 0;
-  U1STAbits.OERR = 0;
-  IFS4bits.U1EIF = 0; // clear interrupt flag
+	U1STAbits.PERR = 0;
+	U1STAbits.FERR = 0;
+	U1STAbits.OERR = 0;
+	IFS4bits.U1EIF = 0; // clear interrupt flag
 }
 
 /****************************************************************************************
@@ -79,35 +79,30 @@ void __attribute__((__interrupt__, no_auto_psv)) _U1ErrInterrupt(void)
  ****************************************************************************************/
 void Initialize_UART1(void)
 {
+	Stop_UART1();
+
 	Setup_UART1_RX_Pin();
 	Setup_UART1_TX_Pin();
-    
-    //STSEL: Stop Selection bit
-    //1 = 2 Stop bits
-    //0 = 1 Stop bit
-	U1MODEbits.STSEL = 0;
-    
-	//Parity and Data Selection bits
-    //11 = 9-bit data, no parity
-    //10 = 8-bit data, odd parity
-    //01 = 8-bit data, even parity
-    //00 = 8-bit data, no parity
-	U1MODEbits.PDSEL = 0;
-    
-    U1MODEbits.ABAUD = 0; // Autobaud Disabled
-	U1MODEbits.BRGH = 0; // Low Speed mode
 
+	//STSEL: Stop Selection bit
+	//1 = 2 Stop bits
+	//0 = 1 Stop bit
+	U1MODEbits.STSEL = 0;
+
+	//Parity and Data Selection bits
+	//11 = 9-bit data, no parity
+	//10 = 8-bit data, odd parity
+	//01 = 8-bit data, even parity
+	//00 = 8-bit data, no parity
+	U1MODEbits.PDSEL = 0;	// 8-bit data, no parity
+	U1MODEbits.ABAUD = 0;	// Autobaud Disabled
+	U1MODEbits.BRGH = 0;	// Low Speed mode
 	U1BRG = (FCY / U1_BAUD) / 16 - 1; // baud rate setting
 
-	U1STAbits.URXISEL = 0; //Interrupt after one RX character is received;
+	U1STAbits.URXISEL = 0;	//Interrupt after one RX character is received;
+	IPC2bits.U1RXIP = 4;	//UART1 RX interrupt priority, mid-range
+	IPC16bits.U1EIP = 5;	//UART1 error priority set higher
 
-    IPC2bits.U1RXIP = 4; //UART1 RX interrupt priority, mid-range
-    IPC16bits.U1EIP = 5; //UART1 error priority set higher
-  
-    IEC4bits.U1EIE = 1;     // enable error interrupt
-	IEC0bits.U1RXIE = 1;    // enable RX interrupt
-	U1MODEbits.UARTEN = 1;  // Enable UART
-	U1STAbits.UTXEN = 1;
 	U1STAbits.URXDA = 0; //empty buffer
 
 	for (int32 i = 0; i < U1RX_SIZE; i++)
@@ -121,6 +116,27 @@ void Initialize_UART1(void)
 	uartCMD.vertexID = 0;
 	uartCMD.point.x = 0;
 	uartCMD.point.y = 0;
+}
+
+void Start_UART1(void)
+{
+	IEC4bits.U1EIE = 1;     // enable error interrupt
+	IEC0bits.U1RXIE = 1;    // enable RX interrupt
+	U1MODEbits.UARTEN = 1;  // Enable UART 1
+	U1STAbits.UTXEN = 1;	// enable TX UART (Enable UARTEN bit before enabling the UTXEN bit (UxSTA<10>)
+}
+
+void Stop_UART1(void)
+{
+	U1STAbits.UTXEN = 0;
+	U1MODEbits.UARTEN = 0;  // Disable UART 1
+	IEC0bits.U1RXIE = 0;
+	IEC4bits.U1EIE = 0;
+}
+
+boolean State_UART1(void)
+{
+	return U1MODEbits.UARTEN;
 }
 
 
@@ -285,53 +301,53 @@ void Analyse_Data_UART1()
 
 	switch (U1_trame[0])
 	{
-		case 'A':
-			if (uartCMD.cmd == '0')
-			{
-				uartCMD.actionID = convert[0];
-				uartCMD.cmd = 'A';
-			}
-			break;
-		case 'V':
-			if (uartCMD.cmd == '0')
-			{
-				uartCMD.vertexID = convert[0];
-				uartCMD.cmd = 'V';
-			}
-			break;
-		case 'P':
-			if (uartCMD.cmd == '0')
-			{
-				uartCMD.point.x = convert[0];
-				uartCMD.point.y = convert[1];
-				uartCMD.angle = convert[2];
-				uartCMD.cmd = 'P';
-			}
-			break;
-		case 'M':
-			if (uartCMD.cmd == '0')
-			{
-				uartCMD.point.x = convert[0];
-				uartCMD.point.y = convert[1];
-				uartCMD.cmd = 'M';
-			}
-			break;
-		case 'T':
-			if (uartCMD.cmd == '0')
-			{
-				uartCMD.distance = convert[0];
-				uartCMD.cmd = 'T';
-			}
-			break;
-		case 'R':
-			if (uartCMD.cmd == '0')
-			{
-				uartCMD.angle = convert[0];
-				uartCMD.cmd = 'R';
-			}
-			break;
-		default:
-			break;
+	case 'A':
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.actionID = convert[0];
+			uartCMD.cmd = 'A';
+		}
+		break;
+	case 'V':
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.vertexID = convert[0];
+			uartCMD.cmd = 'V';
+		}
+		break;
+	case 'P':
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.point.x = convert[0];
+			uartCMD.point.y = convert[1];
+			uartCMD.angle = convert[2];
+			uartCMD.cmd = 'P';
+		}
+		break;
+	case 'M':
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.point.x = convert[0];
+			uartCMD.point.y = convert[1];
+			uartCMD.cmd = 'M';
+		}
+		break;
+	case 'T':
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.distance = convert[0];
+			uartCMD.cmd = 'T';
+		}
+		break;
+	case 'R':
+		if (uartCMD.cmd == '0')
+		{
+			uartCMD.angle = convert[0];
+			uartCMD.cmd = 'R';
+		}
+		break;
+	default:
+		break;
 	}
 }
 

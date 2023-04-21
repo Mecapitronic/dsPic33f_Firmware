@@ -26,7 +26,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
 {
 	if (IEC1bits.U2RXIE)
 	{
-        /* Check for receive errors */
+		/* Check for receive errors */
 		if (U1STAbits.FERR == 1)
 		{
 			//continue;
@@ -49,9 +49,9 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
 
 				if (U2_data == 10)
 				{
-                    if (U2_cursor > 0 && U2_cursor < U2RX_SIZE-1 && U2_trame[U2_cursor - 1] != ';')
-                        U2_trame[U2_cursor++] = ';';
-                    
+					if (U2_cursor > 0 && U2_cursor < U2RX_SIZE - 1 && U2_trame[U2_cursor - 1] != ';')
+						U2_trame[U2_cursor++] = ';';
+
 					Analyse_Data_UART2();
 					for (uint16 i = 0; i < U2_cursor; i++)
 					{
@@ -86,32 +86,58 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2ErrInterrupt(void)
  ****************************************************************************************/
 void Initialize_UART2(void)
 {
+	Stop_UART2();
+
 	Setup_UART2_RX_Pin();
 	Setup_UART2_TX_Pin();
 
-	U2MODEbits.STSEL = 0; // 1-stop bit
-	U2MODEbits.PDSEL = 0; // 8-bit data, no parity
-	U2MODEbits.ABAUD = 0; // Autobaud Disabled
-	U2MODEbits.BRGH = 0; // Low Speed mode
+	//STSEL: Stop Selection bit
+	//1 = 2 Stop bits
+	//0 = 1 Stop bit
+	U2MODEbits.STSEL = 0;
+
+	//Parity and Data Selection bits
+	//11 = 9-bit data, no parity
+	//10 = 8-bit data, odd parity
+	//01 = 8-bit data, even parity
+	//00 = 8-bit data, no parity
+	U2MODEbits.PDSEL = 0;	// 8-bit data, no parity
+	U2MODEbits.ABAUD = 0;	// Autobaud Disabled
+	U2MODEbits.BRGH = 0;	// Low Speed mode
 	U2BRG = (U2_FCY / U2_BAUD) / 16 - 1; // baud rate setting  
 
-	U2STAbits.URXISEL = 0; // Interrupt after one RX character is received;
-	IPC7bits.U2RXIP = 4; //UART2 RX interrupt priority, mid-range
-	IPC16bits.U2EIP = 5; //UART2 error priority set higher
-	IEC4bits.U2EIE = 1; // enable error interrupt
-	IEC1bits.U2RXIE = 1; // enable RX interrupt
+	U2STAbits.URXISEL = 0;	// Interrupt after one RX character is received;
+	IPC7bits.U2RXIP = 4;	//UART2 RX interrupt priority, mid-range
+	IPC16bits.U2EIP = 5;	//UART2 error priority set higher
 
-	U2MODEbits.UARTEN = 1; // Enable UART
-	U2STAbits.UTXEN = 1; 
-    
 	U2STAbits.URXDA = 0; //empty buffer
-        
+
 	for (int32 i = 0; i < U2RX_SIZE; i++)
 	{
 		U2_trame[i] = 0;
 	}
 	U2_cursor = 0;
+}
 
+void Start_UART2(void)
+{
+	IEC4bits.U2EIE = 1;     // enable error interrupt
+	IEC1bits.U2RXIE = 1;    // enable RX interrupt
+	U2MODEbits.UARTEN = 1;  // Enable UART 2
+	U2STAbits.UTXEN = 1;	// enable TX UART (Enable UARTEN bit before enabling the UTXEN bit (UxSTA<10>)
+}
+
+void Stop_UART2(void)
+{
+	U2STAbits.UTXEN = 0;
+	U2MODEbits.UARTEN = 0;  // Disable UART 2
+	IEC1bits.U2RXIE = 0;
+	IEC4bits.U2EIE = 0;
+}
+
+boolean State_UART2(void)
+{
+	return U2MODEbits.UARTEN;
 }
 
 /****************************************************************************************
@@ -179,24 +205,24 @@ void Afficher_UART2(uint8 ligne)
 
 void Update_UART2(void)
 {
-    t_point p = robot.mm;
-    
+	t_point p = robot.mm;
+
 	//Starting char : '!'
-    Write_UART2(0x21);
-    
-    //Robot X    
-    Write_UART2(p.x%256);
-    Write_UART2(p.x >> 8);
-    
-    //Robot Y
-    Write_UART2(p.y%256);
-    Write_UART2(p.y >> 8);
-        
-    //Robot Angle * 100
-    int32 angle = (int32)(robot.deg*100);
-    Write_UART2(angle%256);
-    Write_UART2(angle >> 8);
-    
-    //Ending char : 'LF'
-    Write_UART2(10);
+	Write_UART2(0x21);
+
+	//Robot X    
+	Write_UART2(p.x % 256);
+	Write_UART2(p.x >> 8);
+
+	//Robot Y
+	Write_UART2(p.y % 256);
+	Write_UART2(p.y >> 8);
+
+	//Robot Angle * 100
+	int32 angle = (int32)(robot.deg * 100);
+	Write_UART2(angle % 256);
+	Write_UART2(angle >> 8);
+
+	//Ending char : 'LF'
+	Write_UART2(10);
 }

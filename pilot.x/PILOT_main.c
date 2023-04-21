@@ -42,14 +42,14 @@ _PILOT_
 	LCD_Clear_Line();
 	LCD_Line(4);
 	LCD_Clear_Line();
-	
+
 	uint16 timeLCD = 0;
-	while(!START_PILOT)  // attente de démarrage du copilot
+	while (!START_PILOT)  // attente de démarrage du copilot
 	{
 		team = SELECT;
 		COLOR_TEAM = team;
 		if (timeLCD > 250) {
-			LED_Toggle();			
+			LED_Toggle();
 			Sequence_LCD_Initiale();
 			timeLCD = 0;
 		}
@@ -57,9 +57,6 @@ _PILOT_
 		Delay_Ms(1);
 	}
 
-	Initialize_UART1();
-    Initialize_UART2();
-    
 	if (team == TEAM_A)
 		Initialize_Robot_Position(225, 225, 90);
 	else
@@ -78,6 +75,8 @@ _PILOT_
 	Setup_Timer_Secondaire();
 	Set_Timer_Primaire(ON);
 	Set_Timer_Secondaire(ON);
+	Start_UART1();
+	Start_UART2();
 
 	if (MODE_TEST)
 	{

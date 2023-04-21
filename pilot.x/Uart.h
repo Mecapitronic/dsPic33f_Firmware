@@ -37,6 +37,10 @@ extern uint8 send_ack_cmd;
 ****************************************************************************************/
 // UART1
 void Initialize_UART1(void);
+void Start_UART1(void);
+void Stop_UART1(void);
+boolean State_UART1(void);
+
 void Write_UART1(uint16 data);
 void Write_String_UART1(const char * s);
 void Write_Float_UART1(float number, int32 afterpoint);

@@ -6,14 +6,14 @@
  * Compilation : MPLAB X IDE (v3.45), compiler XC16 (v1.26) Lite
  ****************************************************************************************/
 
-/****************************************************************************************
- * Includes
- ****************************************************************************************/
+ /****************************************************************************************
+  * Includes
+  ****************************************************************************************/
 #include "Timer.h"
 
-/****************************************************************************************
- * Variables
- ****************************************************************************************/
+  /****************************************************************************************
+   * Variables
+   ****************************************************************************************/
 uint32 current_time = 0;  // temps en milliseconde depuis le démarrage du timer primaire
 
 /****************************************************************************************
@@ -23,22 +23,22 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_PRIMAIRE_INT(void)
 {
 	if (TIMER_PRIMAIRE_INT_ENABLE) // 2017.02.02 stopwatch simulator (odometry + asserv) = 275µs (11000 cycles)
 	{
-  current_time += PERIOD_MS; // main time counter
+		current_time += PERIOD_MS; // main time counter
 
-  if(START_PILOT) // sécurité si relais défaillant
-  {
-		Update_Odometry();  // Location
-		Update_Asserv();    // Motor control
+		if (START_PILOT) // sécurité si relais défaillant
+		{
+			Update_Odometry();  // Location
+			Update_Asserv();    // Motor control
 
-		Update_Start_Vertex();  // start vertex for graph (robot position)
-  }
-  else
-  {
-    Motor_Right(0);
-    Motor_Left(0);
-  }
-		
-  TIMER_PRIMAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
+			Update_Start_Vertex();  // start vertex for graph (robot position)
+		}
+		else
+		{
+			Motor_Right(0);
+			Motor_Left(0);
+		}
+
+		TIMER_PRIMAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
 	}
 }
 
@@ -49,27 +49,31 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void)
 {
 	if (TIMER_SECONDAIRE_INT_ENABLE)
 	{
-        Update_Obstacles();
-#ifdef UART1_ENABLE
-		if (send_ack)
+		Update_Obstacles();
+		if (State_UART1())
 		{
-			Update_UART1_ACK(send_ack_cmd);
-			send_ack_cmd = CMD_FREE;
-			send_ack = FALSE;
+			if (send_ack)
+			{
+				Update_UART1_ACK(send_ack_cmd);
+				send_ack_cmd = CMD_FREE;
+				send_ack = FALSE;
+			}
+			Update_UART1();
 		}
-		Update_UART1();
-		Update_UART2();
-#endif
+		if (State_UART2())
+		{
+			Update_UART2();
+		}
 
 #ifdef SERIAL_PRINT
-  print_navigation();
+		print_navigation();
 #endif
 
 #ifdef _VISUAL_STUDIO
-  Display();
+		Display();
 #endif
 
-  TIMER_SECONDAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
+		TIMER_SECONDAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
 	}
 }
 

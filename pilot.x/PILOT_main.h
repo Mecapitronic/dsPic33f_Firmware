@@ -15,7 +15,6 @@
 // Firmware mode
 //#define SERIAL_PRINT
 #define SIMULATION_ENCODER
-#define UART1_ENABLE
 #ifdef _VISUAL_STUDIO
 #define __interrupt__
 #define no_auto_psv
