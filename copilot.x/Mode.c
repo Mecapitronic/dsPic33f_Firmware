@@ -64,19 +64,19 @@ void Gestion_Mode(void)
   {
     case STARTING:                    // En démarrage
       RELAY = OFF;
-      START_PILOT = OFF;
+      //START_PILOT = OFF;
       run_time = current_time;
       break;
 
     case RUNNING:                     // En marche
       if (((current_time - run_time) < TIMEOUT_MATCH)||(run_mode == MODE_TEST))
       {
-        START_PILOT = ON;
+        //START_PILOT = ON;
         RELAY = ON;
       }
       else
       {
-        START_PILOT = OFF;
+        //START_PILOT = OFF;
         RELAY = OFF;
         power_mode = STOPPING;
         run_time = current_time;
@@ -93,11 +93,12 @@ void Gestion_Mode(void)
 
     default:                          // Au repos
       RELAY = OFF;
-      START_PILOT = OFF;
+      //START_PILOT = OFF;
       run_mode = MODE;          // sélection du mode de marche
       team_color = COLOR_TEAM;  // sélection de la couleur d'équipe
       break;
   }
+  START_PILOT = START;
   MODE_PILOT = MODE;
   
 }
