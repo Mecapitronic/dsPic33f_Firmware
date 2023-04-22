@@ -1,5 +1,5 @@
 /****************************************************************************************
- * Fichier     : COPILOT main.c
+ * Fichier     : COPILOT_main.c
  * Description : Code principal du COPILOT
  * Auteur      : Christopher BUREL
  * Version     : 2015.05.09
@@ -9,7 +9,7 @@
 /****************************************************************************************
 * Includes
 ****************************************************************************************/
-#include "COPILOT main.h"
+#include "COPILOT_main.h"
 
 /****************************************************************************************
 * Variables
@@ -34,7 +34,7 @@ int main(void)
 
   Sequence_Initiale();
 
-  // Choix du mode de fonctionnement au démarrage (SW1 appuyé en mode RUN)
+  // Choix du mode de fonctionnement au démarrage (SW1 appuyé en mode TEST)
   main_mode = Selection_Main_Mode(0);  // Mode par défaut
 
   // Initialisation des actionneurs
@@ -83,8 +83,8 @@ int main(void)
 uint8 Selection_Main_Mode(uint8 initial_mode)
 {
   uint8 mode = initial_mode;
-  // Si mode RUN et SW1 appuyé
-  if(SW1&&(MODE==RUN))
+  // Si mode TEST et SW1 appuyé
+  if(SW1&&(MODE==MODE_TEST))
   {
     BUZZER = ON;
     LCD_Line(1);

@@ -12,7 +12,7 @@
 /****************************************************************************************
  * Includes
  ****************************************************************************************/
-#include "COPILOT main.h"
+#include "COPILOT_main.h"
 
 /****************************************************************************************
  * Parameters
@@ -26,12 +26,16 @@
 #define STARTING        1   // En attente de démarrage
 #define RUNNING         2   // En marche
 #define STOPPING        3   // A l'arrêt (avant repos)
-// Mode de marche
-#define RUN             0
-#define MATCH           1
-// Couleur d'équipe
-#define JAUNE           0
-#define VERTE           1
+
+// Team color, A = verte, B = bleue
+#define TEAM_A          0
+#define TEAM_B          1
+
+#define LCD_TEAM_A       "VERT"
+#define LCD_TEAM_B       "BLEU"
+
+#define MODE_MATCH		0
+#define MODE_TEST		1
 
 /****************************************************************************************
  * Variables

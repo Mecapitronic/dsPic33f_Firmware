@@ -72,20 +72,20 @@ uint8 Empiler_Spot(void)
     Ascenseur_Desactiver();
     Wait_Action(GARDE_SPOT);
 
-    if (PRESENCE_PIED || FORCER_EMPILAGE)
+    if (FALSE || FALSE)
     {
       // Saisir l'élément
       Pince_Pied_Fermer();
       Wait_Action(PINCE_PIED);
       // Si plus de présence en empilage auto
-      if ((!PRESENCE_PIED) && (!FORCER_EMPILAGE))
+      if ((!FALSE) && (!FALSE))
       {
         Pince_Pied_Ouvrir();
         Wait_Action(PINCE_PIED);
         Pince_Pied_Desactiver();
         return nbr_pied_spot;
       }
-      else if (PRESENCE_PIED && (!FORCER_EMPILAGE))
+      else if (FALSE && (!FALSE))
       {
         // Comptabiliser le nombre de pied /!\ non empilé de force !
         nbr_pied_spot++;
@@ -129,7 +129,7 @@ void Deposer_Spot(void)
   if (nbr_pied_spot > 0)
   {
     // Si il n'y a pas de pied dessous alors monter
-    if (!PRESENCE_PIED)
+    if (FALSE)
     {
       Pince_Pied_Ouvrir();
       Wait_Action(PINCE_PIED);
@@ -171,13 +171,13 @@ boolean Prendre_Gobelet(void)
   if (PRESENCE_GOBELET)
   {
     Pince_Gobelet_Desactiver();
-    GOBELET_PRESENT = YES;
+    //GOBELET_PRESENT = YES;
     return OK;
   }
   else
   {
     Pince_Gobelet_Desactiver();
-    GOBELET_PRESENT = NO;
+    //GOBELET_PRESENT = NO;
     return NOK;
   }
 }
@@ -218,7 +218,7 @@ void Fermer_Pince_Popcorn(void)
 void Gestion_Action(void)
 {
   // Action spot
-  if (DEPOSER_SPOT)
+  if (FALSE)
   {
     Deposer_Spot();
   }
@@ -227,7 +227,7 @@ void Gestion_Action(void)
     Empiler_Spot();
   }
   // Action gobelet
-  if (PRENDRE_GOBELET)
+  if (FALSE)
   {
     Prendre_Gobelet();
   }
@@ -236,7 +236,7 @@ void Gestion_Action(void)
     Deposer_Gobelet();
   }
   // Action clap/popcorn
-  if (FERMER_PINCE_CLAP)
+  if (FALSE)
   {
     Fermer_Pince_Popcorn();
   }
@@ -259,12 +259,12 @@ void Mode_Test_Action(void)
 
   while(FOREVER)
   {
-    if(SW1 || (PRESENCE_PIED && nbr_pied_spot>0))
+    if(SW1)
     {
       BUZZER = ON;
       Delay_Ms(200);
       BUZZER = OFF;
-      Empiler_Spot();
+      //Empiler_Spot();
       if(SW1) Delay_Ms(300);
     }
     if(SW2)
@@ -272,7 +272,7 @@ void Mode_Test_Action(void)
       BUZZER = ON;
       Delay_Ms(200);
       BUZZER = OFF;
-      Deposer_Spot();
+      //Deposer_Spot();
       if(SW2) Delay_Ms(300);
     }
     if(SW3)
@@ -295,8 +295,8 @@ void Afficher_Action(void)
 //  LCD_Value(CAPTEUR_COULEUR,4,0);
 
 //  LCD_Text("Feu ",4);
-//  if (Get_Couleur_Feu() == VERTE) LCD_Text("VERTE",6);
-//  else if (Get_Couleur_Feu() == JAUNE) LCD_Text("JAUNE",6);
+//  if (Get_Couleur_Feu() == TEAM_A) LCD_Text(LCD_TEAM_A,6);
+//  else if (Get_Couleur_Feu() == TEAM_B) LCD_Text(LCD_TEAM_B,6);
 //  else LCD_Text("absent",6);
 
 }

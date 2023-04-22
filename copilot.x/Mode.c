@@ -15,11 +15,11 @@
  * Variables
  ****************************************************************************************/
 uint8 power_mode = OFF;
-uint8 team_color = JAUNE;
+uint8 team_color = TEAM_A;
 
 boolean start_precedent = OFF;
 boolean mode_flashing_flag = OFF;
-uint8 run_mode = RUN;
+uint8 run_mode = MODE_MATCH;
 uint32 run_time = 0;
 
 
@@ -69,7 +69,7 @@ void Gestion_Mode(void)
       break;
 
     case RUNNING:                     // En marche
-      if (((current_time - run_time) < TIMEOUT_MATCH)||(run_mode == RUN))
+      if (((current_time - run_time) < TIMEOUT_MATCH)||(run_mode == MODE_TEST))
       {
         START_PILOT = ON;
         RELAY = ON;
@@ -98,6 +98,7 @@ void Gestion_Mode(void)
       team_color = COLOR_TEAM;  // sélection de la couleur d'équipe
       break;
   }
+  MODE_PILOT = MODE;
   
 }
 
@@ -121,8 +122,8 @@ void Affichage_Mode(void)
         case 1:
         case 2:
           LCD_Text("GO ",3);
-          if (run_mode == RUN) LCD_Text("RUN ?",8);
-          else if (run_mode == MATCH) LCD_Text("MATCH ?",8);
+          if (run_mode == MODE_TEST) LCD_Text("TEST ?",8);
+          else if (run_mode == MODE_MATCH) LCD_Text("MATCH ?",8);
           else LCD_Text("?",6);
           break;
 
@@ -130,23 +131,23 @@ void Affichage_Mode(void)
         case 4:
         case 5:
           LCD_Text("Team ",5);
-          if (team_color == VERTE) LCD_Text("VERTE",6);
-          else if (team_color == JAUNE) LCD_Text("JAUNE",6);
+          if (team_color == TEAM_A) LCD_Text(LCD_TEAM_A,6);
+          else if (team_color == TEAM_B) LCD_Text(LCD_TEAM_B,6);
           else LCD_Text("?",6);
           break;
       }
       break;
 
     case RUNNING:                     // En marche
-      if (run_mode == MATCH)
+      if (run_mode == MODE_MATCH)
       {
         LCD_Text("MATCH    s",11);
         LCD_Goto(1,6);
         LCD_Value(((TIMEOUT_MATCH-(current_time - run_time))/1000)+1,3,0);
       }
-      else if (run_mode == RUN)
+      else if (run_mode == MODE_TEST)
       {
-        LCD_Text("RUN      s",11);
+        LCD_Text("TEST     s",11);
         LCD_Goto(1,5);
         LCD_Value((current_time - run_time)/1000,4,0);
       }
@@ -176,8 +177,8 @@ void Affichage_Mode(void)
         case 1:
         case 2:
           LCD_Text("Mode ",5);
-          if (run_mode == RUN) LCD_Text("RUN  ",6);
-          else if (run_mode == MATCH) LCD_Text("MATCH",6);
+          if (run_mode == MODE_TEST) LCD_Text("TEST  ",6);
+          else if (run_mode == MODE_MATCH) LCD_Text("MATCH",6);
           else LCD_Text("?",6);
           break;
 
@@ -185,8 +186,8 @@ void Affichage_Mode(void)
         case 4:
         case 5:
           LCD_Text("Team ",5);
-          if (team_color == VERTE) LCD_Text("VERTE",6);
-          else if (team_color == JAUNE) LCD_Text("JAUNE",6);
+          if (team_color == TEAM_A) LCD_Text(LCD_TEAM_A,6);
+          else if (team_color == TEAM_B) LCD_Text(LCD_TEAM_B,6);
           else LCD_Text("?",6);
           break;
       }

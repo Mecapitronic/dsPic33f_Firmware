@@ -13,8 +13,10 @@
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>../Robot DevBoard Library</sourceRootElem>
-                <sourceRootElem>../MECAPITRONIC Library</sourceRootElem>
+                <sourceRootElem>.</sourceRootElem>
+                <sourceRootElem>../MecapitronicLibrary/Includes</sourceRootElem>
+                <sourceRootElem>../MecapitronicLibrary/Sources</sourceRootElem>
+                <sourceRootElem>..</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

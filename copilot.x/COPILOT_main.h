@@ -1,5 +1,5 @@
 /****************************************************************************************
- * Fichier     : COPILOT main.h
+ * Fichier     : COPILOT_main.h
  * Description : Fichier d'entête du code principal.
  * Auteur      : Christopher BUREL
  * Version     : 2015.03.08
@@ -12,8 +12,9 @@
 /****************************************************************************************
 * Includes
 ****************************************************************************************/
-#include "../MECAPITRONIC Library/Includes/LIBRARY module.h"
-#include "COPILOT hardware.h"
+#include "../MecapitronicLibrary/Includes/LIBRARY_module.h"
+
+#include "COPILOT_hardware.h"
 #include "Timer.h"
 #include "Mode.h"
 #include "Power.h"
