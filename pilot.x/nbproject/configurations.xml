@@ -27,7 +27,7 @@
                    displayName="Linker Files"
                    projectFiles="true">
     </logicalFolder>
-    <logicalFolder name="Robot DevBoard Library"
+    <logicalFolder name="MecapitronicLibrary"
                    displayName="MecapitronicLibrary"
                    projectFiles="true">
       <logicalFolder name="Includes" displayName="Includes" projectFiles="true">
@@ -88,8 +88,8 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>
-    <Elem>../MECAPITRONIC Library/Includes</Elem>
-    <Elem>../MECAPITRONIC Library/Sources</Elem>
+    <Elem>../MecapitronicLibrary/Includes</Elem>
+    <Elem>../MecapitronicLibrary/Sources</Elem>
     <Elem>..</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
@@ -184,8 +184,7 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="expand-pragma-config" value="false"/>
-        <property key="extra-include-directories"
-                  value="c:\Program Files (x86)\Microchip\xc16\v1.26\include"/>
+        <property key="extra-include-directories" value=""/>
         <property key="isolate-each-function" value="false"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>

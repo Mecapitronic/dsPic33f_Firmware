@@ -122,14 +122,14 @@
 ****************************************************************************************/
 // LED
 #define LED             LATBbits.LATB5
-#define Setup_LED()     {TRISBbits.TRISB5 = 0;}     // output
+#define Setup_LED()     {TRISBbits.TRISB5 = 0; LATBbits.LATB5 = 0;}     // output
 #define LED_On()        {LED = 1;}
 #define LED_Off()       {LED = 0;}
 #define LED_Toggle()    {LED = !LED;}
 
 // Switch
 #define SELECT          PORTCbits.RC3
-#define Setup_Switch()  {TRISCbits.TRISC3 = 1;}   // input
+#define Setup_Switch()  {TRISCbits.TRISC3 = 1;} // input
 
 // PWM moteurs : voir Motor.h
 // QEI : voir Odometry.h

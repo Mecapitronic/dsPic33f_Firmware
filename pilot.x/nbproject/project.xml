@@ -14,8 +14,8 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>.</sourceRootElem>
-                <sourceRootElem>../MECAPITRONIC Library/Includes</sourceRootElem>
-                <sourceRootElem>../MECAPITRONIC Library/Sources</sourceRootElem>
+                <sourceRootElem>../MecapitronicLibrary/Includes</sourceRootElem>
+                <sourceRootElem>../MecapitronicLibrary/Sources</sourceRootElem>
                 <sourceRootElem>..</sourceRootElem>
             </sourceRootList>
             <confList>
