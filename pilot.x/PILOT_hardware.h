@@ -70,7 +70,7 @@
 #define FREE_PIN_1          PIN_1
 #define PIN_1_CONFIG        IN_
 // PIN 44
-#define MODE_TEST           PIN_44
+#define MODE                PIN_44
 #define PIN_44_CONFIG       IN_
 // PIN 43
 #define START_PILOT         PIN_43
