@@ -25,6 +25,10 @@
 		#define Delay_Us(t) do{}while(0)
 		#define Delay_Ms(t) do{}while(0)
 		#define Delay_S(t) do{}while(0)
+	#elif defined _VISUAL_STUDIO
+		#define Delay_Us(t) do{uint32 i = (uint32)t*500; while(--i);}while(0)
+		#define Delay_Ms(t) do{uint32 i = (uint32)t*500000; while(--i);}while(0)
+		#define Delay_S(t) do{uint32 i = (uint32)t*500000000; while(--i);}while(0)	
 	#else
 		#define Delay_Us(t) do{uint32 i = (uint32)t*3.333; while(--i);}while(0)
 		#define Delay_Ms(t) do{uint32 i = (uint32)t*3333.333; while(--i);}while(0)
