@@ -119,6 +119,7 @@ void LCD_Char(char character)
 ****************************************************************************************/
 void LCD_Goto(uint8 line, uint8 cursor)
 {
+    currentLine = line - 1;
     // Set line address
     switch (line)
     {
