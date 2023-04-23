@@ -6,9 +6,11 @@
 
 /********** VARIABLES *******/
 vector<string> messageUartTX;
+vector<string> messageUartTX2;
 vector<string> messageUartRX;
-vector<byte*> messageUartRX2;
+vector<string> messageUartRX2;
 int indexEcriture;
+int indexEcriture2;
 int indexLecture;
 int indexLecture2;
 //http://franckh.developpez.com/tutoriels/posix/pthreads/
@@ -191,18 +193,15 @@ void SendUART(const char* strBuffer)
 	indexLecture++;
 	if (indexLecture >= 100)
 		indexLecture = 0;
-	myprintf(strBuffer);
+	//myprintf(strBuffer);
 }
-void SendUART2(byte* pArray, int nSize)
+void SendUART2(const char* strBuffer)
 {
-	for (int i = 0; i < nSize; i++)
-	{
-		messageUartRX2[indexLecture2][i] = pArray[i];
-	}
-	//myprintf("Lidar %2d", pArray);
+	messageUartRX2[indexLecture2] = strBuffer;
 	indexLecture2++;
 	if (indexLecture2 >= 100)
 		indexLecture2 = 0;
+	//myprintf(strBuffer);
 }
 
 /********** THREAD INTERRUPTION dsPIC ******/
@@ -251,13 +250,15 @@ static void* thread_uart(void* p_data)
 	U2STAbits.TRMT = 1;
 	U2STAbits.URXDA = 0;
 	indexEcriture = 0;
+	indexEcriture2 = 0;
 	indexLecture = 0;
 	indexLecture2 = 0;
 	int indexLectureTmp = 0;
 	int indexLecture2Tmp = 0;
 	string messageRX = "";
-	byte messageRX2[byteArrayLength] = { 0,0 };
+	string messageRX2 = "";
 	string messageTX = "";
+	string messageTX2 = "";
 	while (!arret)
 	{
 		if (indexLecture != indexLectureTmp)
@@ -279,22 +280,19 @@ static void* thread_uart(void* p_data)
 
 		if (indexLecture2 != indexLecture2Tmp)
 		{
-			for (int i = 0; i < byteArrayLength; i++)
-			{
-				messageRX2[i] = messageUartRX2[indexLecture2Tmp][i];
-			}
+			messageRX2 = messageUartRX2[indexLecture2Tmp];
 			indexLecture2Tmp++;
 			if (indexLecture2Tmp >= 100)
 				indexLecture2Tmp = 0;
-			//while (messageRX2 != "" && !arret)
-			for (int i = 0; i < byteArrayLength; i++)
+			while (messageRX2 != "" && !arret)
 			{
-				U2RXREG = messageRX2[i];
-				messageRX2[i] = 0;
+				U2RXREG = messageRX2.at(0);
+				messageRX2.erase(0, 1);
 				U2STAbits.URXDA = 1;
 				_U2RXInterrupt();
 				U2STAbits.URXDA = 0;
 			}
+			messageRX2 = "";
 		}
 
 		if (U1STAbits.TRMT == 0)
@@ -310,6 +308,20 @@ static void* thread_uart(void* p_data)
 			}
 			U1STAbits.TRMT = 1;
 		}
+
+		if (U2STAbits.TRMT == 0)
+		{
+			messageTX2 += U2TXREG;
+			if (U2TXREG == 10)
+			{
+				messageUartTX2[indexEcriture2] = messageTX2;
+				indexEcriture2++;
+				if (indexEcriture2 >= 100)
+					indexEcriture2 = 0;
+				messageTX2 = "";
+			}
+			U2STAbits.TRMT = 1;
+	}
 	}
 
 	myprintf("End thread Uart\n");
@@ -354,20 +366,23 @@ int Firmware(void)
 	{
 		messageUartTX.push_back("");
 	}
+
+	messageUartTX2.clear();
+	for (int i = 0; i < 100; i++)
+	{
+		messageUartTX2.push_back("");
+	}
+
 	messageUartRX.clear();
 	for (int i = 0; i < 100; i++)
 	{
 		messageUartRX.push_back("");
 	}
+
 	messageUartRX2.clear();
 	for (int i = 0; i < 100; i++)
 	{
-		byte b[byteArrayLength];
-		for (int i = 0; i < byteArrayLength; i++)
-		{
-			b[i] = 0;
-		}
-		messageUartRX2.push_back(b);
+		messageUartRX2.push_back("");
 	}
 
 	myprintf("Starting Firmeware Robot !\n");
