@@ -60,8 +60,6 @@ void Setup_Hardware(void)
     Setup_Pin_43();
     Setup_Pin_42();
 
-    RESET_ARM();
-
     Setup_LED();
     Setup_Switch();
 
@@ -103,8 +101,8 @@ void Sequence_LCD_Initiale(void)
 
     LCD_Line(3);
     LCD_Text("PILOT ", 6);
-    if (MODE_TEST) LCD_Text("Test ", 5);
-    else LCD_Text("Match", 5);
+    if (MODE_PILOT == MODE_MATCH) LCD_Text("Match  ", 7);
+    else LCD_Text("Test   ", 7);    
     for (uint8 i = 0; i < 5; i++)
     {
         if (startLCD == i)

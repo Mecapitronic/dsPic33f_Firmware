@@ -23,6 +23,7 @@
    * Variables
    ****************************************************************************************/
 uint8 team = TEAM_A;
+uint8 mode = MODE_MATCH;
 
 /****************************************************************************************
  * Routine Principale
@@ -47,7 +48,7 @@ _PILOT_
 	while (!START_PILOT)  // attente de démarrage du copilot
 	{
 		team = SELECT;
-		COLOR_TEAM = team;
+            mode = MODE_PILOT;
 		if (timeLCD > 250) {
 			LED_Toggle();
 			Sequence_LCD_Initiale();
@@ -78,7 +79,7 @@ _PILOT_
 	Start_UART1();
 	Start_UART2();
 
-	if (MODE_TEST)
+	if (mode == MODE_TEST)
 	{
 		while (FOREVER)
 		{

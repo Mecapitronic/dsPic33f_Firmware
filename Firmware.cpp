@@ -168,11 +168,11 @@ void SetStartPin(boolean state)
 }
 boolean GetModePin(void)
 {
-	return MODE_TEST;
+	return MODE_PILOT;
 }
 void SetModePin(boolean state)
 {
-	MODE_TEST = state;
+	MODE_PILOT = state;
 }
 t_robot GetRobot()
 {
@@ -357,7 +357,7 @@ int Firmware(void)
 	IEC1bits.T4IE = 0;
 	SELECT = 0;
 	START_PILOT = 0;
-	MODE_TEST = 0;
+	MODE_PILOT = 0;
 
 	int ret = 0;
 
