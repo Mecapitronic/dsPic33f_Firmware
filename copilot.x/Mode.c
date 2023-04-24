@@ -23,15 +23,37 @@ uint8 run_mode = MODE_MATCH;
 uint32 run_time = 0;
 
 /****************************************************************************************
+ * Grafcet de démarrage
+ ****************************************************************************************/
+//    ___ 
+//    |0|  Mode_OFF
+//     | 
+//    --- Front Montant
+//     | 
+//    |1|  STARTING
+//     | 
+//    ---  Front descendant
+//     | 
+//    |2|  RUNNING
+//     | 
+//    --- Front Montant
+//     | 
+//    |3|  STOPPING
+//     | 
+// ^  ---  Timeout 2s
+// |___|
+
+/****************************************************************************************
  * Fonction de gestion du cordon de démarrage
  ****************************************************************************************/
 void Gestion_Start(void) {
     // Détection du front du signal start
     if (START && !start_precedent) // Front montant
     {
-        if (power_mode != RUNNING) {
+        if (power_mode == OFF) {
             power_mode = STARTING; // Démarrage si pas en marche
-        } else {
+        }
+        if(power_mode == RUNNING) {
             run_time = current_time;
             power_mode = STOPPING; // Arrêt si en marche
         }
@@ -50,12 +72,13 @@ void Gestion_Start(void) {
 void Gestion_Mode(void) {
     // Détection d'un changement de mode
     Gestion_Start();
-
+    LED = START;
     // Traitement des modes
     switch (power_mode) {
         case STARTING: // En démarrage
-            RELAY = OFF;
+            RELAY = ON;
             START_PILOT = OFF;
+            RECALAGE_PILOT = SW1;
             run_time = current_time;
             break;
 
@@ -63,9 +86,11 @@ void Gestion_Mode(void) {
             if (((current_time - run_time) < TIMEOUT_MATCH) || (run_mode == MODE_TEST)) {
                 START_PILOT = ON;
                 RELAY = ON;
+                RECALAGE_PILOT = OFF;
             } else {
                 START_PILOT = OFF;
                 RELAY = OFF;
+                RECALAGE_PILOT = OFF;
                 power_mode = STOPPING;
                 run_time = current_time;
             }
@@ -73,6 +98,7 @@ void Gestion_Mode(void) {
 
         case STOPPING: // En stop
             RELAY = OFF;
+            RECALAGE_PILOT = OFF;
             if ((current_time - run_time) > TIMEOUT_STOP) {
                 power_mode = OFF;
             }
@@ -81,6 +107,7 @@ void Gestion_Mode(void) {
         default: // Au repos
             RELAY = OFF;
             START_PILOT = OFF;
+            RECALAGE_PILOT = OFF;
             run_mode = MODE; // sélection du mode de marche
             //team_color = COLOR_TEAM; // sélection de la couleur d'équipe
             break;

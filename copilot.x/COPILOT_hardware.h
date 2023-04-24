@@ -120,7 +120,7 @@
 #define SW2             !_RC8   // Actif à l'état haut
 #define SW3             !_RC9   // Actif à l'état haut
 #define MODE            _RC4
-#define START           !_RC5   // Actif à l'état haut
+#define START           _RC5
 #define Setup_Switch()  {_TRISC3 = 1;_TRISC8 = 1;_TRISC9 = 1;_TRISC4 = 1;_TRISC5 = 1;} //input
 
 // Relay
