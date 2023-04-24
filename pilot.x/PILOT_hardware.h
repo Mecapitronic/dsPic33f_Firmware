@@ -76,8 +76,8 @@
 #define START_PILOT         PIN_43
 #define PIN_43_CONFIG       IN_
 // PIN 42
-#define COLOR_TEAM          PIN_42
-#define PIN_42_CONFIG       OUT_
+#define RECALAGE_PILOT      PIN_42
+#define PIN_42_CONFIG       IN_
 
 
 /****************************************************************************************
