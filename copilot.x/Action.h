@@ -65,7 +65,7 @@
 #define Wait_Action(condition)      do{Set_Timeout_Action(2000); \
                                     while(!condition && !TIMEOUT_ACTION); \
                                     Delay_Ms(20);}while(0)
-*/
+ */
 
 /****************************************************************************************
  * Fonctions prototypes

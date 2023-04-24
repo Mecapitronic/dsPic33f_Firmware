@@ -10,20 +10,20 @@
 #define	COPILOT_HARDWARE_H
 
 /****************************************************************************************
-* Includes
-****************************************************************************************/
+ * Includes
+ ****************************************************************************************/
 #include "COPILOT_main.h"
 
 /****************************************************************************************
-* Paramètres de configuration (par défaut: 0=not defined, 1=defined)
-****************************************************************************************/
+ * Paramètres de configuration (par défaut: 0=not defined, 1=defined)
+ ****************************************************************************************/
 #define AN_  (2)   // analog
 #define IN_  (3)   // input
 #define OUT_ (4)   // output
 
 /****************************************************************************************
-* Déclaration des pins pour pouvoir les renommer ensuite
-****************************************************************************************/
+ * Déclaration des pins pour pouvoir les renommer ensuite
+ ****************************************************************************************/
 // pins synchro PILOT <-> COPILOT
 #define PIN_9   
 #define PIN_8
@@ -42,12 +42,12 @@
 #define PIN_26
 
 /****************************************************************************************
-* Configurations des pins synchro
+ * Configurations des pins synchro
  * Nommer la pin (facultatif, la pin est nommé PIN_x par défaut)
  * Définir la configuration :
  *      IN_ : entrée numérique
  *      OUT_ : sortie numérique
-****************************************************************************************/
+ ****************************************************************************************/
 
 // PIN 9
 #define FREE_PIN_9          PIN_9
@@ -71,18 +71,18 @@
 #define START_PILOT         PIN_43
 #define PIN_43_CONFIG       OUT_
 // PIN 42
-#define COLOR_TEAM          PIN_42
-#define PIN_42_CONFIG       IN_
+#define RECALAGE_PILOT      PIN_42
+#define PIN_42_CONFIG       OUT_
 
 
 /****************************************************************************************
-* Configurations des pins
+ * Configurations des pins
  * Nommer la pin (facultatif, la pin est nommé PIN_x par défaut)
  * Définir la configuration :
  *      AN_ : entrée analogique
  *      IN_ : entrée numérique
  *      OUT_ : sortie numérique
-****************************************************************************************/
+ ****************************************************************************************/
 // PIN 19 NOT ENABLE
 // PIN 20 NOT ENABLE
 // PIN 21 (/!\ switch ICSP/PIN)
@@ -106,8 +106,8 @@
 // PIN 27 NOT ENABLE
 
 /****************************************************************************************
-* Définition des autres ports entrées/sorties
-****************************************************************************************/
+ * Définition des autres ports entrées/sorties
+ ****************************************************************************************/
 // LED
 #define LED             _LATB5
 #define Setup_LED()     {_TRISB5 = 0; _LATB5 = 0;}     // output
@@ -154,8 +154,8 @@
 
 
 /****************************************************************************************
-* Gestion de configuration des pins synchro (/!\ modifier avec précaution)
-****************************************************************************************/
+ * Gestion de configuration des pins synchro (/!\ modifier avec précaution)
+ ****************************************************************************************/
 // PIN 9
 #if PIN_9_CONFIG == IN_
 #undef PIN_9
@@ -253,112 +253,112 @@
 #endif
 
 /****************************************************************************************
-* Gestion de configuration des pins 21 à 26 (/!\ modifier avec précaution)
-****************************************************************************************/
+ * Gestion de configuration des pins 21 à 26 (/!\ modifier avec précaution)
+ ****************************************************************************************/
 // PIN 19 NOT ENABLE
 // PIN 20 NOT ENABLE
 // PIN 21
 #if PIN_21_CONFIG == AN_
-    #undef PIN_21
-    #define PIN_21  ( ADC_Read(2) )          // AN2
-    #define Setup_Pin_21()  {_PCFG2 = 0;}   
+#undef PIN_21
+#define PIN_21  ( ADC_Read(2) )          // AN2
+#define Setup_Pin_21()  {_PCFG2 = 0;}   
 #elif PIN_21_CONFIG == IN_
-    #undef PIN_21
-    #define PIN_21  _RB0
-    #define Setup_Pin_21()  {_PCFG2 = 1; _TRISB0 = 1;}
+#undef PIN_21
+#define PIN_21  _RB0
+#define Setup_Pin_21()  {_PCFG2 = 1; _TRISB0 = 1;}
 #elif PIN_21_CONFIG == OUT_
-    #undef PIN_21
-    #define PIN_21  _LATB0
-    #define Setup_Pin_21()  {_PCFG2 = 1; _TRISB0 = 0;}
+#undef PIN_21
+#define PIN_21  _LATB0
+#define Setup_Pin_21()  {_PCFG2 = 1; _TRISB0 = 0;}
 #else
-    #error "PIN 21 not configured"
+#error "PIN 21 not configured"
 #endif
 // PIN 22
 #if PIN_22_CONFIG == AN_
-    #undef PIN_22
-    #define PIN_22  ( ADC_Read(3) )          // AN3
-    #define Setup_Pin_22()  {_PCFG3 = 0;}   
+#undef PIN_22
+#define PIN_22  ( ADC_Read(3) )          // AN3
+#define Setup_Pin_22()  {_PCFG3 = 0;}   
 #elif PIN_22_CONFIG == IN_
-    #undef PIN_22
-    #define PIN_22  _RB1
-    #define Setup_Pin_22()  {_PCFG3 = 1; _TRISB1 = 1;}
+#undef PIN_22
+#define PIN_22  _RB1
+#define Setup_Pin_22()  {_PCFG3 = 1; _TRISB1 = 1;}
 #elif PIN_22_CONFIG == OUT_
-    #undef PIN_22
-    #define PIN_22  _LATB1
-    #define Setup_Pin_22()  {_PCFG3 = 1; _TRISB1 = 0;}
+#undef PIN_22
+#define PIN_22  _LATB1
+#define Setup_Pin_22()  {_PCFG3 = 1; _TRISB1 = 0;}
 #else
-    #error "PIN 22 not configured"
+#error "PIN 22 not configured"
 #endif
 // PIN 23
 #if PIN_23_CONFIG == AN_
-    #undef PIN_23
-    #define PIN_23  ( ADC_Read(4) )          // AN4
-    #define Setup_Pin_23()  {_PCFG4 = 0;}   
+#undef PIN_23
+#define PIN_23  ( ADC_Read(4) )          // AN4
+#define Setup_Pin_23()  {_PCFG4 = 0;}   
 #elif PIN_23_CONFIG == IN_
-    #undef PIN_23
-    #define PIN_23  _RB2
-    #define Setup_Pin_23()  {_PCFG4 = 1; _TRISB2 = 1;}
+#undef PIN_23
+#define PIN_23  _RB2
+#define Setup_Pin_23()  {_PCFG4 = 1; _TRISB2 = 1;}
 #elif PIN_23_CONFIG == OUT_
-    #undef PIN_23
-    #define PIN_23  _LATB2
-    #define Setup_Pin_23()  {_PCFG4 = 1; _TRISB2 = 0;}
+#undef PIN_23
+#define PIN_23  _LATB2
+#define Setup_Pin_23()  {_PCFG4 = 1; _TRISB2 = 0;}
 #else
-    #error "PIN 23 not configured"
+#error "PIN 23 not configured"
 #endif
 // PIN 24
 #if PIN_24_CONFIG == AN_
-    #undef PIN_24
-    #define PIN_24  ( ADC_Read(5) )          // AN5
-    #define Setup_Pin_24()  {_PCFG5 = 0;}   
+#undef PIN_24
+#define PIN_24  ( ADC_Read(5) )          // AN5
+#define Setup_Pin_24()  {_PCFG5 = 0;}   
 #elif PIN_24_CONFIG == IN_
-    #undef PIN_24
-    #define PIN_24  _RB3
-    #define Setup_Pin_24()  {_PCFG5 = 1; _TRISB3 = 1;}
+#undef PIN_24
+#define PIN_24  _RB3
+#define Setup_Pin_24()  {_PCFG5 = 1; _TRISB3 = 1;}
 #elif PIN_24_CONFIG == OUT_
-    #undef PIN_24
-    #define PIN_24  _LATB3
-    #define Setup_Pin_24()  {_PCFG5 = 1; _TRISB3 = 0;}
+#undef PIN_24
+#define PIN_24  _LATB3
+#define Setup_Pin_24()  {_PCFG5 = 1; _TRISB3 = 0;}
 #else
-    #error "PIN 24 not configured"
+#error "PIN 24 not configured"
 #endif
 // PIN 25
 #if PIN_25_CONFIG == AN_
-    #undef PIN_25
-    #define PIN_25  ( ADC_Read(6) )          // AN6
-    #define Setup_Pin_25()  {_PCFG6 = 0;}   
+#undef PIN_25
+#define PIN_25  ( ADC_Read(6) )          // AN6
+#define Setup_Pin_25()  {_PCFG6 = 0;}   
 #elif PIN_25_CONFIG == IN_
-    #undef PIN_25
-    #define PIN_25  _RC0
-    #define Setup_Pin_25()  {_PCFG6 = 1; _TRISC0 = 1;}
+#undef PIN_25
+#define PIN_25  _RC0
+#define Setup_Pin_25()  {_PCFG6 = 1; _TRISC0 = 1;}
 #elif PIN_25_CONFIG == OUT_
-    #undef PIN_25
-    #define PIN_25  _LATC0
-    #define Setup_Pin_25()  {_PCFG6 = 1; _TRISC0 = 0;}
+#undef PIN_25
+#define PIN_25  _LATC0
+#define Setup_Pin_25()  {_PCFG6 = 1; _TRISC0 = 0;}
 #else
-    #error "PIN 25 not configured"
+#error "PIN 25 not configured"
 #endif
 // PIN 26
 #if PIN_26_CONFIG == AN_
-    #undef PIN_26
-    #define PIN_26  ( ADC_Read(7) )          // AN7
-    #define Setup_Pin_26()  {_PCFG7 = 0;}   
+#undef PIN_26
+#define PIN_26  ( ADC_Read(7) )          // AN7
+#define Setup_Pin_26()  {_PCFG7 = 0;}   
 #elif PIN_26_CONFIG == IN_
-    #undef PIN_26
-    #define PIN_26  _RC1
-    #define Setup_Pin_26()  {_PCFG7 = 1; _TRISC1 = 1;}
+#undef PIN_26
+#define PIN_26  _RC1
+#define Setup_Pin_26()  {_PCFG7 = 1; _TRISC1 = 1;}
 #elif PIN_26_CONFIG == OUT_
-    #undef PIN_26
-    #define PIN_26  _LATC1
-    #define Setup_Pin_26()  {_PCFG7 = 1; _TRISC1 = 0;}
+#undef PIN_26
+#define PIN_26  _LATC1
+#define Setup_Pin_26()  {_PCFG7 = 1; _TRISC1 = 0;}
 #else
-    #error "PIN 26 not configured"
+#error "PIN 26 not configured"
 #endif
 // PIN 27 NOT ENABLE
 // End gestion configuration des pins
 
 /****************************************************************************************
-* Prototypes Fonctions
-****************************************************************************************/
+ * Prototypes Fonctions
+ ****************************************************************************************/
 void Setup_Hardware(void);
 void Sequence_Initiale(void);
 

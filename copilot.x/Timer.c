@@ -14,63 +14,59 @@
 /****************************************************************************************
  * Variables
  ****************************************************************************************/
-uint32 current_time = 0;  
+uint32 current_time = 0;
 
 /****************************************************************************************
  * Timer Primaire : 20 ms (50 Hz)
  ****************************************************************************************/
-void __attribute__((__interrupt__, no_auto_psv)) TIMER_PRIMAIRE_INT(void)
-{ 
-  TIMER_PRIMAIRE_INT_FLAG = OFF;  // Clear Timer Interrupt Flag
+void __attribute__((__interrupt__, no_auto_psv)) TIMER_PRIMAIRE_INT(void) {
+    TIMER_PRIMAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
 
-  current_time += TE;
+    current_time += TE;
 
-  switch(main_mode)
-  {
-    case 0:
-      Gestion_Power();
-      Gestion_Mode();
-      break;
+    switch (main_mode) {
+        case 0:
+            Gestion_Power();
+            Gestion_Mode();
+            break;
 
-    case 1:
-    case 2:
-      break;
+        case 1:
+        case 2:
+            break;
 
-    default:
-      Gestion_Power();
-      Gestion_Mode();
-      break;
-  }
+        default:
+            Gestion_Power();
+            Gestion_Mode();
+            break;
+    }
 
-  Rotation_Tourelle();
-  
-  Actualiser_Servo();
-  
+    Rotation_Tourelle();
+
+    Actualiser_Servo();
+
 }
 
 /****************************************************************************************
  * Timer Secondaire : 400 ms (2.5 Hz)
  ****************************************************************************************/
-void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void)
-{
-  TIMER_SECONDAIRE_INT_FLAG = OFF;  // Clear Timer Interrupt Flag
+void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void) {
+    TIMER_SECONDAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
 
-  switch(main_mode)
-  {
-    case 0:
-      Affichage_Power();
-      Affichage_Mode();
-      break;
+    switch (main_mode) {
+        case 0:
+            Affichage_Power();
+            Affichage_Mode();
+            break;
 
-    case 1:
-    case 2:
-      break;
+        case 1:
+        case 2:
+            break;
 
-    default:
-      Affichage_Power();
-      Affichage_Mode();
-      break;
-  }
+        default:
+            Affichage_Power();
+            Affichage_Mode();
+            break;
+    }
 
 
 }

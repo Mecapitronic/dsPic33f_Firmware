@@ -24,61 +24,61 @@ boolean sens_rotation_tourelle = 0;
  * Fonction de mise à jour des servomoteurs, doit être exécuter au moins toutes les 20ms
  ****************************************************************************************/
 void Actualiser_Servo(void) {
-/*// TODO 
-#ifdef SERVO_1
-    MOVE_Filtre_Consigne(&move_servo[1]);
-    if (servo_actif[1]) {
-        SERVO_1 = HIGH;
-        Delay_Us(MOVE_Get_Position(&move_servo[1]));
-        SERVO_1 = LOW;
-    }
-#endif
+    /*// TODO 
+    #ifdef SERVO_1
+        MOVE_Filtre_Consigne(&move_servo[1]);
+        if (servo_actif[1]) {
+            SERVO_1 = HIGH;
+            Delay_Us(MOVE_Get_Position(&move_servo[1]));
+            SERVO_1 = LOW;
+        }
+    #endif
 
-#ifdef SERVO_2
-    MOVE_Filtre_Consigne(&move_servo[2]);
-    if (servo_actif[2]) {
-        SERVO_2 = HIGH;
-        Delay_Us(MOVE_Get_Position(&move_servo[2]));
-        SERVO_2 = LOW;
-    }
-#endif
+    #ifdef SERVO_2
+        MOVE_Filtre_Consigne(&move_servo[2]);
+        if (servo_actif[2]) {
+            SERVO_2 = HIGH;
+            Delay_Us(MOVE_Get_Position(&move_servo[2]));
+            SERVO_2 = LOW;
+        }
+    #endif
 
-#ifdef SERVO_3
-    MOVE_Filtre_Consigne(&move_servo[3]);
-    if (servo_actif[3]) {
-        SERVO_3 = HIGH;
-        Delay_Us(MOVE_Get_Position(&move_servo[3]));
-        SERVO_3 = LOW;
-    }
-#endif
+    #ifdef SERVO_3
+        MOVE_Filtre_Consigne(&move_servo[3]);
+        if (servo_actif[3]) {
+            SERVO_3 = HIGH;
+            Delay_Us(MOVE_Get_Position(&move_servo[3]));
+            SERVO_3 = LOW;
+        }
+    #endif
 
-#ifdef SERVO_4
-    MOVE_Filtre_Consigne(&move_servo[4]);
-    if (servo_actif[4]) {
-        SERVO_4 = HIGH;
-        Delay_Us(MOVE_Get_Position(&move_servo[4]));
-        SERVO_4 = LOW;
-    }
-#endif
+    #ifdef SERVO_4
+        MOVE_Filtre_Consigne(&move_servo[4]);
+        if (servo_actif[4]) {
+            SERVO_4 = HIGH;
+            Delay_Us(MOVE_Get_Position(&move_servo[4]));
+            SERVO_4 = LOW;
+        }
+    #endif
 
-#ifdef SERVO_5
-    MOVE_Filtre_Consigne(&move_servo[5]);
-    if (servo_actif[5]) {
-        SERVO_5 = HIGH;
-        Delay_Us(MOVE_Get_Position(&move_servo[5]));
-        SERVO_5 = LOW;
-    }
-#endif
+    #ifdef SERVO_5
+        MOVE_Filtre_Consigne(&move_servo[5]);
+        if (servo_actif[5]) {
+            SERVO_5 = HIGH;
+            Delay_Us(MOVE_Get_Position(&move_servo[5]));
+            SERVO_5 = LOW;
+        }
+    #endif
 
-#ifdef SERVO_6
-    MOVE_Filtre_Consigne(&move_servo[6]);
-    if (servo_actif[6]) {
-        SERVO_6 = HIGH;
-        Delay_Us(MOVE_Get_Position(&move_servo[6]));
-        SERVO_6 = LOW;
-    }
-#endif
- */
+    #ifdef SERVO_6
+        MOVE_Filtre_Consigne(&move_servo[6]);
+        if (servo_actif[6]) {
+            SERVO_6 = HIGH;
+            Delay_Us(MOVE_Get_Position(&move_servo[6]));
+            SERVO_6 = LOW;
+        }
+    #endif
+     */
 }
 
 /****************************************************************************************
