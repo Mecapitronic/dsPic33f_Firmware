@@ -28,11 +28,11 @@
 #define STOPPING        3   // A l'arrêt (avant repos)
 
 // Team color, A = verte, B = bleue
-#define TEAM_A          0
-#define TEAM_B          1
+//#define TEAM_A          0
+//#define TEAM_B          1
 
-#define LCD_TEAM_A       "VERT"
-#define LCD_TEAM_B       "BLEU"
+//#define LCD_TEAM_A       "VERT"
+//#define LCD_TEAM_B       "BLEU"
 
 #define MODE_MATCH		0
 #define MODE_TEST		1
@@ -41,7 +41,7 @@
  * Variables
  ****************************************************************************************/
 extern uint8 power_mode;
-extern uint8 team_color;
+//extern uint8 team_color;
 
 /****************************************************************************************
  * Fonctions prototypes

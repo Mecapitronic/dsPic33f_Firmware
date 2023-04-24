@@ -15,7 +15,7 @@
  * Variables
  ****************************************************************************************/
 uint8 power_mode = OFF;
-uint8 team_color = TEAM_A;
+//uint8 team_color = TEAM_A;
 
 boolean start_precedent = OFF;
 boolean mode_flashing_flag = OFF;
@@ -82,7 +82,7 @@ void Gestion_Mode(void) {
             RELAY = OFF;
             //START_PILOT = OFF;
             run_mode = MODE; // sélection du mode de marche
-            team_color = COLOR_TEAM; // sélection de la couleur d'équipe
+            //team_color = COLOR_TEAM; // sélection de la couleur d'équipe
             break;
     }
     START_PILOT = START;
@@ -115,10 +115,10 @@ void Affichage_Mode(void) {
                 case 3:
                 case 4:
                 case 5:
-                    LCD_Text("Team ", 5);
-                    if (team_color == TEAM_A) LCD_Text(LCD_TEAM_A, 6);
-                    else if (team_color == TEAM_B) LCD_Text(LCD_TEAM_B, 6);
-                    else LCD_Text("?", 6);
+                    //LCD_Text("Team ", 5);
+                    //if (team_color == TEAM_A) LCD_Text(LCD_TEAM_A, 6);
+                    //else if (team_color == TEAM_B) LCD_Text(LCD_TEAM_B, 6);
+                    //else LCD_Text("?", 6);
                     break;
             }
             break;
@@ -165,10 +165,10 @@ void Affichage_Mode(void) {
                 case 3:
                 case 4:
                 case 5:
-                    LCD_Text("Team ", 5);
-                    if (team_color == TEAM_A) LCD_Text(LCD_TEAM_A, 6);
-                    else if (team_color == TEAM_B) LCD_Text(LCD_TEAM_B, 6);
-                    else LCD_Text("?", 6);
+                    //LCD_Text("Team ", 5);
+                    //if (team_color == TEAM_A) LCD_Text(LCD_TEAM_A, 6);
+                    //else if (team_color == TEAM_B) LCD_Text(LCD_TEAM_B, 6);
+                    //else LCD_Text("?", 6);
                     break;
             }
             break;
