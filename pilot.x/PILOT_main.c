@@ -71,67 +71,41 @@ _PILOT_
             timeLCD++;
             Delay_Ms(1);
 		}
-        if (team == TEAM_A)
-            Initialize_Robot_Position(225, 225, 90);
-        else
-            Initialize_Robot_Position(1775, 225, 90);
-        
-		Delay_Ms(500);
-		//First wall
-		Translate(-200, SPEED_LIN);
-		while (Wait_Trajectory()) { Display(); };
-		Delay_Ms(500);
-		Initialize_Robot_Position(225, 125, 90);
-		Delay_Ms(500);
-
-		Translate(100, SPEED_LIN);
-		while (Wait_Trajectory()) { Display(); };
-		Delay_Ms(500);
-		Rotate_To_Angle(0, SPEED_ANG);
-		while (Wait_Trajectory()) { Display(); };
-		Delay_Ms(500);
-
-		//Second wall
-		Translate(-200, SPEED_LIN);
-		while (Wait_Trajectory()) { Display(); };
-		Delay_Ms(500);
-		Initialize_Robot_Position(125, 225, 0);
-
-		Delay_Ms(500);
-		Translate(100, SPEED_LIN);
-		while (Wait_Trajectory()) { Display(); };
-		Delay_Ms(500);
-		Rotate_To_Angle(45, SPEED_ANG);
-		while (Wait_Trajectory()) { Display(); };
-		Delay_Ms(500);
+        Recalage_Bordure();        
 	}
 
-	Sequence_LCD_Initiale();
-    LCD_Line(4);
-    LCD_Text("   Attente  Start   ", LCD_NB_CHARS);
-    
-	if (team == TEAM_A)
-		Initialize_Robot_Position(225, 225, 90);
-	else
-		Initialize_Robot_Position(1775, 225, 90);
-    
-	Initialize_Map(team);
-	Initialize_Obstacle();
-	Initialize_Passability_Graph();
+    // Initialisation
+    if (team == TEAM_A)
+        Initialize_Robot_Position(225, 225, 90);
+    else
+        Initialize_Robot_Position(1775, 225, 90);
 
-	Initialize_Action();
-    
-    while (!START_PILOT)  // attente de démarrage du copilot
-	{
-		if (timeLCD > 250) {
-			LED_Toggle();
-            Sequence_LCD_Waiting_Mode();
-            Sequence_LCD_Waiting_Start();
-			timeLCD = 0;
-		}
-		timeLCD++;
-		Delay_Ms(1);
-	}
+    Initialize_Map(team);
+    Initialize_Obstacle();
+    Initialize_Passability_Graph();
+
+    Initialize_Action();
+
+    // Attente de démarrage du copilot
+    if (!START_PILOT)
+    {
+        Sequence_LCD_Initiale();
+        LCD_Line(4);
+        LCD_Text("   Attente  Start   ", LCD_NB_CHARS);
+
+
+        while (!START_PILOT)  
+        {
+            if (timeLCD > 250) {
+                LED_Toggle();
+                Sequence_LCD_Waiting_Mode();
+                Sequence_LCD_Waiting_Start();
+                timeLCD = 0;
+            }
+            timeLCD++;
+            Delay_Ms(1);
+        }
+    }
 
 	if (mode == MODE_TEST)
 	{
@@ -238,6 +212,46 @@ _PILOT_
 		while (FOREVER);
 
 		return 1;
+}
+
+void Recalage_Bordure(void)
+{
+    if (team == TEAM_A)
+        Initialize_Robot_Position(225, 225, 90);
+    else
+        Initialize_Robot_Position(1775, 225, 90);
+
+    Delay_Ms(500);
+    //First wall
+    Translate(-200, SPEED_LIN);
+    while (Wait_Trajectory()) { Display(); };
+    Delay_Ms(500);
+    if (team == TEAM_A)
+        Initialize_Robot_Position(225, 125, 90);
+    else
+        Initialize_Robot_Position(1775, 125, 90);
+    Delay_Ms(500);
+
+    Translate(100, SPEED_LIN);
+    while (Wait_Trajectory()) { Display(); };
+    Delay_Ms(500);
+    Rotate_To_Angle(0, SPEED_ANG);
+    while (Wait_Trajectory()) { Display(); };
+    Delay_Ms(500);
+
+    //Second wall
+    Translate(-200, SPEED_LIN);
+    while (Wait_Trajectory()) { Display(); };
+    Delay_Ms(500);
+    Initialize_Robot_Position(125, 225, 0);
+
+    Delay_Ms(500);
+    Translate(100, SPEED_LIN);
+    while (Wait_Trajectory()) { Display(); };
+    Delay_Ms(500);
+    Rotate_To_Angle(45, SPEED_ANG);
+    while (Wait_Trajectory()) { Display(); };
+    Delay_Ms(500);
 }
 
 

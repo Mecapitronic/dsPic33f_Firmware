@@ -73,6 +73,9 @@ extern uint8 team;
 #else
 	#define _PILOT_ int main(void)
 #endif
+
+void Recalage_Bordure(void);
+
 void Display();
 
 void Sequence_LED_Initiale(void);
