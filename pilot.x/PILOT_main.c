@@ -24,6 +24,7 @@
    ****************************************************************************************/
 uint8 team = TEAM_A;
 uint8 mode = MODE_MATCH;
+uint8 start = FALSE;
 
 /****************************************************************************************
  * Routine Principale
@@ -32,45 +33,12 @@ _PILOT_
 {
 	current_time = 0;
 	Setup_Hardware();
-
+	Sequence_LCD_Initiale();
 	Sequence_LED_Initiale();
-
-	LCD_Line(1);
-	LCD_Clear_Line();
-	LCD_Line(2);
-	LCD_Clear_Line();
-	LCD_Line(3);
-	LCD_Clear_Line();
-	LCD_Line(4);
-	LCD_Clear_Line();
-
-	uint16 timeLCD = 0;
-	while (!START_PILOT)  // attente de démarrage du copilot
-	{
-		team = SELECT;
-            mode = MODE_PILOT;
-		if (timeLCD > 250) {
-			LED_Toggle();
-			Sequence_LCD_Initiale();
-			timeLCD = 0;
-		}
-		timeLCD++;
-		Delay_Ms(1);
-	}
-
-	if (team == TEAM_A)
-		Initialize_Robot_Position(225, 225, 90);
-	else
-		Initialize_Robot_Position(1775, 225, 90);
-
-	Initialize_Map(team);
-	Initialize_Obstacle();
-	Initialize_Passability_Graph();
-
-	Initialize_Action();
-
-	Initialize_Asserv();
-	Set_Asserv(ON);
+    
+	team = SELECT;
+	mode = MODE_PILOT;
+	start = START_PILOT;
 
 	Setup_Timer_Primaire();
 	Setup_Timer_Secondaire();
@@ -78,6 +46,104 @@ _PILOT_
 	Set_Timer_Secondaire(ON);
 	Start_UART1();
 	Start_UART2();
+
+	uint16 timeLCD = 0;
+	// Recalage Bordure
+	if (START_PILOT)
+	{
+        LCD_Line(4);
+        LCD_Text("   Calage Bordure   ", LCD_NB_CHARS);
+        while (START_PILOT)
+		{
+            //Wainting for Cordon de démarrage
+            team = SELECT;
+            mode = MODE_PILOT;
+            COLOR_TEAM = SELECT;
+            if (timeLCD > 250)
+            {
+                LED_Toggle();
+                Sequence_LCD_Waiting_Mode();
+                Sequence_LCD_Waiting_Start();
+                timeLCD = 0;
+            }
+            timeLCD++;
+            Delay_Ms(1);
+		}
+        if (team == TEAM_A)
+            Initialize_Robot_Position(225, 225, 90);
+        else
+            Initialize_Robot_Position(1775, 225, 90);
+        
+        Initialize_Asserv();
+        Set_Asserv(ON);
+        
+		Delay_Ms(500);
+		//First wall
+		Translate(-200, SPEED_LIN);
+		while (Wait_Trajectory()) { Display(); };
+		Delay_Ms(500);
+		Set_Asserv(OFF);
+		Initialize_Robot_Position(225, 125, 90);
+		Initialize_Asserv();
+		Set_Asserv(ON);
+		Delay_Ms(500);
+
+		Translate(100, SPEED_LIN);
+		while (Wait_Trajectory()) { Display(); };
+		Delay_Ms(500);
+		Rotate_To_Angle(0, SPEED_ANG);
+		while (Wait_Trajectory()) { Display(); };
+		Delay_Ms(500);
+
+		//Second wall
+		Translate(-200, SPEED_LIN);
+		while (Wait_Trajectory()) { Display(); };
+		Delay_Ms(500);
+		Set_Asserv(OFF);
+		Initialize_Robot_Position(125, 225, 0);
+		Initialize_Asserv();
+		Set_Asserv(ON);
+
+		Delay_Ms(500);
+		Translate(100, SPEED_LIN);
+		while (Wait_Trajectory()) { Display(); };
+		Delay_Ms(500);
+		Rotate_To_Angle(45, SPEED_ANG);
+		while (Wait_Trajectory()) { Display(); };
+		Delay_Ms(500);
+        Set_Asserv(OFF);
+        Initialize_Asserv();
+        Delay_Ms(500);
+	}
+
+	Sequence_LCD_Initiale();
+    LCD_Line(4);
+    LCD_Text("   Attente  Start   ", LCD_NB_CHARS);
+    
+	if (team == TEAM_A)
+		Initialize_Robot_Position(225, 225, 90);
+	else
+		Initialize_Robot_Position(1775, 225, 90);
+    Initialize_Asserv();
+    Set_Asserv(ON);
+    
+	Initialize_Map(team);
+	Initialize_Obstacle();
+	Initialize_Passability_Graph();
+
+	Initialize_Action();
+    
+    while (!START_PILOT)  // attente de démarrage du copilot
+	{
+		if (timeLCD > 250) {
+			LED_Toggle();
+            Sequence_LCD_Waiting_Mode();
+            Sequence_LCD_Waiting_Start();
+			timeLCD = 0;
+		}
+		timeLCD++;
+		Delay_Ms(1);
+	}
 
 	if (mode == MODE_TEST)
 	{
@@ -239,4 +305,68 @@ void Display()
     
 }
 
+
+
+/****************************************************************************************
+* Séquences au démarrage du système
+****************************************************************************************/
+void Sequence_LED_Initiale(void)
+{
+    for (uint8 i = 0; i < 5; i++)
+    {
+        LED = !LED;
+        Delay_Ms(100);
+    }
+    LED = ON;
+    Delay_S(1);
+    LED = OFF;
+}
+
+void Sequence_LCD_Initiale(void)
+{
+    LCD_Line(1);
+    LCD_Text("MECAPITRONIC GR 2023", LCD_NB_CHARS);
+
+    LCD_Line(2);
+    LCD_Text("V: ", 3);
+    LCD_Text(__DATE__, 6);
+    LCD_Text(" ", 1);
+    LCD_Text(__TIME__, 8);
+}
+
+void Sequence_LCD_Waiting_Mode(void)
+{
+    LCD_Line(3);
+    LCD_Text("PILOT : ", 8);
+    if (MODE_PILOT == MODE_MATCH) LCD_Text("Match  ", 7);
+    else LCD_Text("Test   ", 7);
+    if (SELECT == TEAM_A) LCD_Text(LCD_TEAM_A, 4);
+    else LCD_Text(LCD_TEAM_B, 4);
+    LCD_Text(" ", 1);
+}
+
+uint8 startLCD = 0;
+void Sequence_LCD_Waiting_Start(void)
+{
+    LCD_Goto(4, 0);
+    for (uint8 i = 0; i < 3; i++)
+    {
+        if (startLCD == i)
+            LCD_Char('>');
+        else
+            LCD_Char(' ');
+    }
+    for (uint8 i = 0; i < 3; i++)
+    {
+        LCD_Goto(4, 19 - i);
+        if (startLCD == i)
+            LCD_Char('<');
+        else
+            LCD_Char(' ');
+    }
+
+    startLCD++;
+    if (startLCD >= 3)
+        startLCD = 0;
+}
 

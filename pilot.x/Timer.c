@@ -25,18 +25,18 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_PRIMAIRE_INT(void)
 	{
 		current_time += PERIOD_MS; // main time counter
 
-		if (START_PILOT) // sécurité si relais défaillant
-		{
+		//if (START_PILOT) // sécurité si relais défaillant
+		//{
 			Update_Odometry();  // Location
 			Update_Asserv();    // Motor control
 
 			Update_Start_Vertex();  // start vertex for graph (robot position)
-		}
-		else
-		{
-			Motor_Right(0);
-			Motor_Left(0);
-		}
+		//}
+		//else
+		//{
+		//	Motor_Right(0);
+		//	Motor_Left(0);
+		//}
 
 		TIMER_PRIMAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
 	}

@@ -75,5 +75,10 @@ extern uint8 team;
 #endif
 void Display();
 
+void Sequence_LED_Initiale(void);
+void Sequence_LCD_Initiale(void);
+void Sequence_LCD_Waiting_Mode(void);
+void Sequence_LCD_Waiting_Start(void);
+
 #endif	/* PILOT_MAIN_H */
 
