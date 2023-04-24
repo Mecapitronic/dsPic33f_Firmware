@@ -66,6 +66,8 @@ void Setup_Odometry(void)
  ****************************************************************************************/
 void Initialize_Robot_Position(int32 x_mm, int32 y_mm, float32 angle_deg)
 {
+  Set_Asserv(OFF);
+  Initialize_Asserv();
   robot.mm.x = x_mm;
   robot.mm.y = y_mm;
   robot.deg = angle_deg;
@@ -87,6 +89,7 @@ void Initialize_Robot_Position(int32 x_mm, int32 y_mm, float32 angle_deg)
 
   encoder_right = 0;
   encoder_left = 0;
+  Set_Asserv(ON);
 }
 
 /****************************************************************************************

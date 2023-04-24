@@ -40,6 +40,8 @@ _PILOT_
 	mode = MODE_PILOT;
 	start = START_PILOT;
 
+    Initialize_Robot_Position(500, 500, 0);
+
 	Setup_Timer_Primaire();
 	Setup_Timer_Secondaire();
 	Set_Timer_Primaire(ON);
@@ -74,18 +76,12 @@ _PILOT_
         else
             Initialize_Robot_Position(1775, 225, 90);
         
-        Initialize_Asserv();
-        Set_Asserv(ON);
-        
 		Delay_Ms(500);
 		//First wall
 		Translate(-200, SPEED_LIN);
 		while (Wait_Trajectory()) { Display(); };
 		Delay_Ms(500);
-		Set_Asserv(OFF);
 		Initialize_Robot_Position(225, 125, 90);
-		Initialize_Asserv();
-		Set_Asserv(ON);
 		Delay_Ms(500);
 
 		Translate(100, SPEED_LIN);
@@ -99,10 +95,7 @@ _PILOT_
 		Translate(-200, SPEED_LIN);
 		while (Wait_Trajectory()) { Display(); };
 		Delay_Ms(500);
-		Set_Asserv(OFF);
 		Initialize_Robot_Position(125, 225, 0);
-		Initialize_Asserv();
-		Set_Asserv(ON);
 
 		Delay_Ms(500);
 		Translate(100, SPEED_LIN);
@@ -111,9 +104,6 @@ _PILOT_
 		Rotate_To_Angle(45, SPEED_ANG);
 		while (Wait_Trajectory()) { Display(); };
 		Delay_Ms(500);
-        Set_Asserv(OFF);
-        Initialize_Asserv();
-        Delay_Ms(500);
 	}
 
 	Sequence_LCD_Initiale();
@@ -124,8 +114,6 @@ _PILOT_
 		Initialize_Robot_Position(225, 225, 90);
 	else
 		Initialize_Robot_Position(1775, 225, 90);
-    Initialize_Asserv();
-    Set_Asserv(ON);
     
 	Initialize_Map(team);
 	Initialize_Obstacle();
