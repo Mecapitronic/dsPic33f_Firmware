@@ -65,14 +65,6 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void)
 			Update_UART2();
 		}
 
-#ifdef SERIAL_PRINT
-		print_navigation();
-#endif
-
-#ifdef _VISUAL_STUDIO
-		Display();
-#endif
-
 		TIMER_SECONDAIRE_INT_FLAG = OFF; // Clear Timer Interrupt Flag
 	}
 }
