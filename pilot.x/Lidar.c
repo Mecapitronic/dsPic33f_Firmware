@@ -164,7 +164,7 @@ void Analyse_Data_UART2()
 	char tmp[6] = { 0, 0, 0, 0, 0, 0 }; int32 j = 0;
 	int32 m = 0;
 
-	for (uint8 i = 1; i < U2_cursor; i++)
+	for (uint8 i = 0; i < U2_cursor; i++)
 	{
 		if (U2_trame[i] != ';')
 		{
