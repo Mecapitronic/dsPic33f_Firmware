@@ -18,16 +18,16 @@
  * Parameters
  ****************************************************************************************/
 // Speed max => position reached in 1 second
-#define SPEED_LIN    1000//500   // [mm/s]
-#define SPEED_ANG    5     // [rad/s]
+#define SPEED_LIN    800   // [mm/s]
+#define SPEED_ANG    3//2     // [rad/s]
 
 // Acceleration => speed reached in 1 second
-#define ACCEL_LIN    500//900   // [mm/s^2]  
-#define ACCEL_ANG    5     // [rad/s^2]
+#define ACCEL_LIN    600//700//900   // [mm/s^2]  
+#define ACCEL_ANG    4//5     // [rad/s^2]
 
 // Jerk => acceleration reached in 1 period
-#define JERK_LIN     1     // [step/period]
-#define JERK_ANG     30    // [step/period]
+#define JERK_LIN     2//2//1     // [step/period]
+#define JERK_ANG     30//30//20    // [step/period]
 
 #define SPEED_LIN_TO_STEP(mm_s)     (MM_TO_STEP(mm_s) * PERIOD)       // convert [mm/s] to [step/period]
 #define SPEED_ANG_TO_STEP(rad_s)    (RAD_TO_STEP(rad_s) * PERIOD)     // convert [rad/s] to [step/period]
