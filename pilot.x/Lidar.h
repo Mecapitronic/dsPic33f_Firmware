@@ -18,7 +18,6 @@
 * Parameters
 ****************************************************************************************/
 // UART 2
-#define U2_FCY     (unsigned long)40000000   // operating frequency (MIPS)
 #define U2_BAUD    125000 // /!\ check if UxBRG value is integer
 #define U2RX_SIZE  20
 #define Setup_UART2_RX_Pin()  do{ RPINR19bits.U2RXR = 2; }while(0);  // pin 23 / RP2

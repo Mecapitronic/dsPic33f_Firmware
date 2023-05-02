@@ -104,7 +104,7 @@ void Initialize_UART2(void)
 	U2MODEbits.PDSEL = 0;	// 8-bit data, no parity
 	U2MODEbits.ABAUD = 0;	// Autobaud Disabled
 	U2MODEbits.BRGH = 0;	// Low Speed mode
-	U2BRG = (U2_FCY / U2_BAUD) / 16 - 1; // baud rate setting  
+	U2BRG = (FCY / U2_BAUD) / 16 - 1; // baud rate setting  
 
 	U2STAbits.URXISEL = 0;	// Interrupt after one RX character is received;
 	IPC7bits.U2RXIP = 4;	//UART2 RX interrupt priority, mid-range

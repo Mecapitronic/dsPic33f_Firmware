@@ -24,7 +24,6 @@ extern uint8 send_ack_cmd;
 /****************************************************************************************
 * Parameters
 ****************************************************************************************/
-#define FCY  (unsigned long)40000000   // operating frequency (MIPS)
 // UART 1
 #define U1_BAUD    125000 // /!\ check if UxBRG value is integer
 #define U1RX_SIZE  64
