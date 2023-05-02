@@ -36,8 +36,8 @@
 #define Enable_M1()         {LATBbits.LATB15 = 1;}
 #define Enable_M2()         {LATBbits.LATB13 = 1;}
 
-// Seuil de freinage
-#define NEUTRAL             80       // <10% de PWM_PERIOD
+// Consigne PWM mainimale des moteurs => Seuil de freinage
+#define PWM_MIN             80       // <10% de PWM_PERIOD
 // Consigne PWM maximale des moteurs => adaptation à la tension d'alimentation
 #define PWM_MAX             1800    // PWM_PERIOD * (supply voltage / motor voltage)
 

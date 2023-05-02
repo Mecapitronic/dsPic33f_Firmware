@@ -12,6 +12,11 @@
 #include "Motor.h"
 
 /****************************************************************************************
+ * Variables
+ ****************************************************************************************/
+
+
+/****************************************************************************************
  * Fonction d'initialisation des paramètres moteurs
  ****************************************************************************************/
 void Motor_Setup(void)
@@ -27,7 +32,7 @@ void Motor_Setup(void)
 }
 
 /****************************************************************************************
- * Fonction de commande de la vitesse du moteur 1
+ * Fonction de commande de la vitesse du moteur 1 => droite
  ****************************************************************************************/
 void Setpoint_M1(int32 pwm)
 {
@@ -35,7 +40,7 @@ void Setpoint_M1(int32 pwm)
   if (pwm > PWM_MAX) pwm = PWM_MAX;
   else if (pwm < -PWM_MAX) pwm = -PWM_MAX;
   // Freinage lorsque la consigne est faible
-  if ((pwm < NEUTRAL) && (pwm > (-NEUTRAL)))
+  if ((pwm < PWM_MIN) && (pwm > (-PWM_MIN)))
   {
     Brake_M1();
     //LED = ON;
@@ -49,7 +54,7 @@ void Setpoint_M1(int32 pwm)
 }
 
 /****************************************************************************************
- * Fonction de commande de la vitesse du moteur 2
+ * Fonction de commande de la vitesse du moteur 2 => gauche
  ****************************************************************************************/
 void Setpoint_M2(int32 pwm)
 {
@@ -57,7 +62,7 @@ void Setpoint_M2(int32 pwm)
   if (pwm > PWM_MAX) pwm = PWM_MAX;
   else if (pwm < -PWM_MAX) pwm = -PWM_MAX;
   // Freinage lorsque la consigne est faible
-  if ((pwm < NEUTRAL) && (pwm > (-NEUTRAL)))
+  if ((pwm < PWM_MIN) && (pwm > (-PWM_MIN)))
   {
     Brake_M2();
     //LED = ON;
