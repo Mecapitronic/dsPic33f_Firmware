@@ -21,9 +21,10 @@
 #define COEF_MULTIPLICATOR  8
 
 // Coefficients dépendants des roues codeuses => à ajuster expérimentalement
-#define COEF_MM   463.4       // [step/mm] (lié au diamètre des roues codeuses)
-#define COEF_RAD  104613    // [step/rad] (lié à l'entraxe des roues codeuses)
-#define COEF_DEG  (RAD_TO_DEG(COEF_RAD))      // [step/°] (COEF_RAD * RAD_TO_DEG)
+#define COEF_WHEEL_DIFF     8.024   // coefficient pour compenser la différence de diamètre des roues codeuses
+#define COEF_MM             464.8//463.4       // [step/mm] (lié au diamètre des roues codeuses)
+#define COEF_RAD            104001//104613    // [step/rad] (lié à l'entraxe des roues codeuses)
+#define COEF_DEG            (RAD_TO_DEG(COEF_RAD))      // [step/°] (COEF_RAD * RAD_TO_DEG)
 
 // Macro de conversion
 #define MM_TO_STEP(mm)      ((mm) * COEF_MM)
@@ -58,6 +59,9 @@
  ****************************************************************************************/
 extern t_robot robot;
 
+extern t_motion wheel_right; // utilisé pour l'anti patinage des moteurs
+extern t_motion wheel_left;
+
 /****************************************************************************************
  * Functions Prototypes
  ****************************************************************************************/
@@ -66,6 +70,9 @@ void Setup_Odometry(void);
 void Initialize_Robot_Position(int32 x_mm, int32 y_mm, float32 a_deg);
 void Update_Odometry(void);
 
+void Test_Odometry_Wheel_Difference(void);
+void Test_Odometry_Linear(void);
+void Test_Odometry_Angular(void);
 
 #endif	/* ODOMETRY_H */
 

@@ -14,13 +14,13 @@
 /****************************************************************************************
  * Variables
  ****************************************************************************************/
-t_robot robot;
+t_robot robot; // déplacement du centre du robot
+
+t_motion wheel_right; // déplacement des roues codeuses
+t_motion wheel_left;
 
 int32 ang_position_init = 0;  // position angulaire initiale
 float32 orientation = 0;
-
-int32 encoder_right = 0;
-int32 encoder_left = 0;
 
 int32 last_lin_position = 0;
 int32 last_ang_position = 0;
@@ -36,13 +36,15 @@ int16 dy = 0;
 void Update_Encoder(void)
 {
   // Backup counter value and reset just after
-  uint16 right = ENCODER_RIGHT;
-  uint16 left = ENCODER_LEFT;
+  float32 encoder_right = ENCODER_RIGHT; // float32 sinon int16 NOK !
   ENCODER_RIGHT = ENCODER_INIT;
+  float32 encoder_left = ENCODER_LEFT;
   ENCODER_LEFT = ENCODER_INIT;
   // Counter integration, with software amplification
-  encoder_right += (right - ENCODER_INIT) * COEF_MULTIPLICATOR;
-  encoder_left += (left - ENCODER_INIT) * COEF_MULTIPLICATOR;
+  wheel_right.velocity = (encoder_right - ENCODER_INIT) * COEF_MULTIPLICATOR;
+  wheel_left.velocity = (encoder_left - ENCODER_INIT) * COEF_WHEEL_DIFF; // avec compensation différence de diamétre
+  wheel_right.position += wheel_right.velocity;
+  wheel_left.position += wheel_left.velocity;
 }
 
 /****************************************************************************************
@@ -57,8 +59,10 @@ void Setup_Odometry(void)
   // Counter setup
   ENCODER_RIGHT = ENCODER_INIT;
   ENCODER_LEFT = ENCODER_INIT;
-  encoder_right = 0;
-  encoder_left = 0;
+  wheel_right.velocity = 0;
+  wheel_left.velocity = 0;
+  wheel_right.position = 0;
+  wheel_left.position = 0;
 }
 
 /****************************************************************************************
@@ -87,8 +91,8 @@ void Initialize_Robot_Position(int32 x_mm, int32 y_mm, float32 angle_deg)
   last_lin_position = 0;
   last_ang_position = ang_position_init;
 
-  encoder_right = 0;
-  encoder_left = 0;
+  wheel_right.position = 0;
+  wheel_left.position = 0;
   Set_Asserv(ON);
 }
 
@@ -116,8 +120,8 @@ void Update_Odometry(void)
   robot.lin.position = move_lin.command.position;
   robot.ang.position = move_ang.command.position;
 #else
-  robot.lin.position = (encoder_right + encoder_left) / 2;
-  robot.ang.position = ang_position_init + (encoder_right - encoder_left);
+  robot.lin.position = (wheel_right.position + wheel_left.position) / 2;
+  robot.ang.position = ang_position_init + (wheel_right.position  - wheel_left.position);
 #endif
 
   // Current velocity (derivate from position)
@@ -164,37 +168,25 @@ void Update_Odometry(void)
 /****************************************************************************************
  * Test odometry for differential wheel diameter ajustment
  ****************************************************************************************/
-void Test_Odometry_1()
+void Test_Odometry_Wheel_Difference(void)
 {
-  uint16 distance_test = 2000;
+  uint16 distance_test = 1000;
   
-  Translate(distance_test, SPEED_LIN);
-  while (Wait_Trajectory())Display();
-  Rotate(PI, SPEED_ANG);
-  while (Wait_Trajectory())Display();
-  Translate(distance_test, SPEED_LIN);
-  while (Wait_Trajectory())Display();
-  Rotate(-PI, SPEED_ANG);
-  while (Wait_Trajectory())Display();
+  uint8 i;
+  for (i=0;i<10;i++)
+  {
+    Translate(distance_test, SPEED_LIN);
+    while (Wait_Trajectory())Display();
+    Rotate(PI, SPEED_ANG);
+    while (Wait_Trajectory())Display();
+    Translate(distance_test, SPEED_LIN);
+    while (Wait_Trajectory())Display();
+    Rotate(-PI, SPEED_ANG);
+    while (Wait_Trajectory())Display();
+  }
   
-  Translate(distance_test, SPEED_LIN);
+  Rotate(DEG_TO_RAD(90-robot.deg), SPEED_ANG);
   while (Wait_Trajectory())Display();
-  Rotate(PI, SPEED_ANG);
-  while (Wait_Trajectory())Display();
-  Translate(distance_test, SPEED_LIN);
-  while (Wait_Trajectory())Display();
-  Rotate(-PI, SPEED_ANG);
-  while (Wait_Trajectory())Display();
-  
-  Translate(distance_test, SPEED_LIN);
-  while (Wait_Trajectory())Display();
-  Rotate(PI, SPEED_ANG);
-  while (Wait_Trajectory())Display();
-  Translate(distance_test, SPEED_LIN);
-  while (Wait_Trajectory())Display();
-  Rotate(-PI, SPEED_ANG);
-  while (Wait_Trajectory())Display();
-  
   Rotate(DEG_TO_RAD(90-robot.deg), SPEED_ANG);
   while (Wait_Trajectory())Display();
   
@@ -205,9 +197,9 @@ void Test_Odometry_1()
 /****************************************************************************************
  * Test odometry for wheel step per millimeter ajustment
  ****************************************************************************************/
-void Test_Odometry_2()
+void Test_Odometry_Linear(void)
 {
-  Translate(3000, SPEED_LIN);
+  Translate(1500, SPEED_LIN);
   while (Wait_Trajectory())Display();
   
   Set_Asserv(OFF);
@@ -216,13 +208,14 @@ void Test_Odometry_2()
 
 /****************************************************************************************
  * Test odometry for wheel spacing ajustment
+ * => Si trop tourné, diminuer le coeff d'entraxe
  ****************************************************************************************/
-void Test_Odometry_3()
+void Test_Odometry_Angular(void)
 {
   uint8 i;
   for (i=0;i<40;i++)
   {
-    Rotate(PI, SPEED_ANG);
+    Rotate(PI, SPEED_ANG); // 2*pi est simplifié donc il ne tourne pas !
     while (Wait_Trajectory())Display();
   }
   

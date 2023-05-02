@@ -41,6 +41,13 @@
 // Consigne PWM maximale des moteurs => adaptation à la tension d'alimentation
 #define PWM_MAX             1800    // PWM_PERIOD * (supply voltage / motor voltage)
 
+/* Anti patinage => limite la vitesse des moteurs par rapport à celle des roues codeuses */
+#define ENABLE_ANTI_SLIP
+// vitesse minimale pour avancer sans patiner => à ajuster expérimentalement
+#define PWM_MIN_SLIP        300
+// coefficient pour passer des valeurs des codeuses aux valeurs PWM => à ajuster expérimentalement
+#define COEF_ENCODER_MOTOR  1.0362
+
 #define Motor_Left(v)    Setpoint_M2(v)  // GAUCHE = M2
 #define Motor_Right(v)   Setpoint_M1(v)  // DROIT = M1
 // Initialize speed with immediate update of duty cycle enabled
@@ -54,6 +61,7 @@
 void Motor_Setup(void);
 void Setpoint_M1(int32 pwm);
 void Setpoint_M2(int32 pwm);
+int32 AntiSlip(int32 pwm, t_motion *wheel);
 //void Test_Moteur(void);
 
 #endif	/* MOTOR_H */
