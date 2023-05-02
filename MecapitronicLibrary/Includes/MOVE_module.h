@@ -19,6 +19,7 @@
 ****************************************************************************************/
 void MOVE_Filter(t_move *m, t_motion *real);
 void MOVE_Initialize(t_move *m);
+void MOVE_Reset_Ramp(t_move *m, t_motion *real);
 void MOVE_Setpoint(t_move *m, int32 pos, int16 speed_max, int16 speed_min, int16 acc, int8 jerk);
 void MOVE_Setpoint_Position(t_move *m, int32 position);
 void MOVE_Setpoint_Speed(t_move *m, int16 speed_max, int16 speed_min);

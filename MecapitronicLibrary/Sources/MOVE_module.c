@@ -105,7 +105,7 @@ void MOVE_Filter(t_move *m, t_motion *real)
     }
   }
 
-//#define ASSERV_2
+//#define ASSERV_2 => le robot est mou et a besoin qu'on le bouge pour avancer...
 #ifndef ASSERV_2
   // Position
   if (m->command.position < m->setpoint.position)
@@ -136,7 +136,7 @@ void MOVE_Filter(t_move *m, t_motion *real)
   }
   else if (m->command.position > m->setpoint.position)
   {
-    m->command.position = real->position - m->command.velocity;
+    m->command.position = real->position + m->command.velocity;
     if (m->command.position < m->setpoint.position)
     {
       m->command.position = m->setpoint.position;
@@ -164,6 +164,16 @@ void MOVE_Initialize(t_move *m)
   m->setpoint.speed_min = 0;
   m->setpoint.acceleration = 0;
   m->setpoint.jerk = 0;
+}
+
+/****************************************************************************************
+* Re-initialize command position, speed and acc
+****************************************************************************************/
+void MOVE_Reset_Ramp(t_move *m, t_motion *real)
+{
+  m->command.position = real->position + real->velocity; // real->position; => saccade jusqu'à retrouver la consigne
+  m->command.velocity = real->velocity; // 0 => oscillations;
+  m->command.acceleration = 0;
 }
 
 /****************************************************************************************
