@@ -202,6 +202,18 @@ void Update_UART1(void)
 	Write_Float_UART1(RAD_TO_DEG(robot.rad), 0);
 	Write_UART1(';');
 
+	Write_Int_UART1(move_lin.command.position);
+	Write_UART1(';');
+	Write_Int_UART1(move_lin.command.velocity);
+	Write_UART1(';');
+	Write_Int_UART1(move_lin.command.acceleration);
+	Write_UART1(';');
+	Write_Int_UART1(robot.lin.position);
+	Write_UART1(';');
+	Write_Int_UART1(robot.lin.velocity);
+	Write_UART1(';');
+	Write_Int_UART1(robot.lin.acceleration);
+	/*
 	Write_Int_UART1(Get_Obstacle(0).p.x);
 	Write_UART1(',');
 	Write_Int_UART1(Get_Obstacle(0).p.y);
@@ -213,7 +225,7 @@ void Update_UART1(void)
 	Write_Int_UART1(Get_Obstacle(1).p.y);
 	Write_UART1(',');
 	Write_Int_UART1(Get_Obstacle(1).r);
-
+	*/
 	/*
 	// Robot Start/End path
 	Write_Int_UART1(vertex[0].point.x);
