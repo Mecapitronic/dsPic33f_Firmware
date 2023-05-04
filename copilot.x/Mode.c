@@ -76,9 +76,8 @@ void Gestion_Mode(void) {
     // Traitement des modes
     switch (power_mode) {
         case STARTING: // En démarrage
-            RELAY = ON;
+            RELAY = OFF;
             START_PILOT = OFF;
-            RECALAGE_PILOT = SW1;
             run_time = current_time;
             break;
 
@@ -86,7 +85,6 @@ void Gestion_Mode(void) {
             if (((current_time - run_time) < TIMEOUT_MATCH) || (run_mode == MODE_TEST)) {
                 START_PILOT = ON;
                 RELAY = ON;
-                RECALAGE_PILOT = OFF;
             } else {
                 START_PILOT = OFF;
                 RELAY = OFF;

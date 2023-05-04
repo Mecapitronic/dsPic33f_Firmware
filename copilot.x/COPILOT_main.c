@@ -22,7 +22,11 @@ uint8 main_mode = 0; // Mode de fonctionnement
 int main(void) {
     // Initialisation hardware
     Setup_Hardware();
-
+    
+    // Recalage du Robot
+    if(START == ON)
+        RECALAGE_PILOT = ON;
+    
     // Définition des caractères spéciaux
     LCD_SetCustomChar(0, CHAR_BATTERY_LOW);
     LCD_SetCustomChar(1, CHAR_BATTERY_20);
