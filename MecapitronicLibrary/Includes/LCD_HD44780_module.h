@@ -43,8 +43,8 @@ extern char LCDText[4][20];
 #define LCD_D6_TRIS     TRISAbits.TRISA4
 #define LCD_D7_TRIS     TRISAbits.TRISA9
 // Display size
-#define LCD_NB_LINES    4
-#define LCD_NB_CHARS    20
+#define LCD_NB_LINES    2//4
+#define LCD_NB_CHARS    16//20
 // Dots matrix size (comment the unused)
 #define LCD_IS_5X8_MATRIX
 //#define LCD_IS_5X10_MATRIX

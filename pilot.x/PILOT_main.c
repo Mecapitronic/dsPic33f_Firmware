@@ -40,11 +40,34 @@ _PILOT_{
     Setup_Timer_Secondaire();
     Set_Timer_Primaire(ON);
     Set_Timer_Secondaire(ON);
-    Start_UART1();
-    Start_UART2();
+    
+    //Start_UART1();
+    //Start_UART2();
 
     uint16 timeLCD = 0;
 
+    if (!START_PILOT && RECALAGE_PILOT) // Sequence de Recalage sur bordure
+    {
+        while (!START_PILOT)
+        {
+            team = SELECT;
+            mode = MODE_PILOT;
+            start = START_PILOT;
+            recalage = RECALAGE_PILOT;
+            if (timeLCD > 250) {
+                LED_Toggle();
+                Sequence_LCD_Waiting_Mode();
+                Sequence_LCD_Waiting_Start();
+                timeLCD = 0;
+            }
+            timeLCD++;
+            Delay_Ms(1);
+        }
+        
+        Recalage_Bordure();
+        while (START_PILOT){}
+    }
+    
     while (!START_PILOT) // Attente de démarrage du copilot 
     {
         team = SELECT;
@@ -57,12 +80,6 @@ _PILOT_{
             Sequence_LCD_Waiting_Start();
             timeLCD = 0;
         }
-
-        if (RECALAGE_PILOT) // Sequence de Recalage sur bordure
-        {
-            Recalage_Bordure();
-        }
-
         timeLCD++;
         Delay_Ms(1);
     }
@@ -188,7 +205,7 @@ void Recalage_Bordure(void) {
 
     Delay_Ms(500);
     //First wall
-    Translate(-200, SPEED_LIN);
+    Translate(200, SPEED_LIN);
     while (Wait_Trajectory()) {
         Display();
     };
@@ -199,11 +216,12 @@ void Recalage_Bordure(void) {
         Initialize_Robot_Position(1775, 125, 90);
     Delay_Ms(500);
 
-    Translate(100, SPEED_LIN);
+    Translate(-100, SPEED_LIN);
     while (Wait_Trajectory()) {
         Display();
     };
     Delay_Ms(500);
+    /*
     Rotate_To_Angle(0, SPEED_ANG);
     while (Wait_Trajectory()) {
         Display();
@@ -228,7 +246,7 @@ void Recalage_Bordure(void) {
     while (Wait_Trajectory()) {
         Display();
     };
-    Delay_Ms(500);
+    Delay_Ms(500);*/
 }
 
 
@@ -241,9 +259,9 @@ int32 coef = 32;
 void Display() {
     // robot position
     LCD_Line(1);
-    LCD_Text("X ", 2);
+    LCD_Text("X", 1);
     LCD_Value(robot.mm.x, 4, 0);
-    LCD_Text("  Y ", 4);
+	LCD_Text(" Y", 2);
     LCD_Value(robot.mm.y, 4, 0);
     LCD_Text(" ", 1);
     LCD_Value(robot.deg, 3, 0);
@@ -263,12 +281,12 @@ void Display() {
     if (running > coef * 4)
         running = 0;
 
-    // command position
+	// odometry
     LCD_Line(2);
-    LCD_Text("cL", 2);
-    LCD_Value(STEP_TO_MM(move_lin.command.position - robot.lin.position), 7, 0);
-    LCD_Text("  cA", 4);
-    LCD_Value(STEP_TO_DEG(move_ang.command.position - robot.ang.position), 7, 0);
+	LCD_Text("R", 1);
+	LCD_Value(wheel_right.velocity, 7, 0);
+	LCD_Text("L", 1);
+	LCD_Value(wheel_left.velocity, 7, 0);
 
     // command velocity
     //LCD_Line(3);
@@ -277,10 +295,10 @@ void Display() {
     //LCD_Text("  cVA", 5);
     //LCD_Value(move_ang.command.velocity, 6, 0);
 
-    Afficher_UART(3);
+    //Afficher_UART(3);
 
     // UART Receive
-    Afficher_UART2(4);
+    //Afficher_UART2(4);
 
 }
 
@@ -299,20 +317,20 @@ void Sequence_LED_Initiale(void) {
 
 void Sequence_LCD_Initiale(void) {
     LCD_Line(1);
-    LCD_Text("MECAPITRONIC GR 2023", LCD_NB_CHARS);
+    LCD_Text("GR 2023", LCD_NB_CHARS);
 
     LCD_Line(2);
-    LCD_Text("V: ", 3);
+    LCD_Text("V", 1);
     LCD_Text(__DATE__, 6);
     LCD_Text(" ", 1);
     LCD_Text(__TIME__, 8);
 }
 
 void Sequence_LCD_Waiting_Mode(void) {
-    LCD_Line(3);
-    LCD_Text("PILOT : ", 8);
-    if (MODE_PILOT == MODE_MATCH) LCD_Text("Match  ", 7);
-    else LCD_Text("Test   ", 7);
+    LCD_Line(1);
+    LCD_Text("PILOT", 5);
+    if (MODE_PILOT == MODE_MATCH) LCD_Text("Match ", 6);
+    else LCD_Text("Test  ", 6);
     if (SELECT == TEAM_A) LCD_Text(LCD_TEAM_A, 4);
     else LCD_Text(LCD_TEAM_B, 4);
     LCD_Text(" ", 1);
@@ -320,8 +338,8 @@ void Sequence_LCD_Waiting_Mode(void) {
 
 uint8 startLCD = 0;
 void Sequence_LCD_Waiting_Start(void) {
-    LCD_Line(4);
-    for (uint8 i = 0; i < 3; i++) {
+    LCD_Line(2);
+    for (uint8 i = 0; i < 1; i++) {
         if (startLCD == i)
             LCD_Char('>');
         else
@@ -330,8 +348,8 @@ void Sequence_LCD_Waiting_Start(void) {
     if (recalage == TRUE) LCD_Text("Calage Bordure", 14);
     else LCD_Text("Attente  Start", 14);
 
-    for (uint8 i = 0; i < 3; i++) {
-        LCD_Goto(4, 19 - i);
+    for (uint8 i = 0; i < 1; i++) {
+        LCD_Goto(4, 15 - i);
         if (startLCD == i)
             LCD_Char('<');
         else
