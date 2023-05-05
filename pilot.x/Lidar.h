@@ -23,6 +23,11 @@
 #define Setup_UART2_RX_Pin()  do{ RPINR19bits.U2RXR = 2; }while(0);  // pin 23 / RP2
 #define Setup_UART2_TX_Pin()  do{ RPOR1bits.RP3R = 5; }while(0);  // pin 24 / RP3
 
+// '!' + "1000,1500" + '\n' :  1 + 2 * 2 + 1;
+// 21 01 e8 03 dc 05 0A
+#define PACKET_SIZE 7
+
+
 #define LIDAR_CM_MIN     2   // cm
 #define LIDAR_CM_MAX     150  // cm
 #define LIDAR_MAX_SENSOR 10  // number of sensor 

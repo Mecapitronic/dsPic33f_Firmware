@@ -41,28 +41,23 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
 
 		if (U2STAbits.URXDA == 1) // RX buffer has data
 		{
-			// 01;3000;3000\n
 			U2_data = U2RXREG;
-			if (U2_cursor < U2RX_SIZE)
+			if (U2_data == 0x21 && U2_cursor == 0)
 			{
 				U2_trame[U2_cursor++] = U2_data;
-
-				if (U2_data == 10)
+            }
+            else if(U2_cursor > 0)
+            {
+                U2_trame[U2_cursor++] = U2_data;
+                
+				if (U2_cursor >= PACKET_SIZE)                    
 				{
-					if (U2_cursor > 0 && U2_cursor < U2RX_SIZE - 1 && U2_trame[U2_cursor - 1] != ';')
-						U2_trame[U2_cursor++] = ';';
-
-					Analyse_Data_UART2();
-					for (uint16 i = 0; i < U2_cursor; i++)
-					{
-						U2_trame[i] = 0;
-					}
+                    if(U2_data == 10)
+                    {
+                        Analyse_Data_UART2();	
+                    }
 					U2_cursor = 0;
 				}
-			}
-			else
-			{
-				U2_cursor = 0;
 			}
 		}
 		IFS1bits.U2RXIF = 0; // clear interrupt flag
@@ -160,34 +155,14 @@ void Write_UART2(uint16 data)
  ****************************************************************************************/
 void Analyse_Data_UART2()
 {
-	int32 convert[3] = { 0, 0, 0 }; int32 k = 0;
-	char tmp[6] = { 0, 0, 0, 0, 0, 0 }; int32 j = 0;
-	int32 m = 0;
-
-	for (uint8 i = 0; i < U2_cursor; i++)
-	{
-		if (U2_trame[i] != ';')
-		{
-			tmp[j++] = U2_trame[i];
-			m++;
-		}
-		else
-		{
-			convert[k++] = atoi(tmp);
-			int32 l;
-			for (l = 0; l < m; l++)
-			{
-				tmp[l] = 0;
-			}
-			m = 0;
-			j = 0;
-		}
-	}
-
-	int num = convert[0];
-	int x = convert[1];
-	int y = convert[2];
-	Add_Obstacle_Cart(num, x, y);
+    t_point p;
+    int8_t header = U2_trame[0];
+    int8_t num = U2_trame[1];
+    p.x = U2_trame[3] << 8 | U2_trame[2];
+    p.y = U2_trame[5] << 8 | U2_trame[4];
+    int8_t footer = U2_trame[6];
+    
+	Add_Obstacle_Cart(num, p.x, p.y);
 }
 
 void Afficher_UART2(uint8 ligne)
