@@ -156,11 +156,11 @@ void Write_UART2(uint16 data)
 void Analyse_Data_UART2()
 {
     t_point p;
-    int8_t header = U2_trame[0];
-    int8_t num = U2_trame[1];
+    int8 header = U2_trame[0];
+    int8 num = U2_trame[1];
     p.x = U2_trame[3] << 8 | U2_trame[2];
     p.y = U2_trame[5] << 8 | U2_trame[4];
-    int8_t footer = U2_trame[6];
+    int8 footer = U2_trame[6];
     
 	Add_Obstacle_Cart(num, p.x, p.y);
 }
