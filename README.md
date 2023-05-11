@@ -1,22 +1,35 @@
 # Mecapitronic_Firmware
 
-Contient 2 projets pour microcontroleur __dsPIC33FJ128MC804__
+## Projets
+Contient 2 projets en C pour microcontrÃ´leur __dsPIC33FJ128MC804__
  - Pilot
  - Copilot
+Contient le projet en C++ de simulation du microcontrÃ´leur PILOT
+ - Firmware
 
-Pour commencer à developper vous devez installer Visual Studio sur un Poste Windows.
-Importez le fichier vsconfig dans Visual Studio Installer afin d'installer tous les composants nécessaires à ce projet.
 
-Vous pouvez compiler le firmware pour le PIC avec l'[IDE de Microchip](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide)
+## DÃ©marrer
+
+### Configuration de l'environnement et composants
+Pour commencer Ã  dÃ©velopper vous devez installer Visual Studio sur un Poste Windows.
+Importez le fichier .vsconfig dans Visual Studio Installer afin d'installer tous les composants nÃ©cessaires Ã  ce projet.
+
+### Compilation
+Vous pouvez compiler les projets pour les dsPIC avec [MPLAB X IDE de Microchip](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide) pour les uploader\
 Vous pouvez lancer le firmware du robot en mode CLI sur votre poste:
- * clique droit sur le projet `Firmware` dans l'explorateur à droite
- * sélectionnez "Propritétés"
- * sélectionnez "Propriétés de configuration / Général"
+ * clique droit sur le projet `Firmware` dans l'explorateur de solutions
+ * sÃ©lectionnez "PropriÃ©tÃ©s"
+ * sÃ©lectionnez "PropriÃ©tÃ©s de configuration / GÃ©nÃ©ral"
  * changer l'option "Type de configuration" en "Application (.exe)"
  * appliquez
- * vous pouvez générer et exectuer le projet.
- 
-TODO ajouter les connexions séries pour communiquer avec le firmware
+ * clique droit sur le projet `Firmware` dans l'explorateur de solution
+ * gÃ©nÃ©rer le projet
+ * vous pouvez exÃ©cuter le projet en mode console
 
-Vous pouvez également lancer une simulation du robot sur le terrain. Pour cela le `Firmware` doit  être compilé en temps que Bibliothèque dynamique (.dll)
-Le Simulateur pour être généré et exécuter depuis la solution [Mecapitronic_Software](https://github.com/Godeffroy/Mecapitronic_Software).
+### Lancement
+Vous pouvez Ã©galement lancer une simulation du robot sur le terrain. Pour cela le `Firmware` doit  Ãªtre compilÃ© en temps que BibliothÃ¨que dynamique (.dll) \
+Le Simulateur pour Ãªtre gÃ©nÃ©rÃ© et exÃ©cuter depuis la solution [Mecapitronic_Software](https://github.com/Godeffroy/Mecapitronic_Software).
+
+\
+\
+TODO ajouter les connexions sÃ©ries pour communiquer avec le firmware
