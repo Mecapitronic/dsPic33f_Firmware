@@ -38,16 +38,16 @@ void Update_Sharp(void) {
     /* Conversion Analogique en mm*/
     sharp[0] = COEF_A / (SHARP_1 - COEF_B);
     /* Ecrétage */
-    if (sharp[0] > 700 || sharp[0] <= 1) {
-        sharp[0] = 700;
+    if (sharp[0] > COEF_C || sharp[0] <= 1) {
+        sharp[0] = COEF_C;
     }
 #endif
 #ifdef SHARP_2
     /* Conversion Analogique en mm*/
     sharp[1] = COEF_A / (SHARP_2 - COEF_B);
     /* Ecrétage */
-    if (sharp[1] > 700 || sharp[1] <= 1) {
-        sharp[1] = 700;
+    if (sharp[1] > COEF_C || sharp[1] <= 1) {
+        sharp[1] = COEF_C;
     }
 #endif
 }
