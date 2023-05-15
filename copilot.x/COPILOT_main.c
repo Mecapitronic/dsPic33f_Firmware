@@ -19,15 +19,14 @@ uint8 main_mode = 0; // Mode de fonctionnement
 /****************************************************************************************
  * Routine Principale
  ****************************************************************************************/
-int main(void)
-{
+int main(void) {
     // Initialisation hardware
     Setup_Hardware();
-    
+
     // Recalage du Robot si start appuyé à la mise sous tension
-    if(START == ON)
+    if (START == ON)
         RECALAGE_PILOT = ON;
-    
+
     // Définition des caractères spéciaux
     LCD_SetCustomChar(0, CHAR_BATTERY_LOW);
     LCD_SetCustomChar(1, CHAR_BATTERY_20);
@@ -38,7 +37,7 @@ int main(void)
 
     Sequence_Initiale();
 
-  // Choix du mode de fonctionnement au démarrage (SW1 appuyé en mode RUN)
+    // Choix du mode de fonctionnement au démarrage (SW1 appuyé en mode RUN)
     main_mode = Selection_Main_Mode(0); // Mode par défaut
 
     // Initialisation des actionneurs
@@ -54,11 +53,9 @@ int main(void)
     Init_All_Action();
 
 
-  while(FOREVER)
-  {
+    while (FOREVER) {
         // Mode de fonctionnement
-    switch(main_mode) 
-    {
+        switch (main_mode) {
             case 0:
                 Gestion_Action(); // Match
                 break;
@@ -84,12 +81,10 @@ int main(void)
 /****************************************************************************************
  * Sélection du mode de fonctionnement
  ****************************************************************************************/
-uint8 Selection_Main_Mode(uint8 initial_mode)
-{
+uint8 Selection_Main_Mode(uint8 initial_mode) {
     uint8 mode = initial_mode;
-  // Si mode RUN et SW1 appuyé
-  if(SW1&&(MODE==RUN))
-  {
+    // Si mode RUN et SW1 appuyé
+    if (SW1 && (MODE == RUN)) {
         BUZZER = ON;
         LCD_Line(1);
         LCD_Text("SELECTION MODE", 16);
@@ -102,10 +97,8 @@ uint8 Selection_Main_Mode(uint8 initial_mode)
         LCD_Goto(1, 12);
         LCD_Value(mode, 3, 0);
 
-    while(!SW1)
-    {
-      if(SW2)
-      {
+        while (!SW1) {
+            if (SW2) {
                 BUZZER = ON;
                 mode++;
                 LCD_Goto(1, 12);
@@ -114,8 +107,7 @@ uint8 Selection_Main_Mode(uint8 initial_mode)
                 Delay_Ms(200);
                 if (SW2) Delay_Ms(300);
             }
-      if(SW3)
-      {
+            if (SW3) {
                 BUZZER = ON;
                 mode--;
                 LCD_Goto(1, 12);

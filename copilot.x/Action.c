@@ -19,8 +19,7 @@ uint32 timeout_action = 0;
 /****************************************************************************************
  * Fonction d'attente d'execution d'une action lié à un servo
  ****************************************************************************************/
-static void Wait_Action(uint8 servoID)
-{
+static void Wait_Action(uint8 servoID) {
     Set_Timeout_Action(TIMEOUT_ACTION_VALUE);
     while (!Check_Servo(servoID) && !TIMEOUT_ACTION);
     Delay_Ms(20);
@@ -29,8 +28,7 @@ static void Wait_Action(uint8 servoID)
 /****************************************************************************************
  * Fonction d'initialisation des actionneurs
  ****************************************************************************************/
-void Init_All_Action(void)
-{
+void Init_All_Action(void) {
     Bras_Preparer();
     Wait_Action(BRAS_CERISE);
     Bras_Desactiver();
@@ -179,32 +177,28 @@ void Init_All_Action(void)
 //    Pince_Popcorn_Desactiver();
 //}
 
-
-
-
-
 /****************************************************************************************
  * Fonction de gestion des actions
  ****************************************************************************************/
 void Gestion_Action(void) {
-//    // Action spot
-//    if (FALSE) {
-//        Deposer_Spot();
-//    } else {
-//        Empiler_Spot();
-//    }
-//    // Action gobelet
-//    if (FALSE) {
-//        Prendre_Gobelet();
-//    } else {
-//        Deposer_Gobelet();
-//    }
-//    // Action clap/popcorn
-//    if (FALSE) {
-//        Fermer_Pince_Popcorn();
-//    } else {
-//        Ouvrir_Pince_Popcorn();
-//    }
+    //    // Action spot
+    //    if (FALSE) {
+    //        Deposer_Spot();
+    //    } else {
+    //        Empiler_Spot();
+    //    }
+    //    // Action gobelet
+    //    if (FALSE) {
+    //        Prendre_Gobelet();
+    //    } else {
+    //        Deposer_Gobelet();
+    //    }
+    //    // Action clap/popcorn
+    //    if (FALSE) {
+    //        Fermer_Pince_Popcorn();
+    //    } else {
+    //        Ouvrir_Pince_Popcorn();
+    //    }
 }
 
 /****************************************************************************************
