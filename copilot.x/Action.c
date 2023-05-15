@@ -181,24 +181,26 @@ void Init_All_Action(void) {
  * Fonction de gestion des actions
  ****************************************************************************************/
 void Gestion_Action(void) {
-    //    // Action spot
-    //    if (FALSE) {
-    //        Deposer_Spot();
-    //    } else {
-    //        Empiler_Spot();
-    //    }
-    //    // Action gobelet
-    //    if (FALSE) {
-    //        Prendre_Gobelet();
-    //    } else {
-    //        Deposer_Gobelet();
-    //    }
-    //    // Action clap/popcorn
-    //    if (FALSE) {
-    //        Fermer_Pince_Popcorn();
-    //    } else {
-    //        Ouvrir_Pince_Popcorn();
-    //    }
+    
+    // Action préparer la pince pour la prise
+    if (!PRISE_CERISE && !DEPOSE_CERISE) {
+        Bras_Preparer();
+    }
+    
+    // Action prendre les cerises
+    if (PRISE_CERISE && !DEPOSE_CERISE) {
+        Bras_Ramasser();
+    }
+    
+    // Action déposer les cerises
+    if (!PRISE_CERISE && DEPOSE_CERISE) {
+        Bras_Monter();
+    }    
+    
+    // Action désactiver la pince
+    if (PRISE_CERISE && DEPOSE_CERISE) {
+        Bras_Desactiver();
+    }
 }
 
 /****************************************************************************************
