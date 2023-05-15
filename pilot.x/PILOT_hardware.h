@@ -69,11 +69,11 @@
 #define FREE_PIN_3          PIN_3
 #define PIN_3_CONFIG        IN_
 // PIN 2
-#define FREE_PIN_2          PIN_2
-#define PIN_2_CONFIG        IN_
+#define DEPOSE_CERISE       PIN_2
+#define PIN_2_CONFIG        OUT_
 // PIN 1
-#define FREE_PIN_1          PIN_1
-#define PIN_1_CONFIG        IN_
+#define PRISE_CERISE        PIN_1
+#define PIN_1_CONFIG        OUT_
 // PIN 44
 #define MODE_PILOT          PIN_44
 #define PIN_44_CONFIG       IN_
