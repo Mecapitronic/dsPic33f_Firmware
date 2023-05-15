@@ -281,12 +281,14 @@ void Display() {
     if (running > coef * 4)
         running = 0;
 
+    Display_Sharp(2);
+
 	// odometry
-    LCD_Line(2);
-	LCD_Text("R", 1);
-	LCD_Value(wheel_right.velocity, 7, 0);
-	LCD_Text("L", 1);
-	LCD_Value(wheel_left.velocity, 7, 0);
+    //LCD_Line(2);
+	//LCD_Text("R", 1);
+	//LCD_Value(wheel_right.velocity, 7, 0);
+	//LCD_Text("L", 1);
+	//LCD_Value(wheel_left.velocity, 7, 0);
 
     // command velocity
     //LCD_Line(3);

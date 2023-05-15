@@ -40,7 +40,7 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_PRIMAIRE_INT(void) {
             break;
     }
 
-    Rotation_Tourelle();
+    //Rotation_Tourelle();
 
     Actualiser_Servo();
 

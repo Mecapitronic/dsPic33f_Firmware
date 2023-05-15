@@ -22,6 +22,7 @@
       <itemPath>Lidar.h</itemPath>
       <itemPath>PILOT_main.h</itemPath>
       <itemPath>PILOT_hardware.h</itemPath>
+      <itemPath>Sharp.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -79,6 +80,7 @@
       <itemPath>Lidar.c</itemPath>
       <itemPath>PILOT_hardware.c</itemPath>
       <itemPath>PILOT_main.c</itemPath>
+      <itemPath>Sharp.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

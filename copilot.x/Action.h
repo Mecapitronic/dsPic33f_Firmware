@@ -2,7 +2,7 @@
  * Fichier     : Action.h
  * Description : Gestion des actions (COPILOT).
  * Auteur      : Christopher BUREL
- * Version     : 2015.05.09
+ * Version     : 2023.05.06
  * Compilation : MPLAB X IDE (v2.35), compiler XC16 (v1.24) Lite
  ****************************************************************************************/
 
@@ -17,23 +17,21 @@
 /****************************************************************************************
  * Définitions actionneurs
  ****************************************************************************************/
-#define ASCENSEUR            (1) // servo 1
-#define PINCE_PIED           (2) // servo 2
-#define GARDE_SPOT           (3) // servo 3
-#define PINCE_GOBELET        (4) // servo 4
-#define PINCE_POPCORN        (5) // servo 5
+#define BRAS_CERISE          (1) // servo 1
+//#define PINCE_PIED           (2) // servo 2
+//#define GARDE_SPOT           (3) // servo 3
+//#define PINCE_GOBELET        (4) // servo 4
 
-// Détecteur gobelet sur le bouton 2
-#define PRESENCE_GOBELET    SW2
+
 
 /****************************************************************************************
  * Commandes actionneurs 
  ****************************************************************************************/
-// Ascenseur
-#define Ascenseur_Baisser()         do{Set_Servo(ASCENSEUR, 89);}while(0)         // au sol
-#define Ascenseur_Monter_5mm()      do{Set_Servo(ASCENSEUR, 78);}while(0)         // à 5mm du sol
-#define Ascenseur_Monter_Max()      do{Set_Servo(ASCENSEUR, -61);}while(0)        // hauteur max (85mm)
-#define Ascenseur_Desactiver()      do{Set_Servo(ASCENSEUR, SERVO_OFF);}while(0)  // désactiver servo
+// Bras cerise
+#define Bras_Ramasser()         do{Set_Servo(BRAS_CERISE, -93);}while(0)         // sur support cerise
+#define Bras_Preparer()         do{Set_Servo(BRAS_CERISE, -53);}while(0)         // au dessus des cerises
+#define Bras_Monter()           do{Set_Servo(BRAS_CERISE, 43);}while(0)        // au dessus panier
+#define Bras_Desactiver()       do{Set_Servo(BRAS_CERISE, SERVO_OFF);}while(0)  // désactiver servo
 // Pince pied
 #define Pince_Pied_Ouvrir()         do{Set_Servo(PINCE_PIED, -74);}while(0)        // grand ouvert
 #define Pince_Pied_Fermer()         do{Set_Servo(PINCE_PIED, 62);}while(0)         // pied serré

@@ -18,7 +18,7 @@
  * Parameters
  ****************************************************************************************/
 // Temporisation en millisecondes du mode match
-#define TIMEOUT_MATCH   90000   // 90s
+#define TIMEOUT_MATCH   100000   // 100s
 // Durée d'affichage de stop
 #define TIMEOUT_STOP    2000    // 2s
 
@@ -26,16 +26,19 @@
 #define STARTING        1   // En attente de démarrage
 #define RUNNING         2   // En marche
 #define STOPPING        3   // A l'arrêt (avant repos)
+// Mode de marche
+#define RUN             0
+#define MATCH           1
+// Couleur d'équipe
+//#define JAUNE           0
+//#define BLEUE           1
 
-// Team color, A = verte, B = bleue
-//#define TEAM_A          0
-//#define TEAM_B          1
-
-//#define LCD_TEAM_A       "VERT"
-//#define LCD_TEAM_B       "BLEU"
-
-#define MODE_MATCH		0
-#define MODE_TEST		1
+// Start mode
+#define NO_EDGE         0
+#define RISING_EDGE     1
+#define FALLING_EDGE    2
+// debouncing delay in ms
+#define DEBOUNCE_DELAY  400
 
 /****************************************************************************************
  * Variables

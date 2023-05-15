@@ -49,6 +49,7 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_SECONDAIRE_INT(void)
 {
 	if (TIMER_SECONDAIRE_INT_ENABLE)
 	{
+		Update_Sharp();
 		Update_Obstacles();
 		if (State_UART1())
 		{

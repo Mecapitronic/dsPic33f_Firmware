@@ -59,10 +59,10 @@
 #define FREE_PIN_3          PIN_3
 #define PIN_3_CONFIG        IN_
 // PIN 2
-#define FREE_PIN_2          PIN_2
+#define DEPOSE_CERISE       PIN_2
 #define PIN_2_CONFIG        IN_
 // PIN 1
-#define FREE_PIN_1          PIN_1
+#define PRISE_CERISE        PIN_1
 #define PIN_1_CONFIG        IN_
 // PIN 44
 #define MODE_PILOT          PIN_44
@@ -92,8 +92,8 @@
 #define UNDEF22             PIN_22
 #define PIN_22_CONFIG       IN_
 // PIN 23
-#define UNDEF23		        PIN_23
-#define PIN_23_CONFIG       IN_
+#define BATTERY_CURRENT     PIN_23  // Capteur de courant sur batterie
+#define PIN_23_CONFIG       AN_
 // PIN 24
 #define UNDEF24             PIN_24
 #define PIN_24_CONFIG       IN_

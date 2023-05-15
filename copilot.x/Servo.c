@@ -2,8 +2,8 @@
  * Fichier     : Servo.c
  * Description : Gestion des servomoteurs.
  * Auteur      : Christopher BUREL
- * Version     : 2015.05.10
- * Compilation : MPLAB X IDE (v2.35), compiler XC16 (v1.24) Lite
+ * Version     : 2017.05.07
+ * Compilation : MPLAB X IDE (v3.45), compiler XC16 (v1.26) Lite
  ****************************************************************************************/
 
 /****************************************************************************************
@@ -23,62 +23,60 @@ boolean sens_rotation_tourelle = 0;
 /****************************************************************************************
  * Fonction de mise à jour des servomoteurs, doit être exécuter au moins toutes les 20ms
  ****************************************************************************************/
-void Actualiser_Servo(void) {
-    /*// TODO 
-    #ifdef SERVO_1
-        MOVE_Filtre_Consigne(&move_servo[1]);
-        if (servo_actif[1]) {
-            SERVO_1 = HIGH;
-            Delay_Us(MOVE_Get_Position(&move_servo[1]));
-            SERVO_1 = LOW;
-        }
-    #endif
+void Actualiser_Servo() {
+#ifdef SERVO_1
+    MOVE_Filter(&move_servo[1], &move_servo[1].command);
+    if (servo_actif[1]) {
+        SERVO_1 = HIGH;
+        Delay_Us(move_servo[1].command.position);
+        SERVO_1 = LOW;
+    }
+#endif
 
-    #ifdef SERVO_2
-        MOVE_Filtre_Consigne(&move_servo[2]);
-        if (servo_actif[2]) {
-            SERVO_2 = HIGH;
-            Delay_Us(MOVE_Get_Position(&move_servo[2]));
-            SERVO_2 = LOW;
-        }
-    #endif
+#ifdef SERVO_2
+    MOVE_Filter(&move_servo[2], &move_servo[2].command);
+    if (servo_actif[2]) {
+        SERVO_2 = HIGH;
+        Delay_Us(move_servo[2].command.position);
+        SERVO_2 = LOW;
+    }
+#endif
 
-    #ifdef SERVO_3
-        MOVE_Filtre_Consigne(&move_servo[3]);
-        if (servo_actif[3]) {
-            SERVO_3 = HIGH;
-            Delay_Us(MOVE_Get_Position(&move_servo[3]));
-            SERVO_3 = LOW;
-        }
-    #endif
+#ifdef SERVO_3
+    MOVE_Filter(&move_servo[3], &move_servo[3].command);
+    if (servo_actif[3]) {
+        SERVO_3 = HIGH;
+        Delay_Us(move_servo[3].command.position);
+        SERVO_3 = LOW;
+    }
+#endif
 
-    #ifdef SERVO_4
-        MOVE_Filtre_Consigne(&move_servo[4]);
-        if (servo_actif[4]) {
-            SERVO_4 = HIGH;
-            Delay_Us(MOVE_Get_Position(&move_servo[4]));
-            SERVO_4 = LOW;
-        }
-    #endif
+#ifdef SERVO_4
+    MOVE_Filter(&move_servo[4], &move_servo[4].command);
+    if (servo_actif[4]) {
+        SERVO_4 = HIGH;
+        Delay_Us(move_servo[4].command.position);
+        SERVO_4 = LOW;
+    }
+#endif
 
-    #ifdef SERVO_5
-        MOVE_Filtre_Consigne(&move_servo[5]);
-        if (servo_actif[5]) {
-            SERVO_5 = HIGH;
-            Delay_Us(MOVE_Get_Position(&move_servo[5]));
-            SERVO_5 = LOW;
-        }
-    #endif
+#ifdef SERVO_5
+    MOVE_Filtre_Consigne(&move_servo[5]);
+    if (servo_actif[5]) {
+        SERVO_5 = HIGH;
+        Delay_Us(MOVE_Get_Position(&move_servo[5]));
+        SERVO_5 = LOW;
+    }
+#endif
 
-    #ifdef SERVO_6
-        MOVE_Filtre_Consigne(&move_servo[6]);
-        if (servo_actif[6]) {
-            SERVO_6 = HIGH;
-            Delay_Us(MOVE_Get_Position(&move_servo[6]));
-            SERVO_6 = LOW;
-        }
-    #endif
-     */
+#ifdef SERVO_6
+    MOVE_Filtre_Consigne(&move_servo[6]);
+    if (servo_actif[6]) {
+        SERVO_6 = HIGH;
+        Delay_Us(MOVE_Get_Position(&move_servo[6]));
+        SERVO_6 = LOW;
+    }
+#endif
 }
 
 /****************************************************************************************
@@ -96,7 +94,7 @@ void Set_Servo(uint8 servoID, int16 angle) {
         if (impulsion > MAX_SERVO) impulsion = MAX_SERVO;
         else if (impulsion < MIN_SERVO) impulsion = MIN_SERVO;
         // Stocker la consigne
-        // TODO MOVE_Set_Position(&move_servo[servoID], impulsion);
+        MOVE_Setpoint_Position(&move_servo[servoID], impulsion);
         // Activer le servo
         servo_actif[servoID] = YES;
     }
@@ -106,8 +104,14 @@ void Set_Servo(uint8 servoID, int16 angle) {
  * Fonction retournant l'angle d'un servo à partir de la durée d'impulsion enregistrée
  ****************************************************************************************/
 int16 Get_Servo(uint8 servoID) {
-    return OFF;
-    // TODO return ((MOVE_Get_Position(&move_servo[servoID]) - OFFSET_SERVO) / COEF_SERVO);
+    // if (servo_actif[servoID] == NO)
+    // {
+    // return SERVO_OFF;
+    // }
+    // else
+    // {
+    return (((move_servo[servoID].command.position) - OFFSET_SERVO) / COEF_SERVO);
+    //}
 }
 
 /****************************************************************************************
@@ -121,8 +125,8 @@ boolean Check_Servo(uint8 servoID) {
  * Fonction d'initialisation d'un servomoteur
  ****************************************************************************************/
 void Init_Servo(uint8 servoID, int16 vit, int16 acc, int8 jerk) {
-    //MOVE_Init_Consigne(&move_servo[servoID]);
-    //MOVE_Set_Consigne(&move_servo[servoID], OFFSET_SERVO, vit, 0, acc, jerk);
+    MOVE_Initialize(&move_servo[servoID]);
+    MOVE_Setpoint(&move_servo[servoID], OFFSET_SERVO, vit, 0, acc, jerk);
 }
 
 /****************************************************************************************

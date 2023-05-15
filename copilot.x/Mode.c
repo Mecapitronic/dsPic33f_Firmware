@@ -19,7 +19,7 @@ uint8 power_mode = OFF;
 
 boolean start_precedent = OFF;
 boolean mode_flashing_flag = OFF;
-uint8 run_mode = MODE_MATCH;
+uint8 run_mode = RUN;
 uint32 run_time = 0;
 
 /****************************************************************************************
@@ -50,10 +50,9 @@ void Gestion_Start(void) {
     // Détection du front du signal start
     if (START && !start_precedent) // Front montant
     {
-        if (power_mode == OFF) {
+        if (power_mode != RUNNING) {
             power_mode = STARTING; // Démarrage si pas en marche
-        }
-        if(power_mode == RUNNING) {
+        } else {
             run_time = current_time;
             power_mode = STOPPING; // Arrêt si en marche
         }
@@ -82,7 +81,7 @@ void Gestion_Mode(void) {
             break;
 
         case RUNNING: // En marche
-            if (((current_time - run_time) < TIMEOUT_MATCH) || (run_mode == MODE_TEST)) {
+            if (((current_time - run_time) < TIMEOUT_MATCH) || (run_mode == RUN)) {
                 START_PILOT = ON;
                 RELAY = ON;
             } else {
@@ -131,8 +130,8 @@ void Affichage_Mode(void) {
                 case 1:
                 case 2:
                     LCD_Text("GO ", 3);
-                    if (run_mode == MODE_TEST) LCD_Text("TEST ?", 8);
-                    else if (run_mode == MODE_MATCH) LCD_Text("MATCH ?", 8);
+                    if (run_mode == RUN) LCD_Text("RUN ?", 8);
+                    else if (run_mode == MATCH) LCD_Text("MATCH ?", 8);
                     else LCD_Text("?", 6);
                     break;
 
@@ -148,12 +147,12 @@ void Affichage_Mode(void) {
             break;
 
         case RUNNING: // En marche
-            if (run_mode == MODE_MATCH) {
+            if (run_mode == MATCH) {
                 LCD_Text("MATCH    s", 11);
                 LCD_Goto(1, 6);
                 LCD_Value(((TIMEOUT_MATCH - (current_time - run_time)) / 1000) + 1, 3, 0);
-            } else if (run_mode == MODE_TEST) {
-                LCD_Text("TEST     s", 11);
+            } else if (run_mode == RUN) {
+                LCD_Text("RUN      s", 11);
                 LCD_Goto(1, 5);
                 LCD_Value((current_time - run_time) / 1000, 4, 0);
             }
@@ -181,8 +180,8 @@ void Affichage_Mode(void) {
                 case 1:
                 case 2:
                     LCD_Text("Mode ", 5);
-                    if (run_mode == MODE_TEST) LCD_Text("TEST  ", 6);
-                    else if (run_mode == MODE_MATCH) LCD_Text("MATCH", 6);
+                    if (run_mode == RUN) LCD_Text("RUN  ", 6);
+                    else if (run_mode == MATCH) LCD_Text("MATCH", 6);
                     else LCD_Text("?", 6);
                     break;
 

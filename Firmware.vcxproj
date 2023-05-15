@@ -33,6 +33,7 @@
     <ClInclude Include="pilot.x\Path_Finding.h" />
     <ClInclude Include="pilot.x\PILOT_hardware.h" />
     <ClInclude Include="pilot.x\PILOT_main.h" />
+    <ClInclude Include="pilot.x\Sharp.h" />
     <ClInclude Include="pilot.x\Strategy.h" />
     <ClInclude Include="pilot.x\Timer.h" />
     <ClInclude Include="pilot.x\Trajectory.h" />
@@ -72,6 +73,7 @@
     <ClCompile Include="pilot.x\Path_Finding.c" />
     <ClCompile Include="pilot.x\PILOT_hardware.c" />
     <ClCompile Include="pilot.x\PILOT_main.c" />
+    <ClCompile Include="pilot.x\Sharp.c" />
     <ClCompile Include="pilot.x\Strategy.c" />
     <ClCompile Include="pilot.x\Timer.c" />
     <ClCompile Include="pilot.x\Trajectory.c" />

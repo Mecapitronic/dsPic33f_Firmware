@@ -69,11 +69,11 @@
 #define FREE_PIN_3          PIN_3
 #define PIN_3_CONFIG        IN_
 // PIN 2
-#define FREE_PIN_2          PIN_2
-#define PIN_2_CONFIG        IN_
+#define DEPOSE_CERISE       PIN_2
+#define PIN_2_CONFIG        OUT_
 // PIN 1
-#define FREE_PIN_1          PIN_1
-#define PIN_1_CONFIG        IN_
+#define PRISE_CERISE        PIN_1
+#define PIN_1_CONFIG        OUT_
 // PIN 44
 #define MODE_PILOT          PIN_44
 #define PIN_44_CONFIG       IN_
@@ -93,13 +93,12 @@
  *      IN_ : entrée numérique
  *      OUT_ : sortie numérique
 ****************************************************************************************/
-
 // PIN 19
-#define FREE_PIN_19         PIN_19
-#define PIN_19_CONFIG       OUT_
+#define SHARP_1             PIN_19
+#define PIN_19_CONFIG       AN_
 // PIN 20
-#define FREE_PIN_20         PIN_20
-#define PIN_20_CONFIG       IN_
+#define SHARP_2             PIN_20
+#define PIN_20_CONFIG       AN_
 // PIN 21 (/!\ switch ICSP/PIN)
 #define FREE_PIN_21         PIN_21
 #define PIN_21_CONFIG       IN_
