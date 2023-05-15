@@ -92,8 +92,8 @@
 #define UNDEF22             PIN_22
 #define PIN_22_CONFIG       IN_
 // PIN 23
-#define UNDEF23		        PIN_23
-#define PIN_23_CONFIG       IN_
+#define BATTERY_CURRENT     PIN_23  // Capteur de courant sur batterie
+#define PIN_23_CONFIG       AN_
 // PIN 24
 #define UNDEF24             PIN_24
 #define PIN_24_CONFIG       IN_

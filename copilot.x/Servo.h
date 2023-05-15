@@ -18,7 +18,7 @@
  * Configuration des servomoteurs
  ****************************************************************************************/
 // Nombre max de servo utilisé
-#define NBR_SERVO       6
+#define NBR_SERVO       4
 // Coefficient de conversion de position angulaire [°] => durée d'impulsion [µs]
 #define COEF_SERVO      10//11.11
 // Durée d'impulsion [µs] de référence => position 0°
@@ -33,9 +33,9 @@
 
 // Paramètres de mouvement (par rapport à la durée d'impulsion, et non l'angle des servos)
 // servo 1
-#define S1_VIT    70
-#define S1_ACC    20
-#define S1_JERK   5
+#define S1_VIT    40
+#define S1_ACC    5
+#define S1_JERK   1
 // servo 2
 #define S2_VIT    70
 #define S2_ACC    20

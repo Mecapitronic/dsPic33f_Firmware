@@ -91,7 +91,7 @@ void Sequence_Initiale(void) {
     }
     LED = ON;
     BUZZER = OFF;
-    Delay_S(1);
+    //Delay_S(1);
     LED = OFF;
     LCD_Clear();
 }
