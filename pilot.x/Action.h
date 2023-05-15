@@ -27,14 +27,14 @@
 #define MISSION_FUSEE         3
 #define MISSION_DEPOSER       4
 
-#define COMMAND_PUT_IN  PIN_19
-#define COMMAND_PUT_LEFT PIN_19
-#define COMMAND_PUT_RIGHT PIN_19
-#define COMMAND_TURN PIN_19
-#define INFO_ARM_BUSY PIN_19
-#define COMMAND_PUMP PIN_19
-#define COMMAND_GO_IN PIN_19
-#define COMMAND_GO_OUT PIN_19
+#define COMMAND_PUT_IN  PIN_27
+#define COMMAND_PUT_LEFT PIN_27
+#define COMMAND_PUT_RIGHT PIN_27
+#define COMMAND_TURN PIN_27
+#define INFO_ARM_BUSY PIN_27
+#define COMMAND_PUMP PIN_27
+#define COMMAND_GO_IN PIN_27
+#define COMMAND_GO_OUT PIN_27
 
 /****************************************************************************************
 * Macros

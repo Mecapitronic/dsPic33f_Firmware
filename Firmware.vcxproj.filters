@@ -137,6 +137,9 @@
     <ClInclude Include="MecapitronicLibrary\Includes\LCD_Custom_Character.h">
       <Filter>MecapitronicLibrary\Includes</Filter>
     </ClInclude>
+    <ClInclude Include="pilot.x\Sharp.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pilot.x\Action.c">
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="pilot.x\Map2023Bleue.c">
       <Filter>Fichiers sources\PathPlanning</Filter>
+    </ClCompile>
+    <ClCompile Include="pilot.x\Sharp.c">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

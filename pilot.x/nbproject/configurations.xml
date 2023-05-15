@@ -85,6 +85,8 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>Sharp.c</itemPath>
+    <itemPath>Sharp.h</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>

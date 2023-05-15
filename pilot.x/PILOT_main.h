@@ -46,6 +46,7 @@
 #include "Trajectory.h"
 #include "Uart.h"
 #include "Lidar.h"
+#include "Sharp.h"
 
 #include "Mapping.h"
 #include "Node.h"

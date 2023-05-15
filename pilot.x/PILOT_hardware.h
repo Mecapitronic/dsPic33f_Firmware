@@ -93,13 +93,12 @@
  *      IN_ : entrée numérique
  *      OUT_ : sortie numérique
 ****************************************************************************************/
-
 // PIN 19
-#define FREE_PIN_19         PIN_19
-#define PIN_19_CONFIG       OUT_
+#define SHARP_1             PIN_19
+#define PIN_19_CONFIG       AN_
 // PIN 20
-#define FREE_PIN_20         PIN_20
-#define PIN_20_CONFIG       IN_
+#define SHARP_2             PIN_20
+#define PIN_20_CONFIG       AN_
 // PIN 21 (/!\ switch ICSP/PIN)
 #define FREE_PIN_21         PIN_21
 #define PIN_21_CONFIG       IN_

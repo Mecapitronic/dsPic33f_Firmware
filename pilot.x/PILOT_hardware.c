@@ -68,6 +68,9 @@ void Setup_Hardware(void)
     Setup_Odometry();
 
     ADC_On();
+
+    Initialize_Sharp();
+
     Initialize_UART1();
     Initialize_UART2();
 }
