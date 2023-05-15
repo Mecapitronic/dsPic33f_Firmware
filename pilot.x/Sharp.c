@@ -31,20 +31,20 @@ void Initialize_Sharp(void) {
 }
 
 /****************************************************************************************
- * Conversion Analogique de la distance en mm avec moyenne mobile et écrétage valeures
+ * Conversion Analogique de la distance en mm avec écrétage des valeures
  ****************************************************************************************/
 void Update_Sharp(void) {
-#ifdef SHARP_1
+#ifdef SHARP_0
     /* Conversion Analogique en mm*/
-    sharp[0] = COEF_A / (SHARP_1 - COEF_B);
+    sharp[0] = COEF_A / (SHARP_0 - COEF_B);
     /* Ecrétage */
     if (sharp[0] > COEF_C || sharp[0] <= 1) {
         sharp[0] = COEF_C;
     }
 #endif
-#ifdef SHARP_2
+#ifdef SHARP_1
     /* Conversion Analogique en mm*/
-    sharp[1] = COEF_A / (SHARP_2 - COEF_B);
+    sharp[1] = COEF_A / (SHARP_1 - COEF_B);
     /* Ecrétage */
     if (sharp[1] > COEF_C || sharp[1] <= 1) {
         sharp[1] = COEF_C;
@@ -52,10 +52,24 @@ void Update_Sharp(void) {
 #endif
 }
 
+boolean PresenceBalles()
+{
+    return (sharp[0]<84 || sharp[1]<76);
+}
+
 void Display_Sharp(int line) {
     LCD_Line(line);
-    LCD_Text("S1 ", 3);
     LCD_Value(sharp[0], 4, 0);
-    LCD_Text(" S2 ", 4);
+    LCD_Text("  ", 2);
     LCD_Value(sharp[1], 4, 0);
+    
+    LCD_Text("  ", 2);
+    if(sharp[0]<84 || sharp[1]<76)
+        LCD_Text("OK", 2);
+    else
+        LCD_Text("  ", 2);
+    LCD_Text("  ", 2);
 }
+
+// SHARP 0 balles 63 < présence < 0 < incertitude < 94 < absence
+// SHARP 1 balles 57 < présence < 0 < incertitude < 85 < absence 
