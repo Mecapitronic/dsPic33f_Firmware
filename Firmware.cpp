@@ -174,6 +174,14 @@ void SetModePin(boolean state)
 {
 	MODE_PILOT = state;
 }
+boolean GetRecalagePin(void)
+{
+	return RECALAGE_PILOT;
+}
+void SetRecalagePin(boolean state)
+{
+	RECALAGE_PILOT = state;
+}
 t_robot GetRobot()
 {
 	return robot;
@@ -358,6 +366,7 @@ int Firmware(void)
 	SELECT = 0;
 	START_PILOT = 0;
 	MODE_PILOT = 0;
+	RECALAGE_PILOT = 0;
 
 	int ret = 0;
 

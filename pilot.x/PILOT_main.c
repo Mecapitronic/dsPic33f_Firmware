@@ -41,8 +41,8 @@ _PILOT_{
     Set_Timer_Primaire(ON);
     Set_Timer_Secondaire(ON);
     
-    //Start_UART1();
-    //Start_UART2();
+    Start_UART1();
+    Start_UART2();
 
     uint16 timeLCD = 0;
 
@@ -63,7 +63,6 @@ _PILOT_{
             timeLCD++;
             Delay_Ms(1);
         }
-        
         Recalage_Bordure();
         while (START_PILOT){}
     }
@@ -96,77 +95,80 @@ _PILOT_{
 
     Initialize_Action();
 
-    if (mode == MODE_TEST) {
-        while (FOREVER) {
-            if (uartCMD.cmd != '0') {
-                switch (uartCMD.cmd) {
-                    case 'A':
-                        Send_UART1_ACK(CMD_BUSY);
-                        if (Execute_Action(uartCMD.actionID)) {
-                            Send_UART1_ACK(CMD_DONE);
-                        } else {
-                            Send_UART1_ACK(CMD_FAIL);
-                        }
-                        break;
-                    case 'V':
-                        Send_UART1_ACK(CMD_BUSY);
-                        if (Navigate_To_Vertex(uartCMD.vertexID, 10)) {
-                            Send_UART1_ACK(CMD_DONE);
-                        } else {
-                            Send_UART1_ACK(CMD_FAIL);
-                        }
-                        break;
-                    case 'P':
-                        Send_UART1_ACK(CMD_BUSY);
-                        Initialize_Robot_Position(uartCMD.point.x, uartCMD.point.y, uartCMD.angle);
-                        Initialize_Asserv();
-                        Send_UART1_ACK(CMD_DONE);
-                        break;
-                    case 'M':
-                        Send_UART1_ACK(CMD_BUSY);
-                        t_point p;
-                        p.x = uartCMD.point.x;
-                        p.y = uartCMD.point.y;
-                        Rotate_To_Point(p, SPEED_ANG);
-                        while (Wait_Trajectory()) {
-                            Display();
-                        };
-                        uint32 distance = Get_Distance_Point(&robot.mm, &p);
-                        Translate(distance, SPEED_LIN);
-                        while (Wait_Trajectory()) {
-                            Display();
-                        };
-                        Send_UART1_ACK(CMD_DONE);
-                        break;
-                    case 'T':
-                        Send_UART1_ACK(CMD_BUSY);
-                        Translate(uartCMD.distance, SPEED_LIN);
-                        while (Wait_Trajectory()) {
-                            Display();
-                        };
-                        Send_UART1_ACK(CMD_DONE);
-                        break;
-                    case 'R':
-                        Send_UART1_ACK(CMD_BUSY);
-                        Rotate_To_Angle(uartCMD.angle, SPEED_ANG);
-                        while (Wait_Trajectory()) {
-                            Display();
-                        };
-                        Send_UART1_ACK(CMD_DONE);
-                        break;
-                    default:
-                        break;
-                }
-                uartCMD.cmd = '0';
-            }
-            Display();
-        }
-    } else {
+    if (mode == MODE_MATCH){
         action[1].iteration = 3;
         while (!Execute_Action(1));
         while (!Execute_Action(2));
         while (!Execute_Action(3));
         while (!Execute_Action(4));
+    }else
+    {
+        while (FOREVER) {
+            if (uartCMD.cmd != '0') {
+                switch (uartCMD.cmd) {
+                case 'A':
+                    Send_UART1_ACK(CMD_BUSY);
+                    if (Execute_Action(uartCMD.actionID)) {
+                        Send_UART1_ACK(CMD_DONE);
+                    }
+                    else {
+                        Send_UART1_ACK(CMD_FAIL);
+                    }
+                    break;
+                case 'V':
+                    Send_UART1_ACK(CMD_BUSY);
+                    if (Navigate_To_Vertex(uartCMD.vertexID, 10)) {
+                        Send_UART1_ACK(CMD_DONE);
+                    }
+                    else {
+                        Send_UART1_ACK(CMD_FAIL);
+                    }
+                    break;
+                case 'P':
+                    Send_UART1_ACK(CMD_BUSY);
+                    Initialize_Robot_Position(uartCMD.point.x, uartCMD.point.y, uartCMD.angle);
+                    Initialize_Asserv();
+                    Send_UART1_ACK(CMD_DONE);
+                    break;
+                case 'M':
+                    Send_UART1_ACK(CMD_BUSY);
+                    t_point p;
+                    p.x = uartCMD.point.x;
+                    p.y = uartCMD.point.y;
+                    Rotate_To_Point(p, SPEED_ANG);
+                    while (Wait_Trajectory()) {
+                        Display();
+                    };
+                    uint32 distance = Get_Distance_Point(&robot.mm, &p);
+                    Translate(distance, SPEED_LIN);
+                    while (Wait_Trajectory()) {
+                        Display();
+                    };
+                    Send_UART1_ACK(CMD_DONE);
+                    break;
+                case 'T':
+                    Send_UART1_ACK(CMD_BUSY);
+                    Translate(uartCMD.distance, SPEED_LIN);
+                    while (Wait_Trajectory()) {
+                        Display();
+                    };
+                    Send_UART1_ACK(CMD_DONE);
+                    break;
+                case 'R':
+                    Send_UART1_ACK(CMD_BUSY);
+                    Rotate_To_Angle(uartCMD.angle, SPEED_ANG);
+                    while (Wait_Trajectory()) {
+                        Display();
+                    };
+                    Send_UART1_ACK(CMD_DONE);
+                    break;
+                default:
+                    break;
+                }
+                uartCMD.cmd = '0';
+            }
+            Display();
+        }
     }
 
     //#define RECHERCHE_ACTION
@@ -199,54 +201,40 @@ _PILOT_{
 
 void Recalage_Bordure(void) {
     if (team == TEAM_A)
-        Initialize_Robot_Position(225, 225, 90);
+        Initialize_Robot_Position(1850, 2850, 90);
     else
-        Initialize_Robot_Position(1775, 225, 90);
+        Initialize_Robot_Position(150, 2850, 90);
 
-    Delay_Ms(500);
-    //First wall
-    Translate(200, SPEED_LIN);
+    Translate(-400, SPEED_LIN);
     while (Wait_Trajectory()) {
         Display();
     };
     Delay_Ms(500);
+    
+    t_point p;
+    p.x = 225;
     if (team == TEAM_A)
-        Initialize_Robot_Position(225, 125, 90);
+        p.x = 225;
     else
-        Initialize_Robot_Position(1775, 125, 90);
-    Delay_Ms(500);
-
-    Translate(-100, SPEED_LIN);
-    while (Wait_Trajectory()) {
-        Display();
-    };
-    Delay_Ms(500);
-    /*
-    Rotate_To_Angle(0, SPEED_ANG);
+        p.x = 1775;
+    p.y = 2775;
+    Rotate_To_Point(p, SPEED_ANG);
     while (Wait_Trajectory()) {
         Display();
     };
     Delay_Ms(500);
 
-    //Second wall
-    Translate(-200, SPEED_LIN);
+    uint32 distance = Get_Distance_Point(&robot.mm, &p);
+    Translate(distance, SPEED_LIN);
+    while (Wait_Trajectory()) {
+        Display();
+    };
+    
+    Rotate_To_Angle(90, SPEED_ANG);
     while (Wait_Trajectory()) {
         Display();
     };
     Delay_Ms(500);
-    Initialize_Robot_Position(125, 225, 0);
-
-    Delay_Ms(500);
-    Translate(100, SPEED_LIN);
-    while (Wait_Trajectory()) {
-        Display();
-    };
-    Delay_Ms(500);
-    Rotate_To_Angle(45, SPEED_ANG);
-    while (Wait_Trajectory()) {
-        Display();
-    };
-    Delay_Ms(500);*/
 }
 
 

@@ -57,6 +57,8 @@ extern "C"
 	dll void SetStartPin(boolean state);
 	dll boolean GetModePin(void);
 	dll void SetModePin(boolean state);
+	dll boolean GetRecalagePin();
+	dll void SetRecalagePin(boolean state);
 	dll void SendUART(const char* strBuffer);
 	dll void SendUART2(const char* strBuffer);
 	dll t_robot GetRobot(void);
