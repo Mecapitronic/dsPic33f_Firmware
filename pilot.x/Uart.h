@@ -59,6 +59,7 @@ void Afficher_UART(uint8 ligne);
 
 #ifdef _VISUAL_STUDIO
 void _U1RXInterrupt(void);
+void _U1ErrInterrupt(void);
 #endif
 
 #endif
