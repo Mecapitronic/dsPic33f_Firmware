@@ -28,7 +28,11 @@
 #define ADC_Stop_Sampling()     {AD1CON1bits.SAMP = 0;}
 #define ADC_Clear_Int_Flag()    {IFS0bits.AD1IF = 0;}
 #define ADC_Wait_Sampling()     {Nop();Nop();Nop();Nop();Nop();}
+#ifdef _VISUAL_STUDIO
+#define ADC_Wait_Conversion()   {while(0);}
+#else
 #define ADC_Wait_Conversion()   {while(!IFS0bits.AD1IF);}
+#endif
 
 /****************************************************************************************
 * Prototypes fonctions
