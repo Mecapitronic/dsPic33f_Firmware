@@ -14,6 +14,7 @@
 /****************************************************************************************
  * Variables
  ****************************************************************************************/
+int16 antiSlipValue = PWM_MIN_SLIP;
 
 
 /****************************************************************************************
@@ -29,6 +30,7 @@ void Motor_Setup(void)
   Setup_Motor_Speed();
   Setup_Dead_Time();
   Enable_PWM();
+  ResetAntiSlip();
 }
 
 /****************************************************************************************
@@ -95,12 +97,12 @@ int32 AntiSlip(int32 pwm, t_motion *wheel)
   
   if (pwm > 0) // avance
   {
-      pwm_slip += PWM_MIN_SLIP; // ajout limite de patinage, sinon le robot arrête d'avancer !
+      pwm_slip += antiSlipValue; // ajout limite de patinage, sinon le robot arrête d'avancer !
       if (pwm > pwm_slip) slipping = YES;
   }
   else // recule
   {
-      pwm_slip -= PWM_MIN_SLIP; // négatif !
+      pwm_slip -= antiSlipValue; // négatif !
       if (pwm < pwm_slip) slipping = YES;
   }
   if (slipping)
@@ -112,6 +114,17 @@ int32 AntiSlip(int32 pwm, t_motion *wheel)
 #endif
   return pwm;
   
+}
+
+void SetAntiSlip(int pwm)
+{
+    if(pwm> PWM_MIN && pwm< PWM_MAX)
+        antiSlipValue = pwm;
+}
+
+void ResetAntiSlip()
+{
+    antiSlipValue = PWM_MIN_SLIP;
 }
 
 /****************************************************************************************

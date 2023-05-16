@@ -62,6 +62,8 @@ void Motor_Setup(void);
 void Setpoint_M1(int32 pwm);
 void Setpoint_M2(int32 pwm);
 int32 AntiSlip(int32 pwm, t_motion *wheel);
+void SetAntiSlip(int pwm);
+void ResetAntiSlip();
 //void Test_Moteur(void);
 
 #endif	/* MOTOR_H */
