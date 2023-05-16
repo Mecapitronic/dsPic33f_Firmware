@@ -85,9 +85,9 @@ _PILOT_{
 
     // Initialisations
     if (team == TEAM_A)
-        Initialize_Robot_Position(225, 225, 90);
+        Initialize_Robot_Position(1775, 2850, 90);
     else
-        Initialize_Robot_Position(1775, 225, 90);
+        Initialize_Robot_Position(225, 2850, 90);
 
     Initialize_Map(team);
     Initialize_Obstacle();
@@ -199,38 +199,29 @@ _PILOT_{
     return 1;
 }
 
+// le robot est face contre le panier, avec une calle sur le coté entre la bordure et lui
+// valeur entre le milieu du robot et le panier : 114mm, entre le milieu du robot et la bordure : 225mm
+// Au recalage : init position, recule, monte la pince, désactive les servos et avance au maximum vers le panier
 void Recalage_Bordure(void) {
     if (team == TEAM_A)
-        Initialize_Robot_Position(1850, 2850, 90);
+        Initialize_Robot_Position(1775, 2850, 90);
     else
-        Initialize_Robot_Position(150, 2850, 90);
+        Initialize_Robot_Position(225, 2850, 90);
 
-    Translate(-400, SPEED_LIN);
+    Translate(-150, SPEED_LIN);
     while (Wait_Trajectory()) {
         Display();
     };
-    Delay_Ms(500);
-    
-    t_point p;
-    p.x = 225;
-    if (team == TEAM_A)
-        p.x = 225;
-    else
-        p.x = 1775;
-    p.y = 2775;
-    Rotate_To_Point(p, SPEED_ANG);
-    while (Wait_Trajectory()) {
-        Display();
-    };
-    Delay_Ms(500);
+    Delay_Ms(500);    
 
-    uint32 distance = Get_Distance_Point(&robot.mm, &p);
-    Translate(distance, SPEED_LIN);
-    while (Wait_Trajectory()) {
-        Display();
-    };
-    
-    Rotate_To_Angle(90, SPEED_ANG);
+    PRISE_CERISE = FALSE;
+    DEPOSE_CERISE = TRUE;
+    Delay_Ms(2000);
+
+    //desactivate servo
+    DEPOSE_CERISE = FALSE;
+
+    Translate(180, SPEED_LIN);
     while (Wait_Trajectory()) {
         Display();
     };
