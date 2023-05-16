@@ -181,7 +181,8 @@ void Init_All_Action(void) {
  * Fonction de gestion des actions
  ****************************************************************************************/
 void Gestion_Action(void) {
-    
+    // Position attente 00, prise 10, dépose 01, désactiver 11
+            
     // Action préparer la pince pour la prise
     if (!PRISE_CERISE && !DEPOSE_CERISE) {
         Bras_Preparer();
