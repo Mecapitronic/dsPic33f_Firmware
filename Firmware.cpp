@@ -366,7 +366,6 @@ int Firmware(void)
 	SELECT = 0;
 	START_PILOT = 0;
 	MODE_PILOT = 0;
-	RECALAGE_PILOT = 0;
 
 	int ret = 0;
 
