@@ -109,8 +109,9 @@ int32 AntiSlip(int32 pwm, t_motion *wheel)
     MOVE_Reset_Ramp(&move_ang, &robot.ang);  
     return pwm_slip;
   }
+#endif
   return pwm;
-  #endif
+  
 }
 
 /****************************************************************************************
