@@ -81,6 +81,16 @@ boolean Is_False_Obstacle(t_circle circle_obstacle)
 	return 0;
 }
 
+boolean IsInMap(t_point p)
+{
+    // check map border limits
+	if (p.x < 0) return 0;
+    if (p.x > MAP_X_MAX) return 0;
+	if (p.y < 0) return 0;
+    if (p.y > MAP_Y_MAX) return 0;
+    return 1;
+}
+
 /****************************************************************************************
 * Return a circle obstacle at angle and distance from robot center
 ****************************************************************************************/
