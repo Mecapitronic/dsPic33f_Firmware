@@ -23,7 +23,7 @@
 #define Setup_UART2_RX_Pin()  do{ RPINR19bits.U2RXR = 2; }while(0);  // pin 23 / RP2
 #define Setup_UART2_TX_Pin()  do{ RPOR1bits.RP3R = 5; }while(0);  // pin 24 / RP3
 
-// '!' + "1000,1500" + '\n' :  1 + 2 * 2 + 1;
+// '!' + "1000,1500" + '\n' :  1 + 2 * 2 + 1 + 1;
 // 21 01 e8 03 dc 05 0A
 #define PACKET_SIZE 7
 
