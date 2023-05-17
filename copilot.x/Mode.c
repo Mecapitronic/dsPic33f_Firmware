@@ -76,6 +76,7 @@ void Gestion_Mode(void) {
     switch (power_mode) {
         case STARTING: // En démarrage
             RELAY = OFF;
+            Bras_Desactiver();
             START_PILOT = OFF;
             run_time = current_time;
             break;
@@ -87,6 +88,7 @@ void Gestion_Mode(void) {
             } else {
                 START_PILOT = OFF;
                 RELAY = OFF;
+                Bras_Desactiver();
                 RECALAGE_PILOT = OFF;
                 power_mode = STOPPING;
                 run_time = current_time;
@@ -95,6 +97,7 @@ void Gestion_Mode(void) {
 
         case STOPPING: // En stop
             RELAY = OFF;
+            Bras_Desactiver();
             RECALAGE_PILOT = OFF;
             if ((current_time - run_time) > TIMEOUT_STOP) {
                 power_mode = OFF;
@@ -103,6 +106,7 @@ void Gestion_Mode(void) {
 
         default: // Au repos
             RELAY = OFF;
+            Bras_Desactiver();
             START_PILOT = OFF;
             RECALAGE_PILOT = OFF;
             run_mode = MODE; // sélection du mode de marche
