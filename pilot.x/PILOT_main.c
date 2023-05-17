@@ -105,12 +105,13 @@ _PILOT_{
         ResetAntiSlip();
 
         //Marche arrière
+        int32 distance = Get_Distance_Vertex(0, action[1].vertexID);
         Translate(-200, SPEED_LIN);
         While_Trajectory(Display);
 
         //Rotation pour descendre le bras
         {
-            t_point p = { 1000,1500 };
+            t_point p = { 1000,2500 };
             Rotate_To_Point(p, SPEED_ANG);
             While_Trajectory(Display);
         }
@@ -141,6 +142,20 @@ _PILOT_{
         Delay_Ms(200);
 
         //Retour au panier
+        while (!Execute_Action(1));
+
+        //Prise balles coté départ
+        while (!Execute_Action(2));
+
+        //Retour au panier
+        while (!Execute_Action(1));
+
+        //Prise balles coté adverse
+        while (!Execute_Action(3));
+
+        //Retour au panier
+        while (!Execute_Action(1));
+
 
         //action[1].iteration = 3;
         //while (!Execute_Action(1));

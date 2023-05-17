@@ -73,31 +73,36 @@ void Initialize_Action(void)
     action[ID].function = Action_NULL;  // function to execute
   }
 
-  ID = 1; // Prendre Cerises
-  action[ID].vertexID = 3;
-  action[ID].mission = MISSION_FUSEE;
+  ID = 1; // Déposer Cerises dans le panier
+  action[ID].vertexID = 8;
+  action[ID].mission = 0;
   action[ID].possible = YES;
   action[ID].done = NO;
   action[ID].iteration = 1;
-  action[ID].point = vertex[3].point;
-  action[ID].function = Action_NULL;
+  if (team == TEAM_A) action[ID].point = Point(1775, 3000);
+  else action[ID].point = Point(225, 3000);
+  action[ID].function = Action_Deposer;
+
   
-  ID = 2; // prendre Cerises
-  action[ID].vertexID = 6;
-  action[ID].mission = MISSION_PRENDRE;
-  action[ID].possible = YES;
-  action[ID].done = NO;
-  action[ID].point = vertex[6].point;
-  action[ID].function = Action_NULL;
-
-  ID = 3; // prendre Cerises
+  ID = 2; // prendre Cerises coté départ
   action[ID].vertexID = 10;
-  action[ID].mission = MISSION_PRENDRE;
+  action[ID].mission = 0;
   action[ID].possible = YES;
   action[ID].done = NO;
-  action[ID].point = vertex[10].point;
-  action[ID].function = Action_NULL;
+  if (team == TEAM_A) action[ID].point = Point(2000, 1500);
+  else action[ID].point = Point(0, 1500);
+  action[ID].function = Action_Prendre;
+  
+  ID = 3; // prendre Cerises coté adverse
+  action[ID].vertexID = 3;
+  action[ID].mission = 0;
+  action[ID].possible = YES;
+  action[ID].done = NO;
+  if (team == TEAM_A) action[ID].point = Point(0, 1500);
+  else action[ID].point = Point(2000, 1500);
+  action[ID].function = Action_Prendre;
 
+  /*
   ID = 4; // Retour Base
   action[ID].vertexID = 1;
   action[ID].mission = MISSION_PRENDRE;
@@ -254,7 +259,7 @@ void Initialize_Action(void)
   action[ID].iteration = 4;
   action[ID].point = Point(1500,2000);
   action[ID].function = Action_Pousser;
-  
+  */
 //  // 10 // prendre module dans fusée 9
 //  ID = 10;
 //  action[ID].vertexID = 9;
@@ -284,9 +289,40 @@ boolean Action_Preparer_Prise(void)
 /****************************************************************************************/
 boolean Action_Prendre(void)
 {
-  SET_ARM(COMMAND_PUT_IN);
+    int32 distance;
 
-  return OK;
+    Rotate_To_Point(action[current_action].point, SPEED_ANG);
+    while (Wait_Trajectory());
+
+    //Bras en position d'attente
+    PRISE_CERISE = FALSE;
+    DEPOSE_CERISE = FALSE;
+
+    //Delai attente
+    Delay_Ms(500);
+
+    SetAntiSlip(PWM_MIN_SLIP + 150);
+    distance = Get_Distance_Vertex(0, action[current_action].vertexID)+50;
+    Translate(distance, 200);
+    while (Wait_Trajectory());
+    ResetAntiSlip();
+
+    //Bras en position de Prise
+    PRISE_CERISE = TRUE;
+    DEPOSE_CERISE = FALSE;
+
+    //Délai de prise des balles
+    Delay_Ms(500);
+
+    //Bras en position d'attente
+    PRISE_CERISE = FALSE;
+    DEPOSE_CERISE = FALSE;
+
+    distance = Get_Distance_Vertex(0, action[current_action].vertexID);
+    Translate(-distance, SPEED_LIN);
+    while (Wait_Trajectory());
+
+    return OK;
 }
 /****************************************************************************************/
 boolean Action_Aller_Prendre(void)
@@ -351,23 +387,29 @@ boolean Action_Prendre_Fusee(void)
 boolean Action_Deposer(void)
 {
   int32 distance;
-
-  SET_ARM(COMMAND_PUT_LEFT);
   
   Rotate_To_Point(action[current_action].point, SPEED_ANG);
   while(Wait_Trajectory());
-  //distance = Get_Distance_Point(&robot.mm, &action[current_action].point) - 160; // 150
-  distance = 100;
+
+  //Bras en position de dépose
+  PRISE_CERISE = FALSE;
+  DEPOSE_CERISE = TRUE;
+
+  //Delai montée
+  Delay_Ms(500);
+
+  SetAntiSlip(PWM_MIN_SLIP + 150);  
+  distance = 150;
   Translate(distance, 200);
   while(Wait_Trajectory());
-  Translate(-5, SPEED_LIN);
-  
-    WAIT_ARM();
+  ResetAntiSlip();
+
+  //Délai de dépose des balles
+  Delay_Ms(500);
 
   distance = Get_Distance_Vertex(0, action[current_action].vertexID);
   Translate(-distance, SPEED_LIN);
   while(Wait_Trajectory());
-  SET_ARM(COMMAND_GO_IN);
   
   return OK;
 }

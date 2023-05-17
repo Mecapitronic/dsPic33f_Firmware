@@ -22,11 +22,12 @@
 
 #define ACTION_TO_RETRY  (3)
 
+/*
 #define MISSION_ALLER_PRENDRE 1
 #define MISSION_PRENDRE       2
 #define MISSION_FUSEE         3
 #define MISSION_DEPOSER       4
-
+*/
 #define COMMAND_PUT_IN  PIN_27
 #define COMMAND_PUT_LEFT PIN_27
 #define COMMAND_PUT_RIGHT PIN_27
