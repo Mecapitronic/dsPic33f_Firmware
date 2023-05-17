@@ -29,8 +29,8 @@
  ****************************************************************************************/
 // Bras cerise
 #define Bras_Ramasser()         do{Set_Servo(BRAS_CERISE, -93);}while(0)         // sur support cerise
-#define Bras_Preparer()         do{Set_Servo(BRAS_CERISE, -60);}while(0)         // au dessus des cerises
-#define Bras_Monter()           do{Set_Servo(BRAS_CERISE, 43);}while(0)        // au dessus panier
+#define Bras_Preparer()         do{Set_Servo(BRAS_CERISE, -65);}while(0)         // au dessus des cerises
+#define Bras_Monter()           do{Set_Servo(BRAS_CERISE, 40);}while(0)        // au dessus panier
 #define Bras_Desactiver()       do{Set_Servo(BRAS_CERISE, SERVO_OFF);}while(0)  // désactiver servo
 // Pince pied
 #define Pince_Pied_Ouvrir()         do{Set_Servo(PINCE_PIED, -74);}while(0)        // grand ouvert
