@@ -156,6 +156,7 @@ _PILOT_{
 
         //Orientation vers cerises
         {
+            //conctionne en vert mais pas en bleu
             t_point p = vertex[8].point;  
             float distance = Get_Distance_Point(&robot.mm, &p);
             Translate(-distance, SPEED_LIN/2);
