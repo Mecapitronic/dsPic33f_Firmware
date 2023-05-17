@@ -322,7 +322,7 @@ void Display() {
     if (running > coef * 4)
         running = 0;
 
-    Display_Sharp(2);
+    //Display_Sharp(2);
 
 	// odometry
     //LCD_Line(2);
@@ -341,7 +341,7 @@ void Display() {
     //Afficher_UART(3);
 
     // UART Receive
-    //Afficher_UART2(4);
+    Afficher_UART2(2);
 
 }
 
@@ -371,35 +371,34 @@ void Sequence_LCD_Initiale(void) {
 
 void Sequence_LCD_Waiting_Mode(void) {
     LCD_Line(1);
-    LCD_Text("PILOT", 5);
+    LCD_Text("PILOT ", 6);
     if (MODE_PILOT == MODE_MATCH) LCD_Text("Match ", 6);
     else LCD_Text("Test  ", 6);
     if (SELECT == TEAM_A) LCD_Text(LCD_TEAM_A, 4);
     else LCD_Text(LCD_TEAM_B, 4);
-    LCD_Text(" ", 1);
 }
 
 uint8 startLCD = 0;
 void Sequence_LCD_Waiting_Start(void) {
     LCD_Line(2);
-    for (uint8 i = 0; i < 1; i++) {
-        if (startLCD == i)
+    //for (uint8 i = 0; i < 1; i++) {
+        if (startLCD == 0)
             LCD_Char('>');
         else
             LCD_Char(' ');
-    }
+    //}
     if (recalage == TRUE) LCD_Text("Calage Bordure", 14);
     else LCD_Text("Attente  Start", 14);
 
-    for (uint8 i = 0; i < 1; i++) {
-        LCD_Goto(4, 15 - i);
-        if (startLCD == i)
+    //for (uint8 i = 0; i < 1; i++) {
+        //LCD_Goto(4, 15);
+        if (startLCD == 0)
             LCD_Char('<');
         else
             LCD_Char(' ');
-    }
+    //}
     startLCD++;
-    if (startLCD >= 3)
+    if (startLCD >1)
         startLCD = 0;
 }
 

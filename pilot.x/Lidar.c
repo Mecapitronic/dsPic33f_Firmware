@@ -170,11 +170,11 @@ void Afficher_UART2(uint8 ligne)
 	LCD_Line(ligne);
 	//LCD_Text("O", 1);
 	LCD_Value(obstacle[0].p.x, 4, 0);
-	LCD_Text(",", 1);
+	//LCD_Text(",", 1);
 	LCD_Value(obstacle[0].p.y, 4, 0);
-	LCD_Text(";", 1);
+	//LCD_Text(";", 1);
 	LCD_Value(obstacle[1].p.x, 4, 0);
-	LCD_Text(",", 1);
+	//LCD_Text(",", 1);
 	LCD_Value(obstacle[1].p.y, 4, 0);
 }
 
