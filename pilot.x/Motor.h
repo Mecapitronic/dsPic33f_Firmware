@@ -44,7 +44,7 @@
 /* Anti patinage => limite la vitesse des moteurs par rapport à celle des roues codeuses */
 #define ENABLE_ANTI_SLIP
 // vitesse minimale pour avancer sans patiner => à ajuster expérimentalement
-#define PWM_MIN_SLIP        300
+#define PWM_MIN_SLIP        350
 // coefficient pour passer des valeurs des codeuses aux valeurs PWM => à ajuster expérimentalement
 #define COEF_ENCODER_MOTOR  1.0362
 
