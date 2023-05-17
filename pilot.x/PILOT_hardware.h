@@ -75,7 +75,7 @@
 #define PRISE_CERISE        PIN_1
 #define PIN_1_CONFIG        OUT_
 // PIN 44
-#define MODE_PILOT          PIN_44
+#define MODE_PILOT          !PIN_44
 #define PIN_44_CONFIG       IN_
 // PIN 43
 #define START_PILOT         PIN_43
