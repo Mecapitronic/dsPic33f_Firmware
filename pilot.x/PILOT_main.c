@@ -111,6 +111,7 @@ _PILOT_{
         timeLCD++;
         Delay_Ms(1);
     }
+    Display();
 
     DEPOSER_BRAS();
     Delay_Ms(2000);
@@ -342,7 +343,9 @@ void Display() {
     //Afficher_UART(3);
 
     // UART Receive
-    Afficher_UART2(2);
+    //Afficher_UART2(2);
+    
+    Sequence_LCD_Score();
 
 }
 
@@ -401,5 +404,11 @@ void Sequence_LCD_Waiting_Start(void) {
     startLCD++;
     if (startLCD >1)
         startLCD = 0;
+}
+
+void Sequence_LCD_Score()
+{
+    LCD_Line(2);
+    LCD_Text(" Score : 35 Pts ", 16);
 }
 

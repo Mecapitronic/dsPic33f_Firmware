@@ -82,6 +82,7 @@ void Sequence_LED_Initiale(void);
 void Sequence_LCD_Initiale(void);
 void Sequence_LCD_Waiting_Mode(void);
 void Sequence_LCD_Waiting_Start(void);
+void Sequence_LCD_Score(void);
 
 #endif	/* PILOT_MAIN_H */
 
