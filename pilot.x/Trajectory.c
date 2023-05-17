@@ -121,7 +121,7 @@ boolean Wait_Trajectory(void)
 	return !(MOVE_Check_Position(&move_lin) && MOVE_Check_Position(&move_ang));
 }
 
-boolean While_Trajectory(void (*function)(void))
+void While_Trajectory(void (*function)(void))
 {
 	while (Wait_Trajectory()) {
 		function();

@@ -61,7 +61,7 @@ void Rotate_To_Point(t_point point_mm, float32 speed_rad_s);
 void Rotate_To_Angle(float32 angle_deg, float32 speed_rad_s);
 float32 Go_To_Point(t_point point_mm, float32 max_speed_mm_s, float32 end_speed_mm_s);
 boolean Wait_Trajectory(void);
-boolean While_Trajectory(void (*function)(void));
+void While_Trajectory(void (*function)(void));
 void Emergency_Brake(void);
 boolean Path_Planning(void);
 boolean Navigate_To_Vertex(t_vertexID vertex_ID, uint16 end_distance_mm);
