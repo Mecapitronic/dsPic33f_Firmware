@@ -19,7 +19,7 @@
  ****************************************************************************************/
 // Speed max => position reached in 1 second
 #define SPEED_LIN    800   // [mm/s]
-#define SPEED_ANG    3//2     // [rad/s]
+#define SPEED_ANG    4//3//2     // [rad/s]
 
 // Acceleration => speed reached in 1 second
 #define ACCEL_LIN    600//700//900   // [mm/s^2]  

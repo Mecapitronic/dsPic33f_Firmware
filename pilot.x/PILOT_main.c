@@ -135,35 +135,52 @@ _PILOT_{
 
         //Dépose des cerises pré-embarquées
         SetAntiSlip(PWM_MIN_SLIP + 50);
-        Translate(120, SPEED_LIN/4);
+        Translate(120, SPEED_LIN/2);
         Delay_Ms(2000);
         
         ResetAntiSlip();
 
         //Marche arrière
-        Translate(-120, SPEED_LIN/4);
+        Translate(-120, SPEED_LIN/2);
         While_Trajectory(Display);
 
         //Rotation pour descendre le bras
         {
-            t_point p = { 1000,2500 };
-            Rotate_To_Point(p, SPEED_ANG/2);
+            Rotate_To_Angle(270, SPEED_ANG);
             While_Trajectory(Display);
         }
+        
         //Descente du bras en position d'attente
         PREPARER_BRAS();
         Delay_Ms(2000);
 
         //Orientation vers cerises
+        {
+            t_point p = vertex[8].point;  
+            float distance = Get_Distance_Point(&robot.mm, &p);
+            Translate(-distance, SPEED_LIN/2);
+            While_Trajectory(Display);
+            t_point p2 = { 1000,2850 };
+            Rotate_To_Point(p2, SPEED_ANG);
+            While_Trajectory(Display);
+        }
+        
         //Déplacement vers cerises
         {
             t_point p = { 1000,2850 };
+            if (team == TEAM_A)
+                p.x+=100;
+            else
+                p.x-=100;
             Rotate_To_Point(p, SPEED_ANG/2);
             While_Trajectory(Display);
-            SetAntiSlip(PWM_MIN_SLIP - 50);
-            uint32 distance = Get_Distance_Point(&robot.mm, &p);
-            Translate(distance, SPEED_LIN/4);
-            While_Trajectory(Display);
+            SetAntiSlip(PWM_MIN_SLIP+50);
+            float distance = Get_Distance_Point(&robot.mm, &p);
+            Translate(distance, SPEED_LIN/2);            
+            Delay_Ms(5000);
+            Translate(-distance, SPEED_LIN/2);            
+            Delay_Ms(5000);
+            ResetAntiSlip();
         }
 
         //Prise des cerises
