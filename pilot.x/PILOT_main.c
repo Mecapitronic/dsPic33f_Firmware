@@ -96,13 +96,59 @@ _PILOT_{
     Initialize_Action();
 
     if (mode == MODE_MATCH){
-        action[1].iteration = 3;
-        while (!Execute_Action(1));
-        while (!Execute_Action(2));
-        while (!Execute_Action(3));
-        while (!Execute_Action(4));
-    }else
-    {
+
+        //Dépose des cerises pré-embarquées
+        SetAntiSlip(PWM_MIN_SLIP + 150);
+        Translate(200, SPEED_LIN);
+        While_Trajectory(Display);
+        
+        ResetAntiSlip();
+
+        //Marche arrière
+        Translate(-200, SPEED_LIN);
+        While_Trajectory(Display);
+
+        //Rotation pour descendre le bras
+        {
+            t_point p = { 1000,1500 };
+            Rotate_To_Point(p, SPEED_ANG);
+            While_Trajectory(Display);
+        }
+        //Descente du bras en position d'attente
+        PRISE_CERISE = FALSE;
+        DEPOSE_CERISE = FALSE;
+        Delay_Ms(500);
+
+        //Orientation vers cerises
+        //Déplacement vers cerises
+        {
+            t_point p = { 1000,2850 };
+            Rotate_To_Point(p, SPEED_ANG);
+            While_Trajectory(Display);
+            uint32 distance = Get_Distance_Point(&robot.mm, &p);
+            Translate(distance, SPEED_LIN);
+            While_Trajectory(Display);
+        }
+
+        //Prise des cerises
+        PRISE_CERISE = TRUE;
+        DEPOSE_CERISE = FALSE;
+        Delay_Ms(2000);
+
+        //Position d'attente
+        PRISE_CERISE = FALSE;
+        DEPOSE_CERISE = FALSE;
+        Delay_Ms(200);
+
+        //Retour au panier
+
+        //action[1].iteration = 3;
+        //while (!Execute_Action(1));
+        //while (!Execute_Action(2));
+        //while (!Execute_Action(3));
+        //while (!Execute_Action(4));
+
+    }else{
         while (FOREVER) {
             if (uartCMD.cmd != '0') {
                 switch (uartCMD.cmd) {
@@ -219,7 +265,8 @@ void Recalage_Bordure(void) {
     Delay_Ms(2000);
 
     //desactivate servo
-    DEPOSE_CERISE = FALSE;
+    PRISE_CERISE = TRUE;
+    DEPOSE_CERISE = TRUE;
 
     Translate(180, SPEED_LIN);
     while (Wait_Trajectory()) {
