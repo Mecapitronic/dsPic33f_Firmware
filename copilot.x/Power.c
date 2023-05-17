@@ -73,25 +73,25 @@ void Affichage_Power(void) {
     flashing_flag = !flashing_flag;
 
     // Ligne 1, curseur 11
-    LCD_Goto(1, 12);
+    LCD_Goto(1, 11);
     // Tension batterie et BAU
     if (BAU_flag) {
         // Symbole BAU clignotant + bip court
         if (flashing_flag) {
-            LCD_Text("BAU!", 4);
+            LCD_Text("BAU! ", 5);
             // Bip
             BUZZER = ON;
             Delay_Ms(5);
             BUZZER = OFF;
         } else {
-            LCD_Text("    ", 4);
+            LCD_Text("     ", 5);
         }
     } else {
-        LCD_Value(tension, 2, 1);
+        LCD_Value(tension, 2, 2);
     }
 
     // Ligne 2, curseur 11
-    LCD_Goto(2, 11);
+    LCD_Goto(2, 10);
     // Mesure courant 
     // ACS712 (185mV/A): 775 = 2.5V = 0A ; -1.5V = -5A 
     if (courant_max < 775)
@@ -106,7 +106,7 @@ void Affichage_Power(void) {
             BUZZER = ON;
             LCD_Text("A", 1);
             // Affichage courant 
-            LCD_Value(courant, 2, 1);
+            LCD_Value(courant, 2, 2);
         } else {
             BUZZER = OFF;
             LCD_Text("     ", 5);
@@ -119,12 +119,12 @@ void Affichage_Power(void) {
             LCD_Text(" ", 1);
         }
         // Affichage courant 
-        LCD_Value(courant, 2, 1);
+        LCD_Value(courant, 2, 2);
     }
 
 
     // Ligne 1, curseur 11
-    LCD_Goto(1, 11);
+    LCD_Goto(1, 10);
 
     // Symbole batterie
     if (special_char == 0) {
