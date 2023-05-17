@@ -66,10 +66,10 @@
 #define FREE_PIN_8          PIN_8
 #define PIN_8_CONFIG        IN_
 // PIN 3
-#define FREE_PIN_3          PIN_3
-#define PIN_3_CONFIG        IN_
+#define PREPARER_CERISE     PIN_3
+#define PIN_3_CONFIG        OUT_
 // PIN 2
-#define DEPOSE_CERISE       PIN_2
+#define DEPOSER_CERISE      PIN_2
 #define PIN_2_CONFIG        OUT_
 // PIN 1
 #define PRISE_CERISE        PIN_1

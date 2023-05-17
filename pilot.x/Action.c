@@ -295,8 +295,7 @@ boolean Action_Prendre(void)
     while (Wait_Trajectory());
 
     //Bras en position d'attente
-    PRISE_CERISE = FALSE;
-    DEPOSE_CERISE = FALSE;
+    PREPARER_BRAS();
 
     //Delai attente
     Delay_Ms(500);
@@ -308,15 +307,13 @@ boolean Action_Prendre(void)
     ResetAntiSlip();
 
     //Bras en position de Prise
-    PRISE_CERISE = TRUE;
-    DEPOSE_CERISE = FALSE;
+    PRISE_BRAS();
 
     //Délai de prise des balles
     Delay_Ms(500);
 
     //Bras en position d'attente
-    PRISE_CERISE = FALSE;
-    DEPOSE_CERISE = FALSE;
+    PREPARER_BRAS();
 
     distance = Get_Distance_Vertex(0, action[current_action].vertexID);
     Translate(-distance, SPEED_LIN);
@@ -392,8 +389,7 @@ boolean Action_Deposer(void)
   while(Wait_Trajectory());
 
   //Bras en position de dépose
-  PRISE_CERISE = FALSE;
-  DEPOSE_CERISE = TRUE;
+  DEPOSER_BRAS();
 
   //Delai montée
   Delay_Ms(500);

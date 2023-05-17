@@ -14,7 +14,7 @@
  ****************************************************************************************/
 // Firmware mode
 //#define SERIAL_PRINT
-#define SIMULATION_ENCODER
+#define SIMULATION_ENCODER__
 #ifdef _VISUAL_STUDIO
 #define __interrupt__
 #define no_auto_psv
@@ -75,7 +75,6 @@ extern uint8 team;
 	#define _PILOT_ int main(void)
 #endif
 
-void Recalage_Bordure(void);
 
 void Display();
 

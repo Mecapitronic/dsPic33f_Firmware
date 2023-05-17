@@ -51,6 +51,23 @@
 #define SET_ARM(cmd)    do{ while(INFO_ARM_BUSY); cmd = 1; \
                             while(!INFO_ARM_BUSY); RESET_ARM(); }while(0)
 
+#define PRISE_BRAS() do{ PREPARER_CERISE = 0; \
+                         PRISE_CERISE = 1; \
+                         DEPOSER_CERISE = 0; }while(0)
+
+#define DEPOSER_BRAS() do{ PREPARER_CERISE = 0; \
+                         PRISE_CERISE = 0; \
+                         DEPOSER_CERISE = 1; }while(0)
+
+#define PREPARER_BRAS() do{ PREPARER_CERISE = 1; \
+                         PRISE_CERISE = 0; \
+                         DEPOSER_CERISE = 0; }while(0)
+
+#define DESACTIVER_BRAS() do{ PREPARER_CERISE = 0; \
+                         PRISE_CERISE = 0; \
+                         DEPOSER_CERISE = 0; }while(0)
+
+
 /****************************************************************************************
 * Variables globales
 ****************************************************************************************/

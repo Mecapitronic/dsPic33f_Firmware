@@ -33,6 +33,10 @@ uint8 recalage = FALSE;
 _PILOT_{
     current_time = 0;
     Setup_Hardware();
+    
+    //desactivate servo
+    DESACTIVER_BRAS();
+      
     Sequence_LCD_Initiale();
     Sequence_LED_Initiale();
 
@@ -83,6 +87,12 @@ _PILOT_{
         Delay_Ms(1);
     }
 
+    DEPOSER_BRAS();
+    Delay_Ms(2000);
+
+    //desactivate servo
+    DESACTIVER_BRAS();
+    
     // Initialisations
     if (team == TEAM_A)
         Initialize_Robot_Position(1775, 2850, 90);
@@ -116,8 +126,7 @@ _PILOT_{
             While_Trajectory(Display);
         }
         //Descente du bras en position d'attente
-        PRISE_CERISE = FALSE;
-        DEPOSE_CERISE = FALSE;
+        PREPARER_BRAS();
         Delay_Ms(500);
 
         //Orientation vers cerises
@@ -132,14 +141,12 @@ _PILOT_{
         }
 
         //Prise des cerises
-        PRISE_CERISE = TRUE;
-        DEPOSE_CERISE = FALSE;
-        Delay_Ms(2000);
+        //PRISE_BRAS();
+        //Delay_Ms(2000);
 
         //Position d'attente
-        PRISE_CERISE = FALSE;
-        DEPOSE_CERISE = FALSE;
-        Delay_Ms(200);
+        //PREPARER_BRAS();
+        //Delay_Ms(200);
 
         //Retour au panier
         while (!Execute_Action(1));

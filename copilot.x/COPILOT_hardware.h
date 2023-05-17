@@ -56,7 +56,7 @@
 #define FREE_PIN_8          PIN_8
 #define PIN_8_CONFIG        IN_
 // PIN 3
-#define FREE_PIN_3          PIN_3
+#define PREPARER_CERISE     PIN_3
 #define PIN_3_CONFIG        IN_
 // PIN 2
 #define DEPOSE_CERISE       PIN_2
@@ -145,10 +145,10 @@
 #define SERVO_2             _LATB15
 #define SERVO_3             _LATA0
 #define SERVO_4             _LATA1
-#define Setup_Servo_1()     {_TRISB14 = 0;}
-#define Setup_Servo_2()     {_TRISB15 = 0;}
-#define Setup_Servo_3()     {_TRISA0 = 0;}
-#define Setup_Servo_4()     {_TRISA1 = 0;}
+#define Setup_Servo_1()     {_TRISB14 = 0; _LATB14 = 0;}
+#define Setup_Servo_2()     {_TRISB15 = 0; _LATB15 = 0;}
+#define Setup_Servo_3()     {_TRISA0 = 0; _LATA0 = 0;}
+#define Setup_Servo_4()     {_TRISA1 = 0; _LATA1 = 0;}
 
 // Ecran LCD : voir LCD.h
 
