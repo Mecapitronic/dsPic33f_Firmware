@@ -67,7 +67,32 @@ _PILOT_{
             timeLCD++;
             Delay_Ms(1);
         }
-        Recalage_Bordure();
+        
+    // le robot est face contre le panier, avec une calle sur le coté entre la bordure et lui
+    // valeur entre le milieu du robot et le panier : 114mm, entre le milieu du robot et la bordure : 225mm
+    // Au recalage : init position, recule, monte la pince, désactive les servos et avance au maximum vers le panier
+
+        if (team == TEAM_A)
+            Initialize_Robot_Position(1775, 2850, 90);
+        else
+            Initialize_Robot_Position(225, 2850, 90);
+
+        Translate(-150, SPEED_LIN);
+        while (Wait_Trajectory()) {
+            Display();
+        };
+        Delay_Ms(500);    
+
+        DEPOSER_BRAS();
+        Delay_Ms(2000);
+
+        //desactivate servo
+        DESACTIVER_BRAS();
+
+        Translate(150, 400);    
+        Delay_Ms(3000);
+        Translate(0, 400);
+    
         while (START_PILOT){}
     }
     
@@ -95,9 +120,9 @@ _PILOT_{
     
     // Initialisations
     if (team == TEAM_A)
-        Initialize_Robot_Position(1775, 2850, 90);
+        Initialize_Robot_Position(1775, 2775, 90);
     else
-        Initialize_Robot_Position(225, 2850, 90);
+        Initialize_Robot_Position(225, 2775, 90);
 
     Initialize_Map(team);
     Initialize_Obstacle();
@@ -108,35 +133,35 @@ _PILOT_{
     if (mode == MODE_MATCH){
 
         //Dépose des cerises pré-embarquées
-        SetAntiSlip(PWM_MIN_SLIP + 150);
-        Translate(200, SPEED_LIN);
-        While_Trajectory(Display);
+        SetAntiSlip(PWM_MIN_SLIP + 50);
+        Translate(120, SPEED_LIN/4);
+        Delay_Ms(2000);
         
         ResetAntiSlip();
 
         //Marche arrière
-        int32 distance = Get_Distance_Vertex(0, action[1].vertexID);
-        Translate(-200, SPEED_LIN);
+        Translate(-120, SPEED_LIN/4);
         While_Trajectory(Display);
 
         //Rotation pour descendre le bras
         {
             t_point p = { 1000,2500 };
-            Rotate_To_Point(p, SPEED_ANG);
+            Rotate_To_Point(p, SPEED_ANG/2);
             While_Trajectory(Display);
         }
         //Descente du bras en position d'attente
         PREPARER_BRAS();
-        Delay_Ms(500);
+        Delay_Ms(2000);
 
         //Orientation vers cerises
         //Déplacement vers cerises
         {
             t_point p = { 1000,2850 };
-            Rotate_To_Point(p, SPEED_ANG);
+            Rotate_To_Point(p, SPEED_ANG/2);
             While_Trajectory(Display);
+            SetAntiSlip(PWM_MIN_SLIP - 50);
             uint32 distance = Get_Distance_Point(&robot.mm, &p);
-            Translate(distance, SPEED_LIN);
+            Translate(distance, SPEED_LIN/4);
             While_Trajectory(Display);
         }
 
@@ -149,19 +174,19 @@ _PILOT_{
         //Delay_Ms(200);
 
         //Retour au panier
-        while (!Execute_Action(1));
+        //while (!Execute_Action(1));
 
         //Prise balles coté départ
-        while (!Execute_Action(2));
+        //while (!Execute_Action(2));
 
         //Retour au panier
-        while (!Execute_Action(1));
+        //while (!Execute_Action(1));
 
         //Prise balles coté adverse
-        while (!Execute_Action(3));
+        //while (!Execute_Action(3));
 
         //Retour au panier
-        while (!Execute_Action(1));
+        //while (!Execute_Action(1));
 
 
         //action[1].iteration = 3;
@@ -266,37 +291,6 @@ _PILOT_{
 
     return 1;
 }
-
-// le robot est face contre le panier, avec une calle sur le coté entre la bordure et lui
-// valeur entre le milieu du robot et le panier : 114mm, entre le milieu du robot et la bordure : 225mm
-// Au recalage : init position, recule, monte la pince, désactive les servos et avance au maximum vers le panier
-void Recalage_Bordure(void) {
-    if (team == TEAM_A)
-        Initialize_Robot_Position(1775, 2850, 90);
-    else
-        Initialize_Robot_Position(225, 2850, 90);
-
-    Translate(-150, SPEED_LIN);
-    while (Wait_Trajectory()) {
-        Display();
-    };
-    Delay_Ms(500);    
-
-    PRISE_CERISE = FALSE;
-    DEPOSE_CERISE = TRUE;
-    Delay_Ms(2000);
-
-    //desactivate servo
-    PRISE_CERISE = TRUE;
-    DEPOSE_CERISE = TRUE;
-
-    Translate(180, SPEED_LIN);
-    while (Wait_Trajectory()) {
-        Display();
-    };
-    Delay_Ms(500);
-}
-
 
 /****************************************************************************************
  * LCD display
