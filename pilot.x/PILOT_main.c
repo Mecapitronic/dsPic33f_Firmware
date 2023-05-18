@@ -193,11 +193,11 @@ _PILOT_
 
             // Prise des cerises
             PRISE_BRAS();
-            Delay_Ms(2000);
+            Delay_Ms(3000);
 
             // Position d'attente
             PREPARER_BRAS();
-            Delay_Ms(2000);
+            Delay_Ms(500);
 
             // recule
             Translate(-distance / 4, SPEED_LIN / 2);
