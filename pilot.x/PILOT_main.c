@@ -604,5 +604,5 @@ void Sequence_LCD_Waiting_Start(void)
 void Sequence_LCD_Score()
 {
     LCD_Line(2);
-    LCD_Text(" Score : 35 Pts ", 16);
+    LCD_Text(" Score : 50 Pts ", 16);
 }
