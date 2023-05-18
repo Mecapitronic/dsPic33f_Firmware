@@ -120,10 +120,10 @@ _PILOT_
     Display();
 
     DEPOSER_BRAS();
-    Delay_Ms(2000);
+    //Delay_Ms(2000);
 
     // desactivate servo
-    DESACTIVER_BRAS();
+    //DESACTIVER_BRAS();
 
     // Initialisations
     if (team == TEAM_A)
@@ -252,7 +252,7 @@ _PILOT_
 
             // on avance
             float distance = Get_Distance_Point(&robot.mm, &zone_depose_gateaux);
-            Translate(distance, SPEED_LIN / 3);
+            Translate(distance, SPEED_LIN / 4);
             While_Trajectory(Display);
 
             // // et on recul pour pas abimer les gateaux dans l'assiette
@@ -271,7 +271,7 @@ _PILOT_
             zone_cerises_cote.x = 250;
 
         float distance = Get_Distance_Point(&robot.mm, &zone_cerises_cote);
-        Translate(-distance, SPEED_LIN / 3);
+        Translate(-distance+10, SPEED_LIN / 4);
         While_Trajectory(Display);
 
         // Position d'attente
@@ -294,7 +294,7 @@ _PILOT_
 
         // Prise des cerises
         PRISE_BRAS();
-        Delay_Ms(2000);
+        Delay_Ms(4000);
 
         // Position d'attente
         PREPARER_BRAS();
