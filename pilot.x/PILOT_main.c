@@ -241,7 +241,7 @@ _PILOT_
         // allons chercher des gateaux pour les mettre dans notre zone
         // avancer
         {
-            t_point zone_depose_gateaux = {0, 1150};
+            t_point zone_depose_gateaux = {0, 1200};
             // Orientation vers gateaux
             if (team == TEAM_A)
                 zone_depose_gateaux.x = 1750;
@@ -277,7 +277,7 @@ _PILOT_
         // Position d'attente
         PREPARER_BRAS();
         Delay_Ms(2000);
-        
+
         // on se tourne vers les cerises
         int rotation_cerises = 0;
         if (team == TEAM_A)
@@ -285,7 +285,7 @@ _PILOT_
         else
             rotation_cerises = 180;
 
-        Rotate_To_Angle(rotation_cerises, SPEED_ANG / 2);
+        Rotate_To_Angle(rotation_cerises, SPEED_ANG / 3);
         While_Trajectory(Display);
 
         // on va les prendre
@@ -304,7 +304,6 @@ _PILOT_
         Translate(-180, SPEED_LIN / 2);
         Delay_Ms(2000);
 
-        
         // Retour au panier et depose cerises
         {
             t_point p = {0, 2700};
@@ -333,7 +332,7 @@ _PILOT_
             Translate(-120, SPEED_LIN / 2);
             Delay_Ms(2000);
         }
-        
+
         // danse de la victoire
         /*
         SetAntiSlip(PWM_MIN_SLIP + 1000);
