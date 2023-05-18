@@ -395,7 +395,7 @@ boolean Action_Deposer(void)
   Delay_Ms(1000);
 
   SetAntiSlip(PWM_MIN_SLIP + 150);  
-  distance = 120;
+  distance = 140;
   Translate(distance, 200);
   //while(Wait_Trajectory());
   Delay_Ms(2000);
