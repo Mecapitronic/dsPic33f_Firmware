@@ -79,8 +79,8 @@ void Initialize_Action(void)
   action[ID].possible = YES;
   action[ID].done = NO;
   action[ID].iteration = 1;
-  if (team == TEAM_A) action[ID].point = Point(1775, 3000);
-  else action[ID].point = Point(225, 3000);
+  if (team == TEAM_A) action[ID].point = Point(1775, 2900);
+  else action[ID].point = Point(225, 2900);
   action[ID].function = Action_Deposer;
 
   
@@ -392,16 +392,18 @@ boolean Action_Deposer(void)
   DEPOSER_BRAS();
 
   //Delai montée
-  Delay_Ms(500);
+  Delay_Ms(1000);
 
   SetAntiSlip(PWM_MIN_SLIP + 150);  
-  distance = 150;
+  distance = 120;
   Translate(distance, 200);
-  while(Wait_Trajectory());
+  //while(Wait_Trajectory());
+  Delay_Ms(2000);
+
   ResetAntiSlip();
 
   //Délai de dépose des balles
-  Delay_Ms(500);
+  Delay_Ms(1000);
 
   distance = Get_Distance_Vertex(0, action[current_action].vertexID);
   Translate(-distance, SPEED_LIN);

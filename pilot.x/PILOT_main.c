@@ -135,10 +135,10 @@ _PILOT_{
 
         //Dépose des cerises pré-embarquées
         SetAntiSlip(PWM_MIN_SLIP + 50);
-        Translate(120, SPEED_LIN/2);
+        Translate(120, SPEED_LIN/4);
         Delay_Ms(2000);
         
-        ResetAntiSlip();
+        //ResetAntiSlip();
 
         //Marche arrière
         Translate(-120, SPEED_LIN/2);
@@ -156,10 +156,17 @@ _PILOT_{
 
         //Orientation vers cerises
         {
-            //conctionne en vert mais pas en bleu
-            t_point p = vertex[8].point;  
+            t_point p = {0,0};
+            if (team == TEAM_A)
+                p.x = vertex[8].point.x;
+            else
+                p.x = vertex[5].point.x;
+            
+            p.y = 2800; 
+            
             float distance = Get_Distance_Point(&robot.mm, &p);
             Translate(-distance, SPEED_LIN/2);
+            
             While_Trajectory(Display);
             t_point p2 = { 1000,2850 };
             Rotate_To_Point(p2, SPEED_ANG);
@@ -170,30 +177,48 @@ _PILOT_{
         {
             t_point p = { 1000,2850 };
             if (team == TEAM_A)
-                p.x+=100;
+                p.x+=90;
             else
-                p.x-=100;
+                p.x-=90;
             Rotate_To_Point(p, SPEED_ANG/2);
             While_Trajectory(Display);
             SetAntiSlip(PWM_MIN_SLIP+50);
-            float distance = Get_Distance_Point(&robot.mm, &p);
-            Translate(distance, SPEED_LIN/2);            
+            float32 distance = Get_Distance_Point(&robot.mm, &p);
+            Translate(distance, SPEED_LIN/4);            
             Delay_Ms(5000);
-            Translate(-distance, SPEED_LIN/2);            
+            
+            //Prise des cerises
+            PRISE_BRAS();
+            Delay_Ms(2000);
+
+            //Position d'attente
+            PREPARER_BRAS();
+            Delay_Ms(2000);
+
+            // recul
+            Translate(-distance/4, SPEED_LIN/2);            
             Delay_Ms(5000);
             ResetAntiSlip();
         }
 
-        //Prise des cerises
-        //PRISE_BRAS();
-        //Delay_Ms(2000);
 
-        //Position d'attente
-        //PREPARER_BRAS();
-        //Delay_Ms(200);
 
         //Retour au panier
-        //while (!Execute_Action(1));
+        while (!Execute_Action(1));        
+        PREPARER_BRAS();
+
+        
+        SetAntiSlip(PWM_MIN_SLIP+1000);
+        
+        Rotate_To_Angle(0,SPEED_ANG);
+        Delay_Ms(2000);
+        Rotate_To_Angle(180,SPEED_ANG);
+        Delay_Ms(2000);
+        Rotate_To_Angle(0,SPEED_ANG);
+        Delay_Ms(2000);
+        Rotate_To_Angle(180,SPEED_ANG);
+        Delay_Ms(3000);
+        ResetAntiSlip();
 
         //Prise balles coté départ
         //while (!Execute_Action(2));
