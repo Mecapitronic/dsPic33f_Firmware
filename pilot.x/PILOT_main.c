@@ -212,9 +212,9 @@ _PILOT_
 
             t_point p = {0, 2700};
             if (team == TEAM_A)
-                p.x = 225;
-            else
                 p.x = 1775;
+            else
+                p.x = 225;
 
             Rotate_To_Point(p, SPEED_ANG / 2);
             While_Trajectory(Display);
@@ -226,10 +226,10 @@ _PILOT_
             Delay_Ms(4000);
 
             // dépose panier
-            Rotate_To_Angle(-90, SPEED_ANG);
+            Rotate_To_Angle(90, SPEED_ANG);
             Delay_Ms(2000);
 
-            Translate(200, SPEED_LIN / 4);
+            Translate(230, SPEED_LIN / 2);
             Delay_Ms(4000);
 
             // recule
@@ -274,22 +274,22 @@ _PILOT_
         Translate(-distance, SPEED_LIN / 3);
         While_Trajectory(Display);
 
+        // Position d'attente
+        PREPARER_BRAS();
+        Delay_Ms(2000);
+        
         // on se tourne vers les cerises
         int rotation_cerises = 0;
         if (team == TEAM_A)
-            rotation_cerises = 90;
+            rotation_cerises = 0;
         else
-            rotation_cerises = -90;
+            rotation_cerises = 180;
 
-        Rotate(rotation_cerises, SPEED_ANG / 2);
+        Rotate_To_Angle(rotation_cerises, SPEED_ANG / 2);
         While_Trajectory(Display);
 
         // on va les prendre
-        Translate(30, SPEED_LIN / 2);
-        While_Trajectory(Display);
-
-        // Position d'attente
-        PREPARER_BRAS();
+        Translate(180, SPEED_LIN / 2);
         Delay_Ms(2000);
 
         // Prise des cerises
@@ -301,16 +301,41 @@ _PILOT_
         Delay_Ms(2000);
 
         // recule
-        Translate(-30 / 4, SPEED_LIN / 2);
-        Delay_Ms(5000);
+        Translate(-180, SPEED_LIN / 2);
+        Delay_Ms(2000);
 
-        // on rentre à la maison
+        
         // Retour au panier et depose cerises
-        while (!Execute_Action(1))
-            ;
-        PREPARER_BRAS();
+        {
+            t_point p = {0, 2700};
+            if (team == TEAM_A)
+                p.x = 1775;
+            else
+                p.x = 225;
 
+            Rotate_To_Point(p, SPEED_ANG / 2);
+            While_Trajectory(Display);
+
+            DEPOSER_BRAS();
+
+            float32 distance = Get_Distance_Point(&robot.mm, &p);
+            Translate(distance, SPEED_LIN / 4);
+            Delay_Ms(8000);
+
+            // dépose panier
+            Rotate_To_Angle(90, SPEED_ANG);
+            Delay_Ms(2000);
+
+            Translate(230, SPEED_LIN / 4);
+            Delay_Ms(4000);
+
+            // recule
+            Translate(-120, SPEED_LIN / 2);
+            Delay_Ms(2000);
+        }
+        
         // danse de la victoire
+        /*
         SetAntiSlip(PWM_MIN_SLIP + 1000);
         Rotate_To_Angle(0, SPEED_ANG);
         Delay_Ms(2000);
@@ -321,7 +346,7 @@ _PILOT_
         Rotate_To_Angle(180, SPEED_ANG);
         Delay_Ms(3000);
         ResetAntiSlip();
-
+*/
         // Prise balles cot� d�part
         // while (!Execute_Action(2));
 
