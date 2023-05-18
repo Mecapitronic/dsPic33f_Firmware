@@ -120,7 +120,7 @@ _PILOT_
     Display();
 
     DEPOSER_BRAS();
-    //Delay_Ms(2000);
+    Delay_Ms(1000);
 
     // desactivate servo
     //DESACTIVER_BRAS();
@@ -143,7 +143,7 @@ _PILOT_
         // D�pose des cerises pr�-embarqu�es
         SetAntiSlip(PWM_MIN_SLIP + 150);
         Translate(120, SPEED_LIN / 4);
-        Delay_Ms(2000);
+        Delay_Ms(1500);
 
         // Marche arri�re
         Translate(-120, SPEED_LIN / 2);
@@ -157,7 +157,7 @@ _PILOT_
 
         // Descente du bras en position d'attente
         PREPARER_BRAS();
-        Delay_Ms(2000);
+        //Delay_Ms(2000);
 
         // Orientation vers cerises
         {
@@ -189,11 +189,11 @@ _PILOT_
             While_Trajectory(Display);
             float32 distance = Get_Distance_Point(&robot.mm, &p);
             Translate(distance, SPEED_LIN / 4);
-            Delay_Ms(5000);
+            Delay_Ms(4000);
 
             // Prise des cerises
             PRISE_BRAS();
-            Delay_Ms(3000);
+            Delay_Ms(2000);
 
             // Position d'attente
             PREPARER_BRAS();
@@ -201,14 +201,14 @@ _PILOT_
 
             // recule
             Translate(-distance / 4, SPEED_LIN / 2);
-            Delay_Ms(3000);
+            Delay_Ms(1000);
         }
 
         // Retour au panier et depose cerises
         {
 
             Rotate_To_Angle(-90, SPEED_ANG);
-            Delay_Ms(2000);
+            Delay_Ms(1000);
 
             t_point p = {0, 2700};
             if (team == TEAM_A)
@@ -223,18 +223,18 @@ _PILOT_
 
             float32 distance = Get_Distance_Point(&robot.mm, &p);
             Translate(distance, SPEED_LIN / 4);
-            Delay_Ms(4000);
+            Delay_Ms(3000);
 
             // dépose panier
             Rotate_To_Angle(90, SPEED_ANG);
-            Delay_Ms(2000);
+            Delay_Ms(1500);
 
             Translate(230, SPEED_LIN / 2);
-            Delay_Ms(4000);
+            Delay_Ms(2000);
 
             // recule
             Translate(-120, SPEED_LIN / 2);
-            Delay_Ms(2000);
+            Delay_Ms(1000);
         }
         PREPARER_BRAS();
 
@@ -271,12 +271,12 @@ _PILOT_
             zone_cerises_cote.x = 250;
 
         float distance = Get_Distance_Point(&robot.mm, &zone_cerises_cote);
-        Translate(-distance+10, SPEED_LIN / 4);
+        Translate(-distance+20, SPEED_LIN / 2);
         While_Trajectory(Display);
 
         // Position d'attente
         PREPARER_BRAS();
-        Delay_Ms(2000);
+        Delay_Ms(1000);
 
         // on se tourne vers les cerises
         int rotation_cerises = 0;
@@ -294,15 +294,15 @@ _PILOT_
 
         // Prise des cerises
         PRISE_BRAS();
-        Delay_Ms(4000);
+        Delay_Ms(3000);
 
         // Position d'attente
         PREPARER_BRAS();
-        Delay_Ms(2000);
+        Delay_Ms(500);
 
         // recule
         Translate(-180, SPEED_LIN / 2);
-        Delay_Ms(2000);
+        Delay_Ms(1000);
 
         // Retour au panier et depose cerises
         {
@@ -318,15 +318,15 @@ _PILOT_
             DEPOSER_BRAS();
 
             float32 distance = Get_Distance_Point(&robot.mm, &p);
-            Translate(distance, SPEED_LIN / 4);
-            Delay_Ms(8000);
+            Translate(distance, SPEED_LIN);
+            While_Trajectory(Display);
 
             // dépose panier
             Rotate_To_Angle(90, SPEED_ANG);
-            Delay_Ms(2000);
+            While_Trajectory(Display);
 
             Translate(230, SPEED_LIN / 4);
-            Delay_Ms(4000);
+            Delay_Ms(2000);
 
             // recule
             Translate(-120, SPEED_LIN / 2);
