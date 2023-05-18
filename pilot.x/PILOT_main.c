@@ -165,9 +165,9 @@ _PILOT_
         {
             t_point p = {0, 0};
             if (team == TEAM_A)
-                p.x = vertex[8].point.x;
+                p.x = 1775;
             else
-                p.x = vertex[5].point.x;
+                p.x = 225;
 
             p.y = 2800;
 
@@ -180,7 +180,7 @@ _PILOT_
             While_Trajectory(Display);
         }
 
-        // Dï¿½placement vers cerises
+        // Deplacement vers cerises
         {
             t_point p = {1000, 2850};
             if (team == TEAM_A)
@@ -208,36 +208,41 @@ _PILOT_
             ResetAntiSlip();
         }
 
-        // Retour au panier et dÃ©pose cerises
+        // Retour au panier et depose cerises
         while (!Execute_Action(1))
             ;
         PREPARER_BRAS();
 
-        SetAntiSlip(PWM_MIN_SLIP + 1000);
 
         // allons chercher des gateaux pour les mettre dans notre zone
         // avancer
         {
-            t_point zone_depose_gateaux = {0, 1350};
+            t_point zone_depose_gateaux = {0, 1150};
             // Orientation vers gateaux
             if (team == TEAM_A)
-                zone_depose_gateaux.x = 1775;
+                zone_depose_gateaux.x = 1750;
             else
-                zone_depose_gateaux.x = 225;
+                zone_depose_gateaux.x = 250;
             Rotate_To_Point(zone_depose_gateaux, SPEED_ANG);
             While_Trajectory(Display);
 
             // on avance
-            float distance = Get_Distance_Point(&robot.mm, &p);
-            Translate(distance, SPEED_LIN / 2);
-
+            float distance = Get_Distance_Point(&robot.mm, &zone_depose_gateaux);
+            Translate(distance, SPEED_LIN / 3);
+            While_Trajectory(Display);
+            
             // et on recul pour pas abimer les gateaux dans l'assiette
-            distance = -100;
+            distance = -150;
             Translate(distance, SPEED_LIN / 2);
             While_Trajectory(Display);
         }
-
+        
+        // prends les cerises à coté
+        
         // danse de la victoire
+        /*
+        SetAntiSlip(PWM_MIN_SLIP + 1000);
+
         Rotate_To_Angle(0, SPEED_ANG);
         Delay_Ms(2000);
         Rotate_To_Angle(180, SPEED_ANG);
@@ -247,7 +252,8 @@ _PILOT_
         Rotate_To_Angle(180, SPEED_ANG);
         Delay_Ms(3000);
         ResetAntiSlip();
-
+        */
+        
         // Prise balles cotï¿½ dï¿½part
         // while (!Execute_Action(2));
 

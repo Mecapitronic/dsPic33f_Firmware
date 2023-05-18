@@ -57,7 +57,7 @@ typedef struct {
 typedef uint64 t_adjacency; // 64 vertex max
 
 typedef struct {
-  t_point point;
+   t_point point;
   t_adjacency adjacency_active;   // high level graph with active obstacle => working graph
   t_adjacency adjacency_passive;  // medium level graph with passive play element
   t_adjacency adjacency_static;   // low level graph with only static map element
