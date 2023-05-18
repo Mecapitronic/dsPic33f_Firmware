@@ -141,11 +141,9 @@ _PILOT_
     {
 
         // Dï¿½pose des cerises prï¿½-embarquï¿½es
-        SetAntiSlip(PWM_MIN_SLIP + 50);
+        SetAntiSlip(PWM_MIN_SLIP + 150);
         Translate(120, SPEED_LIN / 4);
         Delay_Ms(2000);
-
-        // ResetAntiSlip();
 
         // Marche arriï¿½re
         Translate(-120, SPEED_LIN / 2);
@@ -189,7 +187,6 @@ _PILOT_
                 p.x -= 90;
             Rotate_To_Point(p, SPEED_ANG / 2);
             While_Trajectory(Display);
-            SetAntiSlip(PWM_MIN_SLIP + 50);
             float32 distance = Get_Distance_Point(&robot.mm, &p);
             Translate(distance, SPEED_LIN / 4);
             Delay_Ms(5000);
@@ -202,17 +199,44 @@ _PILOT_
             PREPARER_BRAS();
             Delay_Ms(2000);
 
-            // recul
+            // recule
             Translate(-distance / 4, SPEED_LIN / 2);
-            Delay_Ms(5000);
-            ResetAntiSlip();
+            Delay_Ms(3000);
         }
 
         // Retour au panier et depose cerises
-        while (!Execute_Action(1))
-            ;
-        PREPARER_BRAS();
+        {
 
+            Rotate_To_Angle(-90, SPEED_ANG);
+            Delay_Ms(2000);
+
+            t_point p = {0, 2700};
+            if (team == TEAM_A)
+                p.x = 225;
+            else
+                p.x = 1775;
+
+            Rotate_To_Point(p, SPEED_ANG / 2);
+            While_Trajectory(Display);
+
+            DEPOSER_BRAS();
+
+            float32 distance = Get_Distance_Point(&robot.mm, &p);
+            Translate(distance, SPEED_LIN / 4);
+            Delay_Ms(4000);
+
+            // dÃ©pose panier
+            Rotate_To_Angle(-90, SPEED_ANG);
+            Delay_Ms(2000);
+
+            Translate(200, SPEED_LIN / 4);
+            Delay_Ms(4000);
+
+            // recule
+            Translate(-120, SPEED_LIN / 2);
+            Delay_Ms(2000);
+        }
+        PREPARER_BRAS();
 
         // allons chercher des gateaux pour les mettre dans notre zone
         // avancer
@@ -230,19 +254,64 @@ _PILOT_
             float distance = Get_Distance_Point(&robot.mm, &zone_depose_gateaux);
             Translate(distance, SPEED_LIN / 3);
             While_Trajectory(Display);
-            
-            // et on recul pour pas abimer les gateaux dans l'assiette
-            distance = -150;
-            Translate(distance, SPEED_LIN / 2);
-            While_Trajectory(Display);
-        }
-        
-        // prends les cerises à coté
-        
-        // danse de la victoire
-        /*
-        SetAntiSlip(PWM_MIN_SLIP + 1000);
 
+            // // et on recul pour pas abimer les gateaux dans l'assiette
+            // distance = -150;
+            // Translate(distance, SPEED_LIN / 2);
+            // While_Trajectory(Display);
+        }
+
+        // prends les cerises a cote
+        t_point zone_cerises_cote = {0, 1500};
+
+        // on recul depuis les gateaux
+        if (team == TEAM_A)
+            zone_cerises_cote.x = 1750;
+        else
+            zone_cerises_cote.x = 250;
+
+        float distance = Get_Distance_Point(&robot.mm, &zone_cerises_cote);
+        Translate(-distance, SPEED_LIN / 3);
+        While_Trajectory(Display);
+
+        // on se tourne vers les cerises
+        int rotation_cerises = 0;
+        if (team == TEAM_A)
+            rotation_cerises = 90;
+        else
+            rotation_cerises = -90;
+
+        Rotate(rotation_cerises, SPEED_ANG / 2);
+        While_Trajectory(Display);
+
+        // on va les prendre
+        Translate(30, SPEED_LIN / 2);
+        While_Trajectory(Display);
+
+        // Position d'attente
+        PREPARER_BRAS();
+        Delay_Ms(2000);
+
+        // Prise des cerises
+        PRISE_BRAS();
+        Delay_Ms(2000);
+
+        // Position d'attente
+        PREPARER_BRAS();
+        Delay_Ms(2000);
+
+        // recule
+        Translate(-30 / 4, SPEED_LIN / 2);
+        Delay_Ms(5000);
+
+        // on rentre Ã  la maison
+        // Retour au panier et depose cerises
+        while (!Execute_Action(1))
+            ;
+        PREPARER_BRAS();
+
+        // danse de la victoire
+        SetAntiSlip(PWM_MIN_SLIP + 1000);
         Rotate_To_Angle(0, SPEED_ANG);
         Delay_Ms(2000);
         Rotate_To_Angle(180, SPEED_ANG);
@@ -252,8 +321,7 @@ _PILOT_
         Rotate_To_Angle(180, SPEED_ANG);
         Delay_Ms(3000);
         ResetAntiSlip();
-        */
-        
+
         // Prise balles cotï¿½ dï¿½part
         // while (!Execute_Action(2));
 
