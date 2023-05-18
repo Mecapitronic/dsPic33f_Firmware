@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/cpp:0-ubuntu-22.04
 
-// maybe libgtk-3-0 chromium libasound linss libsmime libdrm libnspr libssutil
+# maybe libgtk-3-0 chromium libasound linss libsmime libdrm libnspr libssutil
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
     libusb-1.0 \
@@ -27,4 +27,6 @@ RUN cd ${HOME} && \
     sudo ./${MPLABX_FILE}.sh --nox11 -- --mode unattended --collectInfo 0 --collectMyMicrochipInfo 0 && \
     rm "${MPLABX_FILE}.tar" "${MPLABX_FILE}.sh"
 
-# TODO http://en.microstickplus.com/mplabx-on-linux
+COPY z*.rules /etc/udev/rules.d/
+
+RUN echo 'export PATH="/opt/microchip/mplabx/v6.05/mplab_platform/bin:$PATH"' >>${HOME}/.zshrc
