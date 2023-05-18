@@ -1,3 +1,6 @@
+# Ignore xml configs
+**/*.xml
+
 #Ignore List for Winmerge backup file
 *.bak
 
