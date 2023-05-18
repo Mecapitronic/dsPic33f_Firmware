@@ -18,7 +18,7 @@
  * Définitions actionneurs
  ****************************************************************************************/
 #define BRAS_CERISE          (1) // servo 1
-//#define PINCE_PIED           (2) // servo 2
+#define DEGUISEMENT          (2) // servo 2
 //#define GARDE_SPOT           (3) // servo 3
 //#define PINCE_GOBELET        (4) // servo 4
 
@@ -33,9 +33,9 @@
 #define Bras_Monter()           do{Set_Servo(BRAS_CERISE, 45);}while(0)        // au dessus panier
 #define Bras_Desactiver()       do{Set_Servo(BRAS_CERISE, SERVO_OFF);}while(0)  // désactiver servo
 // Pince pied
-#define Pince_Pied_Ouvrir()         do{Set_Servo(PINCE_PIED, -74);}while(0)        // grand ouvert
-#define Pince_Pied_Fermer()         do{Set_Servo(PINCE_PIED, 62);}while(0)         // pied serré
-#define Pince_Pied_Desactiver()     do{Set_Servo(PINCE_PIED, SERVO_OFF);}while(0)  // désactiver servo
+#define Deguisement_Pret()       do{Set_Servo(DEGUISEMENT, -80);}while(0)        // déguisement enroulé
+#define Deguisement_Ouvrir()     do{Set_Servo(DEGUISEMENT, 40);}while(0)         // ouverture du déguisement
+#define Deguisement_Desactiver() do{Set_Servo(DEGUISEMENT, SERVO_OFF);}while(0)  // désactiver servo
 // Garde spot
 #define Garde_Spot_Ouvrir()         do{Set_Servo(GARDE_SPOT, 53);}while(0)         // max ouvert
 #define Garde_Spot_Lacher()         do{Set_Servo(GARDE_SPOT, -30);}while(0)        // min ouvert

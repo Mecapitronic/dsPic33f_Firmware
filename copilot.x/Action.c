@@ -32,6 +32,10 @@ void Init_All_Action(void) {
     Bras_Preparer();
     Wait_Action(BRAS_CERISE);
     Bras_Desactiver();
+    
+    Deguisement_Pret();
+    Wait_Action(DEGUISEMENT);    
+    Deguisement_Desactiver();
 
 }
 

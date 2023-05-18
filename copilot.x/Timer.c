@@ -39,6 +39,9 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_PRIMAIRE_INT(void) {
             Gestion_Mode();
             break;
     }
+    
+    if ((current_time - run_time) > TIMEOUT_MATCH - 2*100)
+        Deguisement_Ouvrir();
 
     //Rotation_Tourelle();
 
