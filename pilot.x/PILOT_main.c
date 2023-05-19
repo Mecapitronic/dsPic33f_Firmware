@@ -253,7 +253,8 @@ _PILOT_
             While_Trajectory(Display);
 
             // on avance
-            float distance = Get_Distance_Point(&robot.mm, &zone_depose_gateaux);
+            //float distance = Get_Distance_Point(&robot.mm, &zone_depose_gateaux);
+            float distance = robot.mm.y-zone_depose_gateaux.y;
             Translate(distance, SPEED_LIN / 4);
             While_Trajectory(Display);
 
