@@ -153,6 +153,7 @@ _PILOT_
         {
             Rotate_To_Angle(270, SPEED_ANG);
             While_Trajectory(Display);
+            Delay_Ms(1000);
         }
 
         // Descente du bras en position d'attente
@@ -220,6 +221,7 @@ _PILOT_
 
             Rotate_To_Point(p, SPEED_ANG / 2);
             While_Trajectory(Display);
+            Delay_Ms(1000);
 
             DEPOSER_BRAS();
 
@@ -231,7 +233,7 @@ _PILOT_
             Rotate_To_Angle(90, SPEED_ANG / 2);
             Delay_Ms(1500);
 
-            Translate(230, SPEED_LIN / 2);
+            Translate(230, SPEED_LIN / 4);
             Delay_Ms(2000);
 
             // recule
@@ -251,7 +253,8 @@ _PILOT_
                 zone_depose_gateaux.x = 250;
             Rotate_To_Point(zone_depose_gateaux, SPEED_ANG);
             While_Trajectory(Display);
-
+            Delay_Ms(1000);
+            
             // on avance
             //float distance = Get_Distance_Point(&robot.mm, &zone_depose_gateaux);
             float distance = robot.mm.y-zone_depose_gateaux.y;
@@ -266,6 +269,7 @@ _PILOT_
             //Alignement pour reculer droit après
             Rotate_To_Angle(-90, SPEED_ANG / 2);
             While_Trajectory(Display);
+            Delay_Ms(1000);
         }
 
         // prends les cerises a cote
@@ -294,7 +298,8 @@ _PILOT_
 
         Rotate_To_Angle(rotation_cerises, SPEED_ANG / 3);
         While_Trajectory(Display);
-
+        Delay_Ms(1000);
+        
         // on va les prendre
         Translate(180, SPEED_LIN / 2);
         Delay_Ms(2000);
@@ -321,6 +326,7 @@ _PILOT_
 
             Rotate_To_Point(p, SPEED_ANG / 2);
             While_Trajectory(Display);
+            Delay_Ms(1000);
 
             DEPOSER_BRAS();
 
@@ -331,7 +337,8 @@ _PILOT_
             // dÃ©pose panier
             Rotate_To_Angle(90, SPEED_ANG);
             While_Trajectory(Display);
-
+            Delay_Ms(1000);
+            
             Translate(230, SPEED_LIN / 4);
             Delay_Ms(2000);
 
