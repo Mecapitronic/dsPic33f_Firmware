@@ -236,7 +236,7 @@ _PILOT_
             Translate(-120, SPEED_LIN / 2);
             Delay_Ms(1000);
         }
-        PREPARER_BRAS();
+        //PREPARER_BRAS();
 
         // allons chercher des gateaux pour les mettre dans notre zone
         // avancer
@@ -276,7 +276,7 @@ _PILOT_
 
         // Position d'attente
         PREPARER_BRAS();
-        Delay_Ms(1000);
+        Delay_Ms(2000);
 
         // on se tourne vers les cerises
         int rotation_cerises = 0;
