@@ -50,7 +50,7 @@ _PILOT_
     Start_UART2();
 
     uint16 timeLCD = 0;
-
+/*
     if (!START_PILOT && RECALAGE_PILOT) // Sequence de Recalage sur bordure
     {
         while (!START_PILOT)
@@ -100,7 +100,7 @@ _PILOT_
         {
         }
     }
-
+*/
     while (!START_PILOT) // Attente de d�marrage du copilot
     {
         team = SELECT;
@@ -238,6 +238,7 @@ _PILOT_
 
             // recule
             Translate(-120, SPEED_LIN / 2);
+            While_Trajectory(Display);
             Delay_Ms(1000);
         }
         //PREPARER_BRAS();
@@ -282,7 +283,7 @@ _PILOT_
             zone_cerises_cote.x = 250;
 
         float distance = Get_Distance_Point(&robot.mm, &zone_cerises_cote);
-        Translate(-distance+20, SPEED_LIN / 2);
+        Translate(-distance, SPEED_LIN / 2);
         While_Trajectory(Display);
 
         // Position d'attente
@@ -618,5 +619,5 @@ void Sequence_LCD_Waiting_Start(void)
 void Sequence_LCD_Score()
 {
     LCD_Line(2);
-    LCD_Text(" Score : 50 Pts ", 16);
+    LCD_Text(" Score : 55 Pts ", 16);
 }
