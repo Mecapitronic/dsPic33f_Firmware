@@ -210,11 +210,13 @@ _PILOT_
             Rotate_To_Angle(-90, SPEED_ANG);
             Delay_Ms(1000);
 
+            // retour en décallé du centre du panier
+            // pour éviter le poussage des gateau contre la bordure cerise
             t_point p = {0, 2700};
             if (team == TEAM_A)
-                p.x = 1775;
+                p.x = 1750;
             else
-                p.x = 225;
+                p.x = 250;
 
             Rotate_To_Point(p, SPEED_ANG / 2);
             While_Trajectory(Display);
@@ -226,7 +228,7 @@ _PILOT_
             Delay_Ms(3000);
 
             // dÃ©pose panier
-            Rotate_To_Angle(90, SPEED_ANG);
+            Rotate_To_Angle(90, SPEED_ANG / 2);
             Delay_Ms(1500);
 
             Translate(230, SPEED_LIN / 2);
@@ -259,6 +261,10 @@ _PILOT_
             // distance = -150;
             // Translate(distance, SPEED_LIN / 2);
             // While_Trajectory(Display);
+            
+            //Alignement pour reculer droit après
+            Rotate_To_Angle(-90, SPEED_ANG / 2);
+            While_Trajectory(Display);
         }
 
         // prends les cerises a cote

@@ -23,11 +23,11 @@
 
 // Acceleration => speed reached in 1 second
 #define ACCEL_LIN    600//700//900   // [mm/s^2]  
-#define ACCEL_ANG    5//5     // [rad/s^2]
+#define ACCEL_ANG    4//5     // [rad/s^2]
 
 // Jerk => acceleration reached in 1 period
 #define JERK_LIN     2//2//1     // [step/period]
-#define JERK_ANG     20//30//20    // [step/period]
+#define JERK_ANG     25//30//20    // [step/period]
 
 #define SPEED_LIN_TO_STEP(mm_s)     (MM_TO_STEP(mm_s) * PERIOD)       // convert [mm/s] to [step/period]
 #define SPEED_ANG_TO_STEP(rad_s)    (RAD_TO_STEP(rad_s) * PERIOD)     // convert [rad/s] to [step/period]
