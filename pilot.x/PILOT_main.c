@@ -153,12 +153,12 @@ _PILOT_
         {
             Rotate_To_Angle(270, SPEED_ANG);
             While_Trajectory(Display);
-            Delay_Ms(1000);
+            Delay_Ms(500);
         }
 
         // Descente du bras en position d'attente
         PREPARER_BRAS();
-        //Delay_Ms(2000);
+        Delay_Ms(1000);
 
         // Orientation vers cerises
         {
@@ -172,11 +172,12 @@ _PILOT_
 
             float distance = Get_Distance_Point(&robot.mm, &p);
             Translate(-distance, SPEED_LIN / 2);
-
             While_Trajectory(Display);
+            
             t_point p2 = {1000, 2850};
             Rotate_To_Point(p2, SPEED_ANG);
             While_Trajectory(Display);
+            Delay_Ms(500);
         }
 
         // Deplacement vers cerises
@@ -282,14 +283,20 @@ _PILOT_
         else
             zone_cerises_cote.x = 250;
 
+        //on recule une premiere fois de la moitié de la distance
         float distance = Get_Distance_Point(&robot.mm, &zone_cerises_cote);
-        Translate(-distance, SPEED_LIN / 2);
+        Translate(-distance/2, SPEED_LIN / 2);
         While_Trajectory(Display);
+        Delay_Ms(500);
 
         // Position d'attente
         PREPARER_BRAS();
         Delay_Ms(2000);
 
+        Translate(-distance/2, SPEED_LIN / 2);
+        While_Trajectory(Display);
+        Delay_Ms(500);
+        
         // on se tourne vers les cerises
         int rotation_cerises = 0;
         if (team == TEAM_A)
@@ -345,22 +352,34 @@ _PILOT_
 
             // recule
             Translate(-120, SPEED_LIN / 2);
+            While_Trajectory(Display);
+            
+            //re-dépose au panier
+            Translate(150, SPEED_LIN / 4);
             Delay_Ms(2000);
+
+            // recule
+            Translate(-120, SPEED_LIN / 2);
+            While_Trajectory(Display);
         }
 
         // danse de la victoire
         /*
         SetAntiSlip(PWM_MIN_SLIP + 1000);
         Rotate_To_Angle(0, SPEED_ANG);
-        Delay_Ms(2000);
+        While_Trajectory(Display);
+        Delay_Ms(300);
         Rotate_To_Angle(180, SPEED_ANG);
-        Delay_Ms(2000);
+        While_Trajectory(Display);
+        Delay_Ms(300);
         Rotate_To_Angle(0, SPEED_ANG);
-        Delay_Ms(2000);
+        While_Trajectory(Display);
+        Delay_Ms(300);
         Rotate_To_Angle(180, SPEED_ANG);
-        Delay_Ms(3000);
+        While_Trajectory(Display);
+        Delay_Ms(300);
         ResetAntiSlip();
-*/
+        */
         // Prise balles cotï¿½ dï¿½part
         // while (!Execute_Action(2));
 
@@ -619,5 +638,5 @@ void Sequence_LCD_Waiting_Start(void)
 void Sequence_LCD_Score()
 {
     LCD_Line(2);
-    LCD_Text(" Score : 55 Pts ", 16);
+    LCD_Text(" Score : 60 Pts ", 16);
 }
