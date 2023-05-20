@@ -213,7 +213,7 @@ _PILOT_
             Delay_Ms(1000);
 
             // retour en décallé du centre du panier
-            // pour Ã©viter le poussage des gateau contre la bordure cerise
+            // pour éviter le poussage des gateau contre la bordure cerise
             t_point p = {0, 2700};
             if (team == TEAM_A)
                 p.x = 1750;
@@ -228,7 +228,8 @@ _PILOT_
 
             float32 distance = Get_Distance_Point(&robot.mm, &p);
             Translate(distance, SPEED_LIN / 4);
-            Delay_Ms(3000);
+            While_Trajectory(Display);
+            Delay_Ms(1000);
 
             // dÃ©pose panier
             Rotate_To_Angle(90, SPEED_ANG / 2);
@@ -283,7 +284,7 @@ _PILOT_
         else
             zone_cerises_cote.x = 250;
 
-        //on recule une premiere fois de la moitiÃ© de la distance
+        //on recule une premiere fois de la moitié de la distance
         float distance = Get_Distance_Point(&robot.mm, &zone_cerises_cote);
         Translate(-distance/2, SPEED_LIN / 2);
         While_Trajectory(Display);
@@ -342,7 +343,7 @@ _PILOT_
             Translate(distance, SPEED_LIN);
             While_Trajectory_Reduce_Speed(Display);
 
-            // dÃƒÂ©pose panier
+            // dÃ©pose panier
             Rotate_To_Angle(90, SPEED_ANG);
             While_Trajectory(Display);
             Delay_Ms(1000);
@@ -638,5 +639,5 @@ void Sequence_LCD_Waiting_Start(void)
 void Sequence_LCD_Score()
 {
     LCD_Line(2);
-    LCD_Text(" Score : 60 Pts ", 16);
+    LCD_Text(" Score : 62 Pts ", 16);
 }
