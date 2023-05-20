@@ -213,7 +213,7 @@ _PILOT_
             Delay_Ms(1000);
 
             // retour en décallé du centre du panier
-            // pour éviter le poussage des gateau contre la bordure cerise
+            // pour Ã©viter le poussage des gateau contre la bordure cerise
             t_point p = {0, 2700};
             if (team == TEAM_A)
                 p.x = 1750;
@@ -283,7 +283,7 @@ _PILOT_
         else
             zone_cerises_cote.x = 250;
 
-        //on recule une premiere fois de la moitié de la distance
+        //on recule une premiere fois de la moitiÃ© de la distance
         float distance = Get_Distance_Point(&robot.mm, &zone_cerises_cote);
         Translate(-distance/2, SPEED_LIN / 2);
         While_Trajectory(Display);
@@ -337,12 +337,12 @@ _PILOT_
             Delay_Ms(1000);
 
             DEPOSER_BRAS();
-
+            SetAntiSlip(PWM_MIN_SLIP + 150);
             float32 distance = Get_Distance_Point(&robot.mm, &p);
             Translate(distance, SPEED_LIN);
-            While_Trajectory(Display);
+            While_Trajectory_Reduce_Speed(Display);
 
-            // dÃ©pose panier
+            // dÃƒÂ©pose panier
             Rotate_To_Angle(90, SPEED_ANG);
             While_Trajectory(Display);
             Delay_Ms(1000);
