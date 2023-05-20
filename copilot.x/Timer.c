@@ -40,8 +40,15 @@ void __attribute__((__interrupt__, no_auto_psv)) TIMER_PRIMAIRE_INT(void) {
             break;
     }
     
-    if ((current_time - run_time) > TIMEOUT_MATCH - 2*100)
+    if ((current_time - run_time) > TIMEOUT_MATCH - 3*100)
+    {
         Deguisement_Ouvrir();
+    }   
+    
+    if ((current_time - run_time) > TIMEOUT_MATCH + 3*100)
+    {
+        Deguisement_Desactiver();
+    }
 
     //Rotation_Tourelle();
 
