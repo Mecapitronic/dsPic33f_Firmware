@@ -216,9 +216,9 @@ _PILOT_
             // pour éviter le poussage des gateau contre la bordure cerise
             t_point p = {0, 2700};
             if (team == TEAM_A)
-                p.x = 1750;
+                p.x = 1700;
             else
-                p.x = 250;
+                p.x = 300;
 
             Rotate_To_Point(p, SPEED_ANG / 2);
             While_Trajectory(Display);
@@ -251,9 +251,9 @@ _PILOT_
             t_point zone_depose_gateaux = {0, 1200};
             // Orientation vers gateaux
             if (team == TEAM_A)
-                zone_depose_gateaux.x = 1750;
+                zone_depose_gateaux.x = 1700;
             else
-                zone_depose_gateaux.x = 250;
+                zone_depose_gateaux.x = 300;
             Rotate_To_Point(zone_depose_gateaux, SPEED_ANG);
             While_Trajectory(Display);
             Delay_Ms(1000);
@@ -280,9 +280,9 @@ _PILOT_
 
         // on recul depuis les gateaux
         if (team == TEAM_A)
-            zone_cerises_cote.x = 1750;
+            zone_cerises_cote.x = 1700;
         else
-            zone_cerises_cote.x = 250;
+            zone_cerises_cote.x = 300;
 
         //on recule une premiere fois de la moitié de la distance
         float distance = Get_Distance_Point(&robot.mm, &zone_cerises_cote);
