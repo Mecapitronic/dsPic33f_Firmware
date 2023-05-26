@@ -1,4 +1,6 @@
-FROM mcr.microsoft.com/devcontainers/cpp:0-ubuntu-22.04
+# docker build . --build-arg cores="$(nproc --all)" --tag percevalsa/mplab_ide
+# docker push percevalsa/mplab_ide
+FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
 
 # maybe libgtk-3-0 chromium libasound linss libsmime libdrm libnspr libssutil
 RUN apt-get update \
