@@ -64,9 +64,9 @@
         <itemPath>List.c</itemPath>
         <itemPath>Node.c</itemPath>
         <itemPath>Mapping.c</itemPath>
-        <itemPath>Map2023Bleue.c</itemPath>
-        <itemPath>Map2023Verte.c</itemPath>
         <itemPath>Path_Finding.c</itemPath>
+        <itemPath>Map2024Bleue.c</itemPath>
+        <itemPath>Map2024Jaune.c</itemPath>
       </logicalFolder>
       <itemPath>Asserv.c</itemPath>
       <itemPath>Motor.c</itemPath>
@@ -299,7 +299,7 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
       </C30Global>
-      <item path="Map2023Bleue.c" ex="true" overriding="false">
+      <item path="Map2024Bleue.c" ex="true" overriding="false">
         <C30>
         </C30>
         <C30-AR>
@@ -313,7 +313,7 @@
         <C30Global>
         </C30Global>
       </item>
-      <item path="Map2023Verte.c" ex="true" overriding="false">
+      <item path="Map2024Jaune.c" ex="true" overriding="false">
         <C30>
         </C30>
         <C30-AR>
@@ -364,6 +364,7 @@
         <property key="debugoptions.debug-startup" value="Use system settings"/>
         <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
@@ -910,6 +911,7 @@
         <property key="debugoptions.debug-startup" value="Use system settings"/>
         <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
@@ -1495,49 +1497,6 @@
         <C30Global>
         </C30Global>
       </item>
-      <C30>
-        <property key="cast-align" value="false"/>
-        <property key="code-model" value="default"/>
-        <property key="const-model" value="default"/>
-        <property key="data-model" value="default"/>
-        <property key="disable-instruction-scheduling" value="false"/>
-        <property key="enable-all-warnings" value="true"/>
-        <property key="enable-ansi-std" value="false"/>
-        <property key="enable-ansi-warnings" value="false"/>
-        <property key="enable-fatal-warnings" value="false"/>
-        <property key="enable-large-arrays" value="false"/>
-        <property key="enable-omit-frame-pointer" value="false"/>
-        <property key="enable-procedural-abstraction" value="false"/>
-        <property key="enable-short-double" value="false"/>
-        <property key="enable-symbols" value="true"/>
-        <property key="enable-unroll-loops" value="false"/>
-        <property key="expand-pragma-config" value="false"/>
-        <property key="extra-include-directories"
-                  value="c:\Program Files (x86)\Microchip\xc16\v1.26\include"/>
-        <property key="isolate-each-function" value="false"/>
-        <property key="keep-inline" value="false"/>
-        <property key="oXC16gcc-align-arr" value="false"/>
-        <property key="oXC16gcc-cnsts-mauxflash" value="false"/>
-        <property key="oXC16gcc-data-sects" value="false"/>
-        <property key="oXC16gcc-errata" value=""/>
-        <property key="oXC16gcc-fillupper" value=""/>
-        <property key="oXC16gcc-large-aggregate" value="false"/>
-        <property key="oXC16gcc-mauxflash" value="false"/>
-        <property key="oXC16gcc-mpa-lvl" value=""/>
-        <property key="oXC16gcc-name-text-sec" value=""/>
-        <property key="oXC16gcc-near-chars" value="false"/>
-        <property key="oXC16gcc-no-isr-warn" value="false"/>
-        <property key="oXC16gcc-sfr-warn" value="false"/>
-        <property key="oXC16gcc-smar-io-lvl" value="1"/>
-        <property key="oXC16gcc-smart-io-fmt" value=""/>
-        <property key="optimization-level" value="0"/>
-        <property key="post-instruction-scheduling" value="default"/>
-        <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value=""/>
-        <property key="scalar-model" value="default"/>
-        <property key="use-cci" value="false"/>
-        <property key="use-iar" value="false"/>
-      </C30>
       <C30-AR>
         <property key="additional-options-chop-files" value="false"/>
       </C30-AR>
@@ -1626,34 +1585,6 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
       </C30Global>
-      <item path="Map2023Bleue.c" ex="true" overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="Map2023Verte.c" ex="true" overriding="false">
-        <C30>
-        </C30>
-        <C30-AR>
-        </C30-AR>
-        <C30-AS>
-        </C30-AS>
-        <C30-CO>
-        </C30-CO>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
