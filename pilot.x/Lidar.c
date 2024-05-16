@@ -15,9 +15,9 @@
    * Variables
    ****************************************************************************************/
    // UART2
-volatile char U2_trame[U2RX_SIZE + 1];
+volatile unsigned char U2_trame[U2RX_SIZE + 1];
 volatile uint16 U2_cursor;
-volatile char U2_data = 0;
+volatile unsigned char U2_data = 0;
 
 /****************************************************************************************
  * Interrupt UART2 RX
@@ -52,7 +52,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _U2RXInterrupt(void)
                 
 				if (U2_cursor >= PACKET_SIZE)                    
 				{
-                    if(U2_data == 10)
+                    if(U2_data == 0x10)
                     {
                         Analyse_Data_UART2();	
                     }

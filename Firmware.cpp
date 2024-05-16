@@ -203,9 +203,17 @@ void SendUART(const char* strBuffer)
 		indexLecture = 0;
 	//myprintf(strBuffer);
 }
-void SendUART2(const char* strBuffer)
+void SendUART2_str(const char* strBuffer)
 {
 	messageUartRX2[indexLecture2] = strBuffer;
+	indexLecture2++;
+	if (indexLecture2 >= 100)
+		indexLecture2 = 0;
+	//myprintf(strBuffer);
+}
+void SendUART2_byte(const byte byteBuffer)
+{
+	messageUartRX2[indexLecture2] = byteBuffer;
 	indexLecture2++;
 	if (indexLecture2 >= 100)
 		indexLecture2 = 0;

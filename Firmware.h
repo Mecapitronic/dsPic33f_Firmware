@@ -60,7 +60,8 @@ extern "C"
 	dll boolean GetRecalagePin();
 	dll void SetRecalagePin(boolean state);
 	dll void SendUART(const char* strBuffer);
-	dll void SendUART2(const char* strBuffer);
+	dll void SendUART2_str(const char* strBuffer);
+	dll void SendUART2_byte(const byte byteBuffer);
 	dll t_robot GetRobot(void);
 
 	dll int32 GetTime(void);

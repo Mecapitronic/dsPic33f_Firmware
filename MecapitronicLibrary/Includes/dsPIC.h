@@ -2074,7 +2074,7 @@ typedef struct tagU2TXREGBITS {
 } U2TXREGBITS;
  volatile U2TXREGBITS U2TXREGbits ;
 
- volatile unsigned int  U2RXREG ;
+ volatile unsigned char  U2RXREG ;
 typedef struct tagU2RXREGBITS {
 	unsigned URXREG0 : 1;
 	unsigned URXREG1 : 1;

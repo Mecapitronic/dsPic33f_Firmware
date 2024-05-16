@@ -213,10 +213,10 @@
     <ClCompile Include="MecapitronicLibrary\Sources\ADC_module.c">
       <Filter>MecapitronicLibrary\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="pilot.x\Map2023Verte.c">
+    <ClCompile Include="pilot.x\Map2024Jaune.c">
       <Filter>Fichiers sources\PathPlanning</Filter>
     </ClCompile>
-    <ClCompile Include="pilot.x\Map2023Bleue.c">
+    <ClCompile Include="pilot.x\Map2024Bleue.c">
       <Filter>Fichiers sources\PathPlanning</Filter>
     </ClCompile>
     <ClCompile Include="pilot.x\Sharp.c">
