@@ -14,7 +14,6 @@
 /****************************************************************************************
  * Variables
  ****************************************************************************************/
-int16 antiSlipValue = PWM_MIN_SLIP;
 
 
 /****************************************************************************************
@@ -30,7 +29,6 @@ void Motor_Setup(void)
   Setup_Motor_Speed();
   Setup_Dead_Time();
   Enable_PWM();
-  ResetAntiSlip();
 }
 
 /****************************************************************************************
@@ -38,9 +36,6 @@ void Motor_Setup(void)
  ****************************************************************************************/
 void Setpoint_M1(int32 pwm)
 {
-  // anti patinage
-  pwm = AntiSlip(pwm, &wheel_right);
-  
   // Ecrêtage de la consigne
   if (pwm > PWM_MAX) pwm = PWM_MAX;
   else if (pwm < -PWM_MAX) pwm = -PWM_MAX;
@@ -64,9 +59,6 @@ void Setpoint_M1(int32 pwm)
  ****************************************************************************************/
 void Setpoint_M2(int32 pwm)
 {
-  // anti patinage
-  pwm = AntiSlip(pwm, &wheel_left);
-
   // Ecrêtage de la consigne
   if (pwm > PWM_MAX) pwm = PWM_MAX;
   else if (pwm < -PWM_MAX) pwm = -PWM_MAX;
@@ -83,48 +75,6 @@ void Setpoint_M2(int32 pwm)
     PWM_M2 = PWM_PERIOD + pwm;
     Enable_M2();
   }
-}
-
-/****************************************************************************************
- * Fonction d'anti-patinage => limite les moteurs en fonction des codeuses
- ****************************************************************************************/
-int32 AntiSlip(int32 pwm, t_motion *wheel)
-{
-#ifdef ENABLE_ANTI_SLIP
-  uint8 slipping = NO; // reset condition de glissement
-  float32 pwm_slip = wheel->velocity;
-  pwm_slip *= COEF_ENCODER_MOTOR;
-  
-  if (pwm > 0) // avance
-  {
-      pwm_slip += antiSlipValue; // ajout limite de patinage, sinon le robot arrête d'avancer !
-      if (pwm > pwm_slip) slipping = YES;
-  }
-  else // recule
-  {
-      pwm_slip -= antiSlipValue; // négatif !
-      if (pwm < pwm_slip) slipping = YES;
-  }
-  if (slipping)
-  {
-    MOVE_Reset_Ramp(&move_lin, &robot.lin); // reset des rampes de déplacement pour repartir en douceur
-    MOVE_Reset_Ramp(&move_ang, &robot.ang);  
-    return pwm_slip;
-  }
-#endif
-  return pwm;
-  
-}
-
-void SetAntiSlip(int pwm)
-{
-    if(pwm> PWM_MIN && pwm< PWM_MAX)
-        antiSlipValue = pwm;
-}
-
-void ResetAntiSlip()
-{
-    antiSlipValue = PWM_MIN_SLIP;
 }
 
 /****************************************************************************************

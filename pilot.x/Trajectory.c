@@ -136,13 +136,11 @@ void While_Trajectory_Reduce_Speed(void (*function)(void))
         if(sharp[1]<250)
         {
             MOVE_Setpoint_Speed(&move_lin, SPEED_LIN/4, SPEED_LIN/4);
-            SetAntiSlip(PWM_MIN_SLIP + 50);
             //MOVE_Setpoint_Speed(&move_ang, 0, 0);
         }
         else
         {
             MOVE_Setpoint_Speed(&move_lin, SPEED_LIN, SPEED_LIN);
-            SetAntiSlip(PWM_MIN_SLIP + 150);
         }
 	};
 }

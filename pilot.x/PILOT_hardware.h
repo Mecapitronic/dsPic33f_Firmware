@@ -63,19 +63,23 @@
 #define UART_RX             PIN_9
 #define PIN_9_CONFIG        IN_
 // PIN 8
-#define FREE_PIN_8          PIN_8
-#define PIN_8_CONFIG        IN_
+#define PLANTE        PIN_8 // lever plante tout en haut, sinon tout en bas
+#define PIN_8_CONFIG        OUT_
 // PIN 3
-#define PREPARER_CERISE     PIN_3
+#define BAISSER_POT         PIN_3 // baisser pot tout en bas, sinon monter légérement pour la chute à la dépose 
 #define PIN_3_CONFIG        OUT_
 // PIN 2
-#define DEPOSER_CERISE      PIN_2
+#define POT           PIN_2 // lever pot au dessus de la jardiniere, sinon voir baisser pot
 #define PIN_2_CONFIG        OUT_
 // PIN 1
-#define PRISE_CERISE        PIN_1
-#define PIN_1_CONFIG        OUT_
+#define FREE_1              PIN_1
+#define PIN_1_CONFIG        IN_
 // PIN 44
+#ifdef _VISUAL_STUDIO
+#define MODE_PILOT          PIN_44
+#else
 #define MODE_PILOT          !PIN_44
+#endif
 #define PIN_44_CONFIG       IN_
 // PIN 43
 #define START_PILOT         PIN_43

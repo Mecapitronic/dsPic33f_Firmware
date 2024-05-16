@@ -219,6 +219,6 @@ void Add_Obstacle_Cart(uint8 id, int x, int y)
 	if (obstacle_enable)
 	{
         obstacle[id] = Circle_Obstacle_Cart(x, y);
-        obstacleFading[id] = 100;	
+        //obstacleFading[id] = 100;	
 	}
 }

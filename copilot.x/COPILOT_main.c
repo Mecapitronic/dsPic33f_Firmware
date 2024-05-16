@@ -24,8 +24,8 @@ int main(void) {
     Setup_Hardware();
 
     // Recalage du Robot si start appuyé à la mise sous tension
-    if (START == ON)
-        RECALAGE_PILOT = ON;
+//    if (START == ON)
+//        RECALAGE_PILOT = ON;
 
     // Définition des caractères spéciaux
     LCD_SetCustomChar(0, CHAR_BATTERY_LOW);

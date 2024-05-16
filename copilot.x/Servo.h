@@ -33,12 +33,12 @@
 
 // Paramètres de mouvement (par rapport à la durée d'impulsion, et non l'angle des servos)
 // servo 1
-#define S1_VIT    40
+#define S1_VIT    30
 #define S1_ACC    5
 #define S1_JERK   1
 // servo 2
-#define S2_VIT    40
-#define S2_ACC    5
+#define S2_VIT    30
+#define S2_ACC    4
 #define S2_JERK   1
 // servo 3
 #define S3_VIT    40

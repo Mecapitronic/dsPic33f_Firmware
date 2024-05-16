@@ -18,16 +18,20 @@
  * Parameters
  ****************************************************************************************/
 // Speed max => position reached in 1 second
-#define SPEED_LIN    800   // [mm/s]
-#define SPEED_ANG    4//3//2     // [rad/s]
+#define SPEED_LIN    500//800   // [mm/s]
+#define SPEED_ANG    2//4     // [rad/s]
 
 // Acceleration => speed reached in 1 second
-#define ACCEL_LIN    600//700//900   // [mm/s^2]  
-#define ACCEL_ANG    4//5     // [rad/s^2]
+#define ACCEL_LIN    500//600   // [mm/s^2]  
+#define ACCEL_ANG    2//3     // [rad/s^2]
 
 // Jerk => acceleration reached in 1 period
-#define JERK_LIN     2//2//1     // [step/period]
-#define JERK_ANG     25//30//20    // [step/period]
+#define JERK_LIN     2     // [step/period]
+#define JERK_ANG     25    // [step/period]
+
+// Anti Lock Speed => See asserv.c // TODO: régler le décalage lors de la rotation => ok avec delay entre
+#define ANTI_LOCK_SPEED_LIN 200
+#define ANTI_LOCK_SPEED_ANG 300
 
 #define SPEED_LIN_TO_STEP(mm_s)     (MM_TO_STEP(mm_s) * PERIOD)       // convert [mm/s] to [step/period]
 #define SPEED_ANG_TO_STEP(rad_s)    (RAD_TO_STEP(rad_s) * PERIOD)     // convert [rad/s] to [step/period]

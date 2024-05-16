@@ -226,6 +226,12 @@ void Update_UART1(void)
 	Write_Int_UART1(Get_Obstacle(1).p.y);
 	Write_UART1(',');
 	Write_Int_UART1(Get_Obstacle(1).r);
+	Write_UART1(',');
+	Write_Int_UART1(Get_Obstacle(2).p.x);
+	Write_UART1(',');
+	Write_Int_UART1(Get_Obstacle(2).p.y);
+	Write_UART1(',');
+	Write_Int_UART1(Get_Obstacle(2).r);
 	
 	/*
 	// Robot Start/End path

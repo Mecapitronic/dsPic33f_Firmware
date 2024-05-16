@@ -7,7 +7,7 @@
  ****************************************************************************************/
 
 #ifndef MODE_H
-#define	MODE_H
+#define MODE_H
 
 /****************************************************************************************
  * Includes
@@ -19,17 +19,17 @@
  ****************************************************************************************/
 // Temporisation en millisecondes du mode match
 #define TIMEOUT_MATCH   100000   // 100s
-// Durée d'affichage de stop
+// Durï¿½e d'affichage de stop
 #define TIMEOUT_STOP    2000    // 2s
 
 // Power modes
-#define STARTING        1   // En attente de démarrage
+#define STARTING        1   // En attente de dï¿½marrage
 #define RUNNING         2   // En marche
-#define STOPPING        3   // A l'arrêt (avant repos)
+#define STOPPING        3   // A l'arrï¿½t (avant repos)
 // Mode de marche
 #define RUN             0
 #define MATCH           1
-// Couleur d'équipe
+// Couleur d'ï¿½quipe
 //#define JAUNE           0
 //#define BLEUE           1
 
@@ -54,5 +54,5 @@ void Gestion_Mode(void);
 void Affichage_Mode(void);
 
 
-#endif	/* MODE_H */
+#endif// MODE_H
 

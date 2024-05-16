@@ -17,9 +17,9 @@
 /****************************************************************************************
  * Définitions actionneurs
  ****************************************************************************************/
-#define BRAS_CERISE          (1) // servo 1
-//#define DEGUISEMENT          (2) // servo 2
-#define DEGUISEMENT           (3) // servo 3
+#define PLANTE          (1) // servo 1
+#define POT             (2) // servo 2
+//#define POT             (3) // servo 3
 //#define PINCE_GOBELET        (4) // servo 4
 
 
@@ -27,15 +27,14 @@
 /****************************************************************************************
  * Commandes actionneurs 
  ****************************************************************************************/
-// Bras cerise
-#define Bras_Ramasser()         do{Set_Servo(BRAS_CERISE, -93);}while(0)         // sur support cerise
-#define Bras_Preparer()         do{Set_Servo(BRAS_CERISE, -65);}while(0)         // au dessus des cerises
-#define Bras_Monter()           do{Set_Servo(BRAS_CERISE, 45);}while(0)        // au dessus panier
-#define Bras_Desactiver()       do{Set_Servo(BRAS_CERISE, SERVO_OFF);}while(0)  // désactiver servo
-// Pince pied
-#define Deguisement_Pret()       do{Set_Servo(DEGUISEMENT, -60);}while(0)        // déguisement enroulé
-#define Deguisement_Ouvrir()     do{Set_Servo(DEGUISEMENT, 15);}while(0)         // ouverture du déguisement
-#define Deguisement_Desactiver() do{Set_Servo(DEGUISEMENT, SERVO_OFF);}while(0)  // désactiver servo
+// Plante
+#define Plante_Preparer()       do{Set_Servo(PLANTE, 90);}while(0)         // minimum en bas
+#define Plante_Monter()         do{Set_Servo(PLANTE, -110);}while(0)         // maximum en haut
+#define Plante_Desactiver()     do{Set_Servo(PLANTE, SERVO_OFF);}while(0)  // désactiver servo
+// Pot
+#define Pot_Preparer()          do{Set_Servo(POT, -115);}while(0)        //  minimum en bas
+#define Pot_Monter()            do{Set_Servo(POT, 90);}while(0)         // maximum en haut
+#define Pot_Desactiver()        do{Set_Servo(POT, SERVO_OFF);}while(0)  // désactiver servo
 /*
 // Garde spot
 #define Garde_Spot_Ouvrir()         do{Set_Servo(GARDE_SPOT, 53);}while(0)         // max ouvert
@@ -70,13 +69,6 @@
  * Fonctions prototypes
  ****************************************************************************************/
 void Init_All_Action(void);
-
-uint8 Empiler_Spot(void);
-void Deposer_Spot(void);
-boolean Prendre_Gobelet(void);
-void Deposer_Gobelet(void);
-void Ouvrir_Pince_Popcorn(void);
-void Fermer_Pince_Popcorn(void);
 
 void Gestion_Action(void);
 void Mode_Test_Action(void);

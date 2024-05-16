@@ -2,8 +2,8 @@
 * Fichier     : MOVE_module.c
 * Description : Motion filter.
 * Auteur      : Christopher BUREL
-* Version     : 2016.11.27
-* Compilation : MPLAB X IDE (v3.45), compiler XC16 (v1.26) Lite
+* Version     : 2024.01.21
+ * Compilation : MPLAB X IDE (v6.05), compiler XC16 (v2.00) Lite
 ****************************************************************************************/
 
 /****************************************************************************************
@@ -47,12 +47,13 @@ void MOVE_Filter(t_move *m, t_motion *real)
   }
   
   // Changement velocity
-  if (ABS(m->setpoint.position - m->command.position) <= pivot_position)
+  if (ABS(m->setpoint.position - m->command.position) <= pivot_position) // command position
+  //if (ABS(m->setpoint.position - real->position) <= pivot_position) // real position (2024: NOK rotation instable, pourquoi??)
   {
     setpoint_velocity = m->setpoint.speed_min;
   }
 
-  // Inversion velocity
+  // Inversion velocity *(1)
   if (m->setpoint.position < m->command.position)
   {
     setpoint_velocity = -setpoint_velocity;
@@ -118,7 +119,7 @@ void MOVE_Filter(t_move *m, t_motion *real)
   }
   else if (m->command.position > m->setpoint.position)
   {
-    m->command.position += m->command.velocity; // plus
+    m->command.position += m->command.velocity; // plus *(1)
     if (m->command.position < m->setpoint.position)
     {
       m->command.position = m->setpoint.position;
@@ -167,13 +168,13 @@ void MOVE_Initialize(t_move *m)
 }
 
 /****************************************************************************************
-* Re-initialize command position, speed and acc
+* Re-initialize command position, speed and acc 
 ****************************************************************************************/
 void MOVE_Reset_Ramp(t_move *m, t_motion *real)
 {
-  m->command.position = real->position + real->velocity; // real->position; => saccade jusqu'à retrouver la consigne
-  m->command.velocity = real->velocity; // 0 => oscillations;
-  m->command.acceleration = 0;
+    m->command.position = real->position;
+    m->command.velocity = 0;//real->velocity;
+    m->command.acceleration = 0;
 }
 
 /****************************************************************************************

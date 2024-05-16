@@ -53,16 +53,16 @@
 #define FREE_PIN_9          PIN_9
 #define PIN_9_CONFIG        IN_
 // PIN 8
-#define FREE_PIN_8          PIN_8
+#define LEVER_PLANTE        PIN_8 // lever plante tout en haut, sinon tout en bas
 #define PIN_8_CONFIG        IN_
 // PIN 3
-#define PREPARER_CERISE     PIN_3
+#define BAISSER_POT         PIN_3 // baisser pot tout en bas, sinon monter légérement pour la chute à la dépose 
 #define PIN_3_CONFIG        IN_
 // PIN 2
-#define DEPOSE_CERISE       PIN_2
+#define LEVER_POT           PIN_2 // lever pot au dessus de la jardiniere, sinon voir baisser pot
 #define PIN_2_CONFIG        IN_
 // PIN 1
-#define PRISE_CERISE        PIN_1
+#define FREE_PIN_1          PIN_1
 #define PIN_1_CONFIG        IN_
 // PIN 44
 #define MODE_PILOT          PIN_44

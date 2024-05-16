@@ -22,50 +22,10 @@
 
 #define ACTION_TO_RETRY  (3)
 
-/*
-#define MISSION_ALLER_PRENDRE 1
-#define MISSION_PRENDRE       2
-#define MISSION_FUSEE         3
-#define MISSION_DEPOSER       4
-*/
-#define COMMAND_PUT_IN  PIN_27
-#define COMMAND_PUT_LEFT PIN_27
-#define COMMAND_PUT_RIGHT PIN_27
-#define COMMAND_TURN PIN_27
-#define INFO_ARM_BUSY PIN_27
-#define COMMAND_PUMP PIN_27
-#define COMMAND_GO_IN PIN_27
-#define COMMAND_GO_OUT PIN_27
-
 /****************************************************************************************
 * Macros
 ****************************************************************************************/
-// attendre que le bras fini son action
-#define WAIT_ARM()      do{ while(INFO_ARM_BUSY); }while(0)
-// désactiver toutes les commandes du bras
-#define RESET_ARM()     do{ COMMAND_GO_IN = 0; COMMAND_GO_OUT = 0; COMMAND_PUMP = 0; \
-                            COMMAND_PUT_IN = 0; COMMAND_PUT_LEFT = 0; COMMAND_PUT_RIGHT = 0; \
-                            COMMAND_TURN = 0; }while(0)
-// attendre si occupé, activer la commande (cmd), 
-// puis attendre que la commande soit considérée et désactiver les commandes
-#define SET_ARM(cmd)    do{ while(INFO_ARM_BUSY); cmd = 1; \
-                            while(!INFO_ARM_BUSY); RESET_ARM(); }while(0)
 
-#define PRISE_BRAS() do{ PREPARER_CERISE = 0; \
-                         PRISE_CERISE = 1; \
-                         DEPOSER_CERISE = 0; }while(0)
-
-#define DEPOSER_BRAS() do{ PREPARER_CERISE = 0; \
-                         PRISE_CERISE = 0; \
-                         DEPOSER_CERISE = 1; }while(0)
-
-#define PREPARER_BRAS() do{ PREPARER_CERISE = 1; \
-                         PRISE_CERISE = 0; \
-                         DEPOSER_CERISE = 0; }while(0)
-
-#define DESACTIVER_BRAS() do{ PREPARER_CERISE = 0; \
-                         PRISE_CERISE = 0; \
-                         DEPOSER_CERISE = 0; }while(0)
 
 
 /****************************************************************************************
@@ -83,15 +43,12 @@ extern uint8 current_action;
 //void Set_Not_Obstacle_Element(uint8 elementID);
 void Initialize_Action(void);
 boolean Action_NULL(void);
-boolean Action_Preparer_Prise(void);
-boolean Action_Prendre(void);
-boolean Action_Aller_Prendre(void);
-boolean Action_Prendre_Fusee(void);
-boolean Action_Deposer(void);
-boolean Action_Pousser(void);
-boolean Action_Lacher(void);
-boolean Action_Lever(void);
-boolean Action_Lever_Reculer(void);
+boolean Action_Plante();
+boolean Action_Plante_Sans_Prise();
+boolean Action_Pot(void);
+boolean Action_Pot_Prendre(void);
+boolean Action_Pot_Deposer(void);
+
 
 #endif	/* ACTION_H */
 

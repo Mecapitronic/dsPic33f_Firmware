@@ -52,9 +52,9 @@ void Update_Sharp(void) {
 #endif
 }
 
-boolean PresenceBalles()
+boolean Presence_Sharp()
 {
-    return (sharp[0]<84 || sharp[1]<76);
+    return (sharp[0]<400);
 }
 
 void Display_Sharp(int line) {
@@ -64,7 +64,7 @@ void Display_Sharp(int line) {
     LCD_Value(sharp[1], 4, 0);
     
     LCD_Text("  ", 2);
-    if(sharp[0]<84 || sharp[1]<76)
+    if(Presence_Sharp())
         LCD_Text("OK", 2);
     else
         LCD_Text("  ", 2);

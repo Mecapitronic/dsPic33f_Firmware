@@ -1,6 +1,6 @@
 /****************************************************************************************
  * Fichier     : Mode.c
- * Description : Gestion des modes de fonctionnement du copilot (état du robot)
+ * Description : Gestion des modes de fonctionnement du copilot (Ã©tat du robot)
  * Auteur      : Christopher BUREL
  * Version     : 07/09/2014
  * Compilation : MPLAB X IDE (v2.05), compiler XC16 (v1.11) Lite
@@ -23,7 +23,7 @@ uint8 run_mode = RUN;
 uint32 run_time = 0;
 
 /****************************************************************************************
- * Grafcet de démarrage
+ * Grafcet de dÃ©marrage
  ****************************************************************************************/
 //    ___ 
 //    |0|  Mode_OFF
@@ -44,22 +44,22 @@ uint32 run_time = 0;
 // |___|
 
 /****************************************************************************************
- * Fonction de gestion du cordon de démarrage
+ * Fonction de gestion du cordon de dÃ©marrage
  ****************************************************************************************/
 void Gestion_Start(void) {
-    // Détection du front du signal start
+    // DÃ©tection du front du signal start
     if (START && !start_precedent) // Front montant
     {
         if (power_mode != RUNNING) {
-            power_mode = STARTING; // Démarrage si pas en marche
+            power_mode = STARTING; // DÃ©marrage si pas en marche
         } else {
             run_time = current_time;
-            power_mode = STOPPING; // Arrêt si en marche
+            power_mode = STOPPING; // ArrÃªt si en marche
         }
     } else if (!START && start_precedent) // Front descendant
     {
         if (power_mode == STARTING) {
-            power_mode = RUNNING; // Go après attente démarrage
+            power_mode = RUNNING; // Go aprÃ¨s attente dÃ©marrage
         }
     }
     start_precedent = START;
@@ -69,14 +69,15 @@ void Gestion_Start(void) {
  * Fonction de gestion des modes de fonctionnement
  ****************************************************************************************/
 void Gestion_Mode(void) {
-    // Détection d'un changement de mode
+    // DÃ©tection d'un changement de mode
     Gestion_Start();
     LED = START;
     // Traitement des modes
     switch (power_mode) {
-        case STARTING: // En démarrage
+        case STARTING: // En dÃ©marrage
             RELAY = OFF;
-            Bras_Desactiver();
+            Plante_Desactiver();
+            Pot_Desactiver();
             START_PILOT = OFF;
             run_time = current_time;
             break;
@@ -88,7 +89,8 @@ void Gestion_Mode(void) {
             } else {
                 START_PILOT = OFF;
                 RELAY = OFF;
-                Bras_Desactiver();
+                Plante_Desactiver();
+                Pot_Desactiver();
                 RECALAGE_PILOT = OFF;
                 power_mode = STOPPING;
                 run_time = current_time;
@@ -97,7 +99,8 @@ void Gestion_Mode(void) {
 
         case STOPPING: // En stop
             RELAY = OFF;
-            Bras_Desactiver();
+            Plante_Desactiver();
+            Pot_Desactiver();
             RECALAGE_PILOT = OFF;
             if ((current_time - run_time) > TIMEOUT_STOP) {
                 power_mode = OFF;
@@ -106,11 +109,12 @@ void Gestion_Mode(void) {
 
         default: // Au repos
             RELAY = OFF;
-            Bras_Desactiver();
+            Plante_Desactiver();
+            Pot_Desactiver();
             START_PILOT = OFF;
             RECALAGE_PILOT = OFF;
-            run_mode = MODE; // sélection du mode de marche
-            //team_color = COLOR_TEAM; // sélection de la couleur d'équipe
+            run_mode = MODE; // sÃ©lection du mode de marche
+            //team_color = COLOR_TEAM; // sÃ©lection de la couleur d'Ã©quipe
             break;
     }
     MODE_PILOT = MODE;
@@ -128,7 +132,7 @@ void Affichage_Mode(void) {
     if (mode_flashing_flag > 5) mode_flashing_flag = 0;
 
     switch (power_mode) {
-        case STARTING: // En démarrage
+        case STARTING: // En dÃ©marrage
             switch (mode_flashing_flag) {
                 case 0:
                 case 1:

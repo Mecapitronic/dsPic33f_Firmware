@@ -28,14 +28,15 @@ static void Wait_Action(uint8 servoID) {
 /****************************************************************************************
  * Fonction d'initialisation des actionneurs
  ****************************************************************************************/
-void Init_All_Action(void) {
-    Bras_Preparer();
-    Wait_Action(BRAS_CERISE);
-    Bras_Desactiver();
+void Init_All_Action(void) 
+{
+    Plante_Preparer();
+    Wait_Action(PLANTE);
+    Plante_Desactiver();
     
-    Deguisement_Pret();
-    Wait_Action(DEGUISEMENT);    
-    Deguisement_Desactiver();
+    Pot_Preparer();
+    Wait_Action(POT);    
+    Pot_Desactiver();
 
 }
 
@@ -184,27 +185,35 @@ void Init_All_Action(void) {
 /****************************************************************************************
  * Fonction de gestion des actions
  ****************************************************************************************/
-void Gestion_Action(void) {
-    // Position attente 00, prise 10, dépose 01, désactiver 11
-            
-    // Action préparer la pince pour la prise
-    if (PREPARER_CERISE && !PRISE_CERISE && !DEPOSE_CERISE) {
-        Bras_Preparer();
+void Gestion_Action(void) 
+{
+          
+    // Action lever sinon baisser plante
+    if (LEVER_PLANTE) 
+    {
+        Plante_Monter();
+        Wait_Action(PLANTE);
+        Plante_Desactiver();
+    }
+    else
+    {
+        Plante_Preparer();
+        Wait_Action(PLANTE);
+        Plante_Desactiver();
     }
     
-    // Action prendre les cerises
-    if (!PREPARER_CERISE && PRISE_CERISE && !DEPOSE_CERISE) {
-        Bras_Ramasser();
+    // Action lever sinon baisser pot
+    if (LEVER_POT) 
+    {
+        Pot_Monter();
+        Wait_Action(POT);
+        Pot_Desactiver();
     }
-    
-    // Action déposer les cerises
-    if (!PREPARER_CERISE && !PRISE_CERISE && DEPOSE_CERISE) {
-        Bras_Monter();
-    }    
-    
-    // Action désactiver la pince
-    if (!PREPARER_CERISE && !PRISE_CERISE && !DEPOSE_CERISE) {
-        Bras_Desactiver();
+    else
+    {
+        Pot_Preparer();
+        Wait_Action(POT);
+        Pot_Desactiver();
     }
 }
 
@@ -223,21 +232,23 @@ void Mode_Test_Action(void) {
             BUZZER = ON;
             Delay_Ms(200);
             BUZZER = OFF;
-            Bras_Ramasser();
+            Plante_Monter();
+            Wait_Action(PLANTE);
             if (SW1) Delay_Ms(300);
         }
         if (SW2) {
             BUZZER = ON;
             Delay_Ms(200);
             BUZZER = OFF;
-            Bras_Preparer();
+            Pot_Monter();
+            Wait_Action(POT);
             if (SW2) Delay_Ms(300);
         }
         if (SW3) {
             BUZZER = ON;
             Delay_Ms(200);
             BUZZER = OFF;
-            Bras_Monter();
+            //Bras_Monter();
             if (SW3) Delay_Ms(300);
         }
     }// while

@@ -18,11 +18,11 @@
  * Parameters
  ****************************************************************************************/
 // Coefficient proportionnel et dérivé en distance
-#define P_LIN    0.2//0.18
+#define P_LIN    0.2
 #define I_LIN    0.0
 #define D_LIN    1.1
 // Coefficient proportionnel et dérivé en orientation
-#define P_ANG    0.08
+#define P_ANG    0.1//0.08
 #define I_ANG    0.0
 #define D_ANG    0.2
 

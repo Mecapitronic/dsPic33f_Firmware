@@ -57,20 +57,33 @@ void Set_Asserv(boolean state)
 
 /****************************************************************************************
  * Update polar asserv
+ * https://wiki.droids-corp.org/articles/a/v/e/Aversive/Modules/Control_system/Filters/Quadramp_derivate.html
  ****************************************************************************************/
 void Update_Asserv(void)
 {
   if (asserv_distance == ON)
   {
+    // Anti-lock => Restart from the real position if too much speed difference
+    if ((ABS(robot.lin.velocity - move_lin.command.velocity) > ANTI_LOCK_SPEED_LIN) )//|| Presence_Sharp())
+    {
+      MOVE_Reset_Ramp(&move_lin, &robot.lin);
+    }
     MOVE_Filter(&move_lin, &robot.lin);
     command_lin = PID_Correction(&PID_lin, move_lin.command.position - robot.lin.position);
+    //command_lin = PID_Correction(&PID_lin, move_lin.command.velocity - robot.lin.velocity);
   }
   else command_lin = 0;
   
   if (asserv_orientation == ON)
   {
+    // Anti-lock => Restart from the real position if too much speed difference
+    if ((ABS(robot.ang.velocity - move_ang.command.velocity) > ANTI_LOCK_SPEED_ANG) )//|| Presence_Sharp())
+    {
+      MOVE_Reset_Ramp(&move_ang, &robot.ang);
+    }
     MOVE_Filter(&move_ang, &robot.ang);
     command_ang = PID_Correction(&PID_ang, move_ang.command.position - robot.ang.position);
+    //command_ang = PID_Correction(&PID_ang, move_ang.command.velocity - robot.ang.velocity);
   }
   else command_ang = 0;
 

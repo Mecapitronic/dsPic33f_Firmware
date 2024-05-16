@@ -78,7 +78,7 @@ void Sequence_Initiale(void) {
     char i;
 
     LCD_Line(1);
-    LCD_Text("GR2023 COPILOT", 16);
+    LCD_Text("GR2024 COPILOT", 16);
     LCD_Line(2);
     LCD_Text(__DATE__, 7);
     LCD_Text("    ", 4);

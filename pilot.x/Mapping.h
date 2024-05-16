@@ -21,13 +21,13 @@
 #define MAX_CIRCLE     12
 #define MAX_VERTEX     24
 
-#define ROBOT_RADIUS       130  // mm
+#define ROBOT_RADIUS       150  // mm
 #define ROBOT_MARGIN       30   // mm
 
 #define INVALID_VERTEX_ID  255
 
-#define MAP_X_MAX 2000
-#define MAP_Y_MAX 3000
+#define MAP_X_MAX 3000 // Attention: format paysage
+#define MAP_Y_MAX 2000
 
 /****************************************************************************************
 * Global Variables

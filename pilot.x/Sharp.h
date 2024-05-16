@@ -29,9 +29,9 @@ extern float32 sharp[MAX_SHARP];
  * Macros
  ****************************************************************************************/
 #define GP2Y0A41SK0F
-#define COEF_A 41710//73762
-#define COEF_B 13//57
-#define COEF_C 300
+#define COEF_A 73762//41710//
+#define COEF_B 57//13//
+#define COEF_C 800//300
 
 /****************************************************************************************
  * Prototypes fonctions
@@ -39,5 +39,6 @@ extern float32 sharp[MAX_SHARP];
 void Initialize_Sharp(void);
 void Update_Sharp(void);
 void Display_Sharp(int line);
+boolean Presence_Sharp();
 
 #endif	/* SHARP_H */
